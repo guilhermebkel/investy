@@ -10,3 +10,8 @@ Automatically sync investment prices from IBOVESPA with your Notion tables
 - MongoDB (Database)
 
 - Redis (Cache)
+
+- Status Invest API (Investment Data)
+
+- Notion API (Integration
+)
