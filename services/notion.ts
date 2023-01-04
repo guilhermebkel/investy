@@ -11,7 +11,7 @@ class NotionService {
 		this.client = new Client({ auth: token })
 	}
 
-	async searchDatabase (filter: string): Promise<Database[]> {
+	async searchDatabases (filter: string): Promise<Database[]> {
 		const response = await this.client.search({
 			filter: {
 				property: "object",

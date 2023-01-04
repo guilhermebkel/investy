@@ -18,4 +18,6 @@ export type HandlerInput<Query> = {
 	response: Response<Query>
 }
 
-export type AdaptedHandlerFn<Query = DefaultData> = (input: HandlerInput<Query>) => Promise<void>
+export interface AdaptedHandler<Query = DefaultData> {
+	handle: (input: HandlerInput<Query>) => Promise<void>
+}
