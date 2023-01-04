@@ -6,7 +6,7 @@ const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
   try {
     const notionService = new NotionService(process.env.NOTION_TOKEN)
 
-    const databases = await notionService.searchDatabase("Summary")
+    const databases = await notionService.getDatabaseById("f82b05e4-7789-4c6d-a29d-d4sb44d38c21d")
 
     res.status(200).json(databases)
   } catch (err: any) {
