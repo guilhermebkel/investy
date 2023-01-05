@@ -34,6 +34,16 @@ class NotionService {
 			return null
 		}
 	}
+
+	async getDatabasePropertyValues (databaseId: string, propertyId: string): Promise<any> {
+		return await this.client.pages.retrieve({
+			page_id: databaseId
+		})
+		return await this.client.pages.properties.retrieve({
+			page_id: databaseId,
+			property_id: propertyId
+		})
+	}
 }
 
 export default NotionService

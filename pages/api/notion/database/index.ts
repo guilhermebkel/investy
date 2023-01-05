@@ -9,7 +9,9 @@ export type Query = {
 }
 
 class Handler implements AdaptedHandler<Query> {
-  async handle ({ request, response }: HandlerInput<Query>): Promise<void> {
+  method: AdaptedHandler["method"] = "GET"
+
+  async handle ({ request, response }: HandlerInput<Query, {}>): Promise<void> {
     const notionService = new NotionService(process.env.NOTION_TOKEN)
   
     const name = request.query.name

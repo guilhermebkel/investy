@@ -8,10 +8,14 @@ export type RawDatabase = Awaited<ReturnType<Client["databases"]["retrieve"]>> &
 	}
 	title: [{ text: { content: string } }]
 	url: string
+	parent: {
+		page_id: string
+	}
 }
 
 export type Database = {
 	id: string
+	pageId: string
 	cover: string
 	icon: string
 	title: string

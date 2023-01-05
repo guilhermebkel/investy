@@ -1,7 +1,8 @@
-import { RawDatabase, Database } from "@/protocols/NotionProtocol"
+import { RawDatabase, Database } from "@/server/protocols/NotionProtocol"
 
 class NotionUtil {
 	serializeDatabase (database: RawDatabase): Database {
+		console.log(database.properties)
 		const properties: Database["properties"] = Object.values(database.properties).map(property => ({
 			id: property.id,
 			name: property.name,
@@ -10,6 +11,7 @@ class NotionUtil {
 	
 		return {
 			id: database.id,
+			pageId: database.parent?.page_id,
 			cover: database.cover?.url ?? null,
 			icon: null,
 			title: database.title?.[0]?.text?.content,
