@@ -15,7 +15,7 @@ class Handler implements AdaptedHandler<Query> {
     const name = request.query.name
 
     if (!name) {
-      return response.badRequest({ name: "ParamNotSupplied" })
+      return response.ok([])
     }
 
     const databases = await notionService.searchDatabases(name)
