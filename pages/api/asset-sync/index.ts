@@ -12,8 +12,6 @@ export type Body = {
 }
 
 class Handler implements AdaptedHandler<{}, Body> {
-  method: AdaptedHandler["method"] = "PUT"
-
   async handle ({ request, response }: HandlerInput<{}, Body>): Promise<void> {
     const notionService = new NotionService(process.env.NOTION_TOKEN)
   
@@ -27,4 +25,4 @@ class Handler implements AdaptedHandler<{}, Body> {
   }
 }
 
-export default ApiHandlerAdapter.adaptNextApiHandler(new Handler())
+export default ApiHandlerAdapter.adaptNextApiHandler(new Handler(), "PUT")

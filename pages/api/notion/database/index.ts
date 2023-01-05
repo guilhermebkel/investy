@@ -9,8 +9,6 @@ export type Query = {
 }
 
 class Handler implements AdaptedHandler<Query> {
-  method: AdaptedHandler["method"] = "GET"
-
   async handle ({ request, response }: HandlerInput<Query, {}>): Promise<void> {
     const notionService = new NotionService(process.env.NOTION_TOKEN)
   
@@ -26,4 +24,4 @@ class Handler implements AdaptedHandler<Query> {
   }
 }
 
-export default ApiHandlerAdapter.adaptNextApiHandler(new Handler())
+export default ApiHandlerAdapter.adaptNextApiHandler(new Handler(), "GET")

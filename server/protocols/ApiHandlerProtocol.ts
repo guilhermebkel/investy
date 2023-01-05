@@ -18,7 +18,8 @@ export type HandlerInput<Query, Body> = {
 	response: Response<Query>
 }
 
+export type AdaptedHandlerMethod = "GET" | "POST" | "PUT"
+
 export interface AdaptedHandler<Query = DefaultData, Body = DefaultData> {
-	method: "GET" | "POST" | "PUT"
 	handle: (input: HandlerInput<Query, Body>) => Promise<void>
 }
