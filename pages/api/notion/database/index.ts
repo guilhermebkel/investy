@@ -1,8 +1,8 @@
-import { AdaptedHandler, HandlerInput } from "@/protocols/api-handler"
+import { AdaptedHandler, HandlerInput } from "@/server/protocols/ApiHandlerProtocol"
 
-import { adaptNextApiHandler } from "@/adapters/api-handler"
+import ApiHandlerAdapter from "@/server/adapters/ApiHandlerAdapter"
 
-import NotionService from "@/services/notion"
+import NotionService from "@/server/services/NotionService"
 
 export type Query = {
   name: string
@@ -24,4 +24,4 @@ class Handler implements AdaptedHandler<Query> {
   }
 }
 
-export default adaptNextApiHandler(new Handler())
+export default ApiHandlerAdapter.adaptNextApiHandler(new Handler())

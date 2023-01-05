@@ -1,8 +1,8 @@
 import { Client } from "@notionhq/client"
 
-import { Database, RawDatabase } from "@/protocols/notion"
+import { Database, RawDatabase } from "@/server/protocols/NotionProtocol"
 
-import { serializeDatabase } from "@/utils/notion"
+import NotionUtil from "@/server/utils/NotionUtil"
 
 class NotionService {
 	private readonly client: Client
@@ -20,7 +20,7 @@ class NotionService {
 			query: filter
 		})
 
-		const databases = response.results.map(database => serializeDatabase(database as RawDatabase))
+		const databases = response.results.map(database => NotionUtil.serializeDatabase(database as RawDatabase))
 
 		return databases
 	}
@@ -29,7 +29,7 @@ class NotionService {
 		try {
 			const database = await this.client.databases.retrieve({ database_id: databaseId })
 	
-			return serializeDatabase(database as RawDatabase)
+			return NotionUtil.serializeDatabase(database as RawDatabase)
 		} catch (error) {
 			return null
 		}

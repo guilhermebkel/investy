@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client"
 
-import { Awaited } from "@/protocols/utility"
+import { Awaited } from "@/server/protocols/UtilityProtocol"
 
 export type RawDatabase = Awaited<ReturnType<Client["databases"]["retrieve"]>> & {
 	cover: {
