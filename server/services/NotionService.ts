@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client"
 
-import { Database, RawDatabase } from "@/server/protocols/NotionProtocol"
+import { Database, RawDatabase, RawPage, DatabaseRow } from "@/server/protocols/NotionProtocol"
 
 import NotionUtil from "@/server/utils/NotionUtil"
 
@@ -35,13 +35,25 @@ class NotionService {
 		}
 	}
 
-	async getDatabasePropertyValues (databaseId: string, propertyId: string): Promise<any> {
-		return await this.client.pages.retrieve({
-			page_id: databaseId
+	async getDatabaseRows (databaseId: string): Promise<DatabaseRow[]> {
+		const database = await this.client.databases.query({
+			database_id: databaseId
 		})
-		return await this.client.pages.properties.retrieve({
-			page_id: databaseId,
-			property_id: propertyId
+		
+		const databaseRows = database.results.map(page => NotionUtil.serializeDatabaseRow(page as RawPage))
+
+		return databaseRows
+	}
+
+	async updateDatabasePropertyDetail (propertyId: string, propertyPageId: string, value: string): Promise<void> {
+		await this.client.pages.update({
+			properties: [
+				{
+					id: propertyId,
+					title: [{ type: "text", text: { content: value }}]
+				}
+			],
+			page_id: propertyPageId
 		})
 	}
 }

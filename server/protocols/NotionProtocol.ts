@@ -13,6 +13,22 @@ export type RawDatabase = Awaited<ReturnType<Client["databases"]["retrieve"]>> &
 	}
 }
 
+export type RawPage = Awaited<ReturnType<Client["pages"]["retrieve"]>> & {
+	properties: Record<string, {
+		id: string
+		type: string
+		title: [{ text: { content: string } }]
+	}>
+}
+
+export type RawProperty = {
+	id: string
+	name: string
+	type: string
+}
+
+export type Property = RawProperty
+
 export type Database = {
 	id: string
 	pageId: string
@@ -25,4 +41,13 @@ export type Database = {
 		name: string
 		type: string
 	}>
+}
+
+export type PropertyDetail = Property & {
+	value: string
+}
+
+export type DatabaseRow = {
+	page_id: string
+	properties: PropertyDetail[]
 }

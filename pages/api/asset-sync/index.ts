@@ -17,11 +17,23 @@ class Handler implements AdaptedHandler<{}, Body> {
   
     const databaseId = request.body.notionDatabaseId
     const assetCodePropertyId = request.body.notionAssetCodeDatabasePropertyId
-    const assetPricePropertyId = request.body.notionAssetPriceDatabasePropertyId
+    // const assetPricePropertyId = request.body.notionAssetPriceDatabasePropertyId
 
-    const result = await notionService.getDatabasePropertyValues(databaseId, assetCodePropertyId)
+    const databaseRows = await notionService.getDatabaseRows(databaseId)
 
-    return response.ok(result)
+    const assetCodePropertyDetails = databaseRows.map(row => ({
+      page_id: row.page_id,
+      ...row.properties.find(({ id }) => id === assetCodePropertyId)
+    }))
+
+    const assetPrices = await Promise.all(
+      assetCodePropertyDetails.map(async assetCodePropertyDetail => ({
+        detail: assetCodePropertyDetail,
+        asset: await InvestmentService.getAsset(assetCodePropertyDetail.value)  
+      }))
+    )
+
+    return response.ok(assetPrices)
   }
 }
 
