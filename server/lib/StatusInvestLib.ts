@@ -3,6 +3,9 @@ import axios from "axios"
 import { Asset, InvestmentHandler } from "@/server/protocols/InvestmentProtocol"
 import { RawAsset } from "@/server/protocols/StatusInvestProtocol"
 
+import StringUtil from "@/server/utils/StringUtil"
+import StatusInvestUtil from "@/server/utils/StatusInvestUtil"
+
 class StatusInvestLib implements InvestmentHandler {
 	private readonly client = axios.create({
 		baseURL: "https://statusinvest.com.br",
@@ -13,25 +16,72 @@ class StatusInvestLib implements InvestmentHandler {
 	})
 
 	async getAsset (code: string): Promise<Asset | null> {
+		const splittedComposedCode = StatusInvestUtil.splitComposedCode(code)
+
+		const isComposedCode = splittedComposedCode.length > 1
+
+		if (isComposedCode) {
+			return await this.getAssetByComposedCode(code)
+		} else {
+			return await this.getAssetByNormalCode(code)
+		}
+	}
+
+	private async searchAssets (code: string): Promise<Asset[]> {
 		const response = await this.client.get<RawAsset[]>("/home/mainsearchquery", {
 			params: {
 				q: code
 			}
 		})
+
+		const assets: Asset[] = response.data.map(rawAsset => {
+			const priceInCents = Number(rawAsset.price.replace(/\D/g, ""))
 	
-		const [rawAsset] = response.data
+			return {
+				code: rawAsset.code,
+				name: rawAsset.name,
+				priceInCents
+			}
+		})
+
+		return assets
+	}
+
+	private async getAssetByNormalCode (code: string): Promise<Asset | null> {
+		const assets = await this.searchAssets(code)
+
+		const [asset] = assets
 	
-		if (!rawAsset) {
+		if (!asset) {
 			return null
 		}
-	
-		const priceInCents = Number(rawAsset.price.replace(/\D/g, ""))
-	
-		return {
-			code: rawAsset.code,
-			name: rawAsset.name,
-			priceInCents
+
+		return asset
+	}
+
+	/**
+	 * In case the asset code is composed (Per example: 'Trend Pós-Fixado FIC FI RF Simples'),
+	 * the status invest search api performs better by querying parts of the code name.
+	 */
+	private async getAssetByComposedCode (code: string): Promise<Asset | null> {
+		const assetCodeParts = StatusInvestUtil.splitComposedCode(code)
+
+		let assetSearchString = ""
+
+		for (const assetCodePart of assetCodeParts) {
+			assetSearchString += ` ${assetCodePart}`
+			assetSearchString = assetSearchString.trim()
+
+			const assets = await this.searchAssets(assetSearchString)
+
+			const asset = assets.find(({ name }) => StringUtil.areSimilar(name, code))
+
+			if (asset) {
+				return asset
+			}
 		}
+
+		return null
 	}
 }
 
