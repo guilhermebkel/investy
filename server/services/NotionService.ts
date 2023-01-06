@@ -45,15 +45,15 @@ class NotionService {
 		return databaseRows
 	}
 
-	async updateDatabasePropertyDetail (propertyId: string, propertyPageId: string, value: string): Promise<void> {
+	async updateDatabaseRow (columnId: string, rowId: string, value: number): Promise<void> {
 		await this.client.pages.update({
-			properties: [
-				{
-					id: propertyId,
-					title: [{ type: "text", text: { content: value }}]
+			properties: {
+				[columnId]: {
+					type: "number",
+					number: value
 				}
-			],
-			page_id: propertyPageId
+			},
+			page_id: rowId
 		})
 	}
 }

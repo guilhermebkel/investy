@@ -1,8 +1,8 @@
-import { RawDatabase, RawPage, RawProperty, Database, DatabaseRow, Property } from "@/server/protocols/NotionProtocol"
+import { RawDatabase, RawPage, RawProperty, Database, DatabaseRow, DatabaseColumn } from "@/server/protocols/NotionProtocol"
 
 class NotionUtil {
 	serializeDatabase (database: RawDatabase): Database {
-		const properties: Database["properties"] = Object.values(database.properties).map(property => ({
+		const columns: Database["columns"] = Object.values(database.properties).map(property => ({
 			id: property.id,
 			name: property.name,
 			type: property.type
@@ -10,17 +10,16 @@ class NotionUtil {
 	
 		return {
 			id: database.id,
-			pageId: database.parent?.page_id,
 			cover: database.cover?.url ?? null,
 			icon: null,
 			title: database.title?.[0]?.text?.content,
 			url: database.url,
-			properties
+			columns
 		}
 	}
 
 	serializeDatabaseRow (page: RawPage): DatabaseRow {
-		const properties: DatabaseRow["properties"] = Object.entries(page.properties).map(([propertyName, propertyContent]) => {
+		const columns: DatabaseRow["columns"] = Object.entries(page.properties).map(([propertyName, propertyContent]) => {
 			const propertyType = propertyContent?.type
 
 			let value: string
@@ -39,12 +38,12 @@ class NotionUtil {
 		})
 
 		return {
-			page_id: page.id,
-			properties
+			id: page.id,
+			columns
 		}
 	}
 
-	private serializeProperty (property: RawProperty): Property {
+	private serializeProperty (property: RawProperty): DatabaseColumn {
 		return {
 			id: property.id,
 			name: property.name,

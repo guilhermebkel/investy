@@ -27,27 +27,26 @@ export type RawProperty = {
 	type: string
 }
 
-export type Property = RawProperty
+export type DatabaseColumn = {
+	id: string
+	name: string
+	type: string
+}
 
 export type Database = {
 	id: string
-	pageId: string
 	cover: string
 	icon: string
 	title: string
 	url: string
-	properties: Array<{
-		id: string
-		name: string
-		type: string
-	}>
+	columns: DatabaseColumn[]
 }
 
-export type PropertyDetail = Property & {
+export type DatabaseColumnDetail = DatabaseColumn & {
 	value: string
 }
 
 export type DatabaseRow = {
-	page_id: string
-	properties: PropertyDetail[]
+	id: string
+	columns: DatabaseColumnDetail[]
 }

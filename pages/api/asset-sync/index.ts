@@ -3,7 +3,7 @@ import { AdaptedHandler, HandlerInput } from "@/server/protocols/ApiHandlerProto
 import ApiHandlerAdapter from "@/server/adapters/ApiHandlerAdapter"
 
 import NotionService from "@/server/services/NotionService"
-import InvestmentService from "@/server/services/InvestmentService"
+// import InvestmentService from "@/server/services/InvestmentService"
 
 export type Body = {
   notionDatabaseId: string
@@ -16,24 +16,12 @@ class Handler implements AdaptedHandler<{}, Body> {
     const notionService = new NotionService(process.env.NOTION_TOKEN)
   
     const databaseId = request.body.notionDatabaseId
-    const assetCodePropertyId = request.body.notionAssetCodeDatabasePropertyId
+    // const assetCodePropertyId = request.body.notionAssetCodeDatabasePropertyId
     // const assetPricePropertyId = request.body.notionAssetPriceDatabasePropertyId
 
-    const databaseRows = await notionService.getDatabaseRows(databaseId)
+    const databaseRows = await notionService.getDatabaseById(databaseId)
 
-    const assetCodePropertyDetails = databaseRows.map(row => ({
-      page_id: row.page_id,
-      ...row.properties.find(({ id }) => id === assetCodePropertyId)
-    }))
-
-    const assetPrices = await Promise.all(
-      assetCodePropertyDetails.map(async assetCodePropertyDetail => ({
-        detail: assetCodePropertyDetail,
-        asset: await InvestmentService.getAsset(assetCodePropertyDetail.value)  
-      }))
-    )
-
-    return response.ok(assetPrices)
+    return response.ok(databaseRows)
   }
 }
 
