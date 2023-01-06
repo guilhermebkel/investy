@@ -74,9 +74,22 @@ class StatusInvestLib implements InvestmentHandler {
 
 			const assets = await this.searchAssets(assetSearchString)
 
-			const asset = assets.find(({ name }) => StringUtil.areSimilar(name, code))
+			if (!assets.length) {
+				continue
+			}
 
-			if (asset) {
+			const assetNames = assets.map(asset => asset.name)
+			const mostSimilarAssetIndex = StringUtil.getMostSimilarIndex(code, assetNames)
+
+			const asset = assets[mostSimilarAssetIndex]
+
+			if (!asset) {
+				continue
+			}
+
+			const isExpectedAsset = StringUtil.areSimilar(code, asset.name)
+
+			if (isExpectedAsset) {
 				return asset
 			}
 		}

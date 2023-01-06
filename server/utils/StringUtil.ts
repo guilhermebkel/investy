@@ -9,6 +9,15 @@ class StringUtil {
 
 		return similarity > 0.8
 	}
+
+	getMostSimilarIndex (firstString: string, comparisonStringList: string[]): number {
+		const normalizedFirstString = firstString.toLowerCase()
+		const normalizedComparisonStringList = comparisonStringList.map(string => string.toLowerCase())
+
+		const result = StringSimilarity.findBestMatch(normalizedFirstString, normalizedComparisonStringList)
+
+		return result.bestMatchIndex
+	}
 }
 
 export default new StringUtil()
