@@ -1,6 +1,6 @@
-import { AdaptedHandler, HandlerInput } from "@/server/protocols/ApiHandlerProtocol"
+import { AdaptedHandler, HandlerInput } from "@/server/protocols/HttpProtocol"
 
-import ApiHandlerAdapter from "@/server/adapters/ApiHandlerAdapter"
+import HttpAdapter from "@/server/adapters/HttpAdapter"
 
 import NotionService from "@/server/services/NotionService"
 // import InvestmentService from "@/server/services/InvestmentService"
@@ -14,7 +14,7 @@ export type Body = {
 class Handler implements AdaptedHandler<{}, Body> {
   async handle ({ request, response }: HandlerInput<{}, Body>): Promise<void> {
     const notionService = new NotionService(process.env.NOTION_TOKEN)
-  
+    
     const databaseId = request.body.notionDatabaseId
     // const assetCodePropertyId = request.body.notionAssetCodeDatabasePropertyId
     // const assetPricePropertyId = request.body.notionAssetPriceDatabasePropertyId
@@ -25,4 +25,4 @@ class Handler implements AdaptedHandler<{}, Body> {
   }
 }
 
-export default ApiHandlerAdapter.adaptNextApiHandler(new Handler(), "PUT")
+export default HttpAdapter.adaptNextApiHandler(new Handler(), "PUT")

@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-import { AdaptedHandler, HandlerInput, AdaptedHandlerMethod } from "@/server/protocols/ApiHandlerProtocol"
+import { AdaptedHandler, HandlerInput, AdaptedHandlerMethod } from "@/server/protocols/HttpProtocol"
 
 import LogService from "@/server/services/LogService"
 
 type NextHandlerFn = (request: NextApiRequest, response: NextApiResponse) => Promise<void>
 
-class ApiHandlerAdapter {
+class HttpAdapter {
 	adaptNextApiHandler (adaptedHandler: AdaptedHandler, method: AdaptedHandlerMethod): NextHandlerFn {
 		return async (req: NextApiRequest, res: NextApiResponse) => {
 			const handlerInput: HandlerInput<{}, {}> = {
@@ -22,7 +22,7 @@ class ApiHandlerAdapter {
 					badRequest: (fieldErrors) => res.status(400).json({ fieldErrors })
 				}
 			}
-	
+
 			const isValidRequest = String(req.method).toLowerCase() === String(method).toLowerCase()
 	
 			if (!isValidRequest) {
@@ -39,4 +39,4 @@ class ApiHandlerAdapter {
 	}
 }
 
-export default new ApiHandlerAdapter()
+export default new HttpAdapter()

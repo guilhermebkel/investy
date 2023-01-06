@@ -1,6 +1,6 @@
-import { AdaptedHandler, HandlerInput } from "@/server/protocols/ApiHandlerProtocol"
+import { AdaptedHandler, HandlerInput } from "@/server/protocols/HttpProtocol"
 
-import ApiHandlerAdapter from "@/server/adapters/ApiHandlerAdapter"
+import HttpAdapter from "@/server/adapters/HttpAdapter"
 
 import NotionService from "@/server/services/NotionService"
 
@@ -11,7 +11,7 @@ export type Query = {
 class Handler implements AdaptedHandler<Query> {
   async handle ({ request, response }: HandlerInput<Query, {}>): Promise<void> {
     const notionService = new NotionService(process.env.NOTION_TOKEN)
-  
+
     const name = request.query.name
 
     if (!name) {
@@ -24,4 +24,4 @@ class Handler implements AdaptedHandler<Query> {
   }
 }
 
-export default ApiHandlerAdapter.adaptNextApiHandler(new Handler(), "GET")
+export default HttpAdapter.adaptNextApiHandler(new Handler(), "GET")
