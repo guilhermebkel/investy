@@ -2,6 +2,8 @@ import { ApiHandlerInput } from "@server/contracts/HttpContract"
 
 import NotionService from "@server/services/NotionService"
 
+import AssetSyncRepository from "@server/repositories/AssetSyncRepository"
+
 import Infra from "@/server/infra"
 
 // import InvestmentService from "@server/services/InvestmentService"
