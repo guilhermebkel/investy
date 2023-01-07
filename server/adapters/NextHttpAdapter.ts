@@ -1,8 +1,6 @@
 import { NextResponse, NextRequest } from "next/server"
 import { NextApiRequest, NextApiResponse } from "next"
 
-import Infra from "@/server/infra"
-
 import {
 	ApiHandler,
 	ApiHandlerInput,
@@ -39,9 +37,7 @@ class NextHttpAdapter implements HttpContract<RawApiHandler, RawMiddlewareHandle
 			}
 	
 			try {
-				await Infra.setup()
-
-				await handler(input)
+				return await handler(input)
 			} catch (error) {
 				LogService.error(error)
 				return input.response.serverError()
@@ -57,9 +53,7 @@ class NextHttpAdapter implements HttpContract<RawApiHandler, RawMiddlewareHandle
 			}
 	
 			try {
-				await Infra.setup()
-
-				await handler(input)
+				return await handler(input)
 			} catch (error) {
 				LogService.error(error)
 				return input.response.serverError()

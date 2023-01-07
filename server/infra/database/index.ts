@@ -17,6 +17,8 @@ class Database {
 		const url = new URL(`mongodb://${mongoUserPass}${host}:${port}/${name}`)
 		
 		await mongoose.connect(url.href, { retryWrites: false })
+
+		mongoose.set("strictQuery", true)
 		
 		LogService.info(`[Core] Initialized a new database connection... (${url.href})`)
 	}
