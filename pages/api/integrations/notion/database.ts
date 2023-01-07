@@ -1,4 +1,4 @@
-import AssetSyncController from "@/server/controllers/AssetSyncController"
+import NotionDatabaseController from "@/server/controllers/NotionDatabaseController"
 
 import AuthMiddleware from "@/server/middlewares/AuthMiddleware"
 import InfraMiddleware from "@/server/middlewares/InfraMiddleware"
@@ -6,9 +6,9 @@ import InfraMiddleware from "@/server/middlewares/InfraMiddleware"
 import NextHttpAdapter from "@server/adapters/NextHttpAdapter"
 
 export default NextHttpAdapter.createApiHandlerRoute({
-	post: [
+	get: [
 		NextHttpAdapter.adaptApiHandler(InfraMiddleware.setup),
 		NextHttpAdapter.adaptApiHandler(AuthMiddleware.requireAuth),
-		NextHttpAdapter.adaptApiHandler(AssetSyncController.connect)
+		NextHttpAdapter.adaptApiHandler(NotionDatabaseController.search)
 	]
 })

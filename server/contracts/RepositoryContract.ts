@@ -1,8 +1,8 @@
-export type CreateInput<Entity> = Record<keyof Omit<Entity, "id">, Omit<Entity, "id">[keyof Omit<Entity, "id">]>
+import { PartialMap } from "@server/protocols/UtilityProtocol"
 
-export type WhereInput<Entity> = {
-	[key in keyof Entity]?: Entity[keyof Entity]
-}
+export type CreateInput<Entity> = Omit<Entity, "id" | "created_at" | "updated_at">
+
+export type WhereInput<Entity> = PartialMap<keyof Entity, Entity[keyof Entity]>
 
 export type UpdateInput<Entity> = WhereInput<Entity>
 

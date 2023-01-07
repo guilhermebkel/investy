@@ -9,12 +9,18 @@ export type EntityDocument = Document & UserEntity
 type EntityModel = Model<EntityDocument>
 
 export const UserSchema = new Schema<EntityDocument, EntityModel>({
-	first_name: {
+	name: {
 		type: String,
 		required: true
 	},
-	last_name: {
-		type: String
+	email: {
+		type: String,
+		required: true,
+		index: true
+	},
+	password: {
+		type: String,
+		required: true
 	},
 	picture_url: {
 		type: String

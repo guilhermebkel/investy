@@ -2,13 +2,9 @@ import { ApiHandlerInput } from "@server/contracts/HttpContract"
 
 import NotionLib from "@server/lib/NotionLib"
 
-import AssetSyncRepository from "@server/repositories/AssetSyncRepository"
-
-import Infra from "@/server/infra"
-
 // import InvestmentService from "@server/services/InvestmentService"
 
-export type Body = {
+type Body = {
   notionDatabaseId: string
 	notionAssetCodeDatabasePropertyId: string
 	notionAssetPriceDatabasePropertyId: string
@@ -16,8 +12,6 @@ export type Body = {
 
 class AssetSyncController {
   async connect ({ request, response }: ApiHandlerInput<{}, Body>): Promise<void> {
-    await Infra.setup()
-
     const notion = new NotionLib(process.env.NOTION_TOKEN)
     
     const databaseId = request.body.notionDatabaseId

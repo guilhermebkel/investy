@@ -1,39 +1,30 @@
-import { NextResponse, NextRequest } from "next/server"
 import { NextApiRequest, NextApiResponse } from "next"
 
 import {
 	ApiHandler,
 	ApiHandlerInput,
-	ApiHandlerMethod,
 	ApiHandlerRequest,
 	ApiHandlerResponse,
-	MiddlewareHandlerInput,
-	MiddlewareHandlerRequest,
-	MiddlewareHandlerResponse,
 	DefaultData,
-	HttpContract,
-	MiddlewareHandler
+	HttpContract
 } from "@server/contracts/HttpContract"
 
 import {
 	RawApiHandler,
-	RawMiddlewareHandler
+	RawMiddlewareHandler,
+	ApiHandlerMethod
 } from "@server/protocols/NextHttpProtocol"
+import { PartialMap } from "@server/protocols/UtilityProtocol"
 
 import LogService from "@server/services/LogService"
 
 class NextHttpAdapter implements HttpContract<RawApiHandler, RawMiddlewareHandler> {
-	adaptApiHandler (method: ApiHandlerMethod, handler: ApiHandler): RawApiHandler {
+	adaptApiHandler (handler: ApiHandler): RawApiHandler {
 		return async (req: NextApiRequest, res: NextApiResponse) => {
 			const input: ApiHandlerInput<{}, {}> = {
 				request: this.adaptApiHandlerRequest(req),
-				response: this.adaptApiHandlerResponse(res)
-			}
-
-			const isValidRequest = String(req.method).toLowerCase() === String(method).toLowerCase()
-	
-			if (!isValidRequest) {
-				return input.response.notFound(`Could not reach ${req.method} ${req.url}`)
+				response: this.adaptApiHandlerResponse(res),
+				context: (req as any).context
 			}
 	
 			try {
@@ -45,18 +36,17 @@ class NextHttpAdapter implements HttpContract<RawApiHandler, RawMiddlewareHandle
 		}
 	}
 
-	adaptMiddlewareHandler (handler: MiddlewareHandler): RawMiddlewareHandler {
-		return async (req: NextRequest) => {
-			const input: MiddlewareHandlerInput = {
-				request: this.adaptMiddlewareHandlerRequest(req),
-				response: this.adaptMiddlewareHandlerResponse()
-			}
-	
-			try {
-				return await handler(input)
-			} catch (error) {
-				LogService.error(error)
-				return input.response.serverError()
+	createApiHandlerRoute (methodHandlers: PartialMap<ApiHandlerMethod, RawApiHandler[]>): RawApiHandler {
+		return async (req: NextApiRequest, res: NextApiResponse) => {
+			const method = String(req.method).toLowerCase()
+			const rawHandlers = methodHandlers[method] as RawApiHandler[]
+
+			for (const rawHandler of rawHandlers) {
+				await rawHandler(req, res)
+
+				if (res.finished) {
+					break
+				}
 			}
 		}
 	}
@@ -65,29 +55,30 @@ class NextHttpAdapter implements HttpContract<RawApiHandler, RawMiddlewareHandle
 		return {
 			body: req.body,
 			params: {},
-			query: req.query as any
+			query: req.query as any,
+			headers: {
+				get: (key) => req.headers[key] as string
+			},
+			context: {
+				set: (data) => {
+					(req as any).context = {
+						...((req as any).context || {}),
+						...data
+					}
+				}
+			}
 		}
 	}
 
-	private adaptApiHandlerResponse<Query = DefaultData> (res: NextApiResponse): ApiHandlerResponse<Query> {
+	private adaptApiHandlerResponse<Query = DefaultData> (res: NextApiResponse): ApiHandlerResponse<Query, Body> {
 		return {
 			ok: (data) => res.status(200).json(data),
 			serverError: (slug) => res.status(500).json({ error: slug || "Server error" }),
 			notFound: (message) => res.status(404).send(message || "Not Found"),
-			badRequest: (fieldErrors) => res.status(400).json({ fieldErrors })
-		}
-	}
-
-	private adaptMiddlewareHandlerResponse (): MiddlewareHandlerResponse {
-		return {
-			next: () => NextResponse.next(),
-			serverError: (slug) => NextResponse.json({ error: slug || "Server error" }, { status: 500 }),
-		}
-	}
-
-	private adaptMiddlewareHandlerRequest (req: NextRequest): MiddlewareHandlerRequest {
-		return {
-			pathname: req.nextUrl.pathname
+			badRequest: (fieldErrors) => res.status(400).json({ fieldErrors }),
+			created: (data) => res.status(201).json(data),
+			noContent: () => res.status(200).send(""),
+			unauthorized: () => res.status(401).json({ error: "Unauthorized" })
 		}
 	}
 }
