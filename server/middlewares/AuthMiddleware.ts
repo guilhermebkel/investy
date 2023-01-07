@@ -21,6 +21,8 @@ class AuthMiddleware {
 		}
 
 		request.context.set({ auth: authTokenPayload })
+
+		return response.next()
   }
 }
 

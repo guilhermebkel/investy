@@ -23,6 +23,7 @@ export type ApiHandlerResponse<Query, Body> = {
 	created: (data?: unknown) => void
 	noContent: () => void
 	unauthorized: () => void
+	next: () => void
 }
 
 export type RequestContext = {
