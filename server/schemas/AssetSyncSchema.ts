@@ -12,8 +12,8 @@ type AssetSyncDocument = Document & AssetSyncEntity
 type AssetSyncModel = Model<AssetSyncDocument>
 
 export const AssetSyncSchemaDefinition = new Schema<AssetSyncDocument, AssetSyncModel>({
-	user_id: UserSchema,
-	integration_id: IntegrationSchema,
+	user_id: UserSchemaDefinition,
+	integration_id: IntegrationSchemaDefinition,
 	notion_database_id: {
 		type: String,
 		required: true,
@@ -33,8 +33,8 @@ export const AssetSyncSchemaDefinition = new Schema<AssetSyncDocument, AssetSync
 		type: Date,
 		required: false
 	},
-	user: UserSchema,
-	integration: IntegrationSchema
+	user: UserSchemaDefinition,
+	integration: IntegrationSchemaDefinition
 },
 {
 	timestamps: true
