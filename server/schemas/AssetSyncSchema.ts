@@ -1,0 +1,36 @@
+import mongoose, { Document, Schema, Model } from "mongoose"
+
+import { AssetSyncEntity } from "@server/entities/AssetSyncEntity"
+
+const SCHEMA_NAME = "AssetSync"
+
+export type EntityDocument = Document & AssetSyncEntity
+
+type EntityModel = Model<EntityDocument>
+
+const EntitySchema = new Schema<EntityDocument, EntityModel>({
+	notion_database_id: {
+		type: String,
+		required: true,
+		index: true
+	},
+	notion_asset_code_database_property_id: {
+		type: String,
+		required: true,
+		index: true
+	},
+	notion_asset_price_database_property_id: {
+		type: String,
+		required: true,
+		index: true
+	},
+	last_sync_at: {
+		type: Date,
+		required: false
+	}
+},
+{
+	timestamps: true
+})
+
+export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, EntitySchema)

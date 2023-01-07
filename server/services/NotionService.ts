@@ -1,8 +1,8 @@
 import { Client } from "@notionhq/client"
 
-import { Database, RawDatabase, RawPage, DatabaseRow } from "@/server/protocols/NotionProtocol"
+import { Database, RawDatabase, RawPage, DatabaseRow } from "@server/protocols/NotionProtocol"
 
-import NotionUtil from "@/server/utils/NotionUtil"
+import NotionUtil from "@server/utils/NotionUtil"
 
 class NotionService {
 	private readonly client: Client

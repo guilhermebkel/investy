@@ -11,13 +11,13 @@
   "dependencies": {
     "@notionhq/client": "^2.2.3",
     "axios": "^1.2.2",
+    "dotenv": "^16.0.3",
     "mongodb": "^3.7.3",
+    "mongoose": "^6.8.3",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "reflect-metadata": "^0.1.13",
-    "string-similarity": "^4.0.4",
-    "typeorm": "^0.3.11"
+    "string-similarity": "^4.0.4"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",

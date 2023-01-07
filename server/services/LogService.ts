@@ -1,6 +1,10 @@
 class LogService {
 	error (error: Error): void {
-		console.log(error)
+		console.error(error)
+	}
+
+	info (text: string): void {
+		console.log(text)
 	}
 }
 

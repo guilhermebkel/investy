@@ -1,10 +1,10 @@
 import axios from "axios"
 
-import { Asset, InvestmentHandler } from "@/server/protocols/InvestmentProtocol"
-import { RawAsset } from "@/server/protocols/StatusInvestProtocol"
+import { Asset, InvestmentHandler } from "@server/protocols/InvestmentProtocol"
+import { RawAsset } from "@server/protocols/StatusInvestProtocol"
 
-import StringUtil from "@/server/utils/StringUtil"
-import StatusInvestUtil from "@/server/utils/StatusInvestUtil"
+import StringUtil from "@server/utils/StringUtil"
+import StatusInvestUtil from "@server/utils/StatusInvestUtil"
 
 class StatusInvestLib implements InvestmentHandler {
 	private readonly client = axios.create({

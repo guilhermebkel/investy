@@ -6,7 +6,7 @@ export type WhereInput<Entity> = {
 
 export type UpdateInput<Entity> = WhereInput<Entity>
 
-export interface AdaptedRepository<Entity> {
+export interface RepositoryContract<Entity> {
 	create: (data: CreateInput<Entity>) => Promise<Entity>
 	retrieveOne: (where: WhereInput<Entity>) => Promise<Entity | null>
 	retrieveAll: (where: WhereInput<Entity>) => Promise<Entity[]>

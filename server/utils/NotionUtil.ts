@@ -1,4 +1,4 @@
-import { RawDatabase, RawPage, RawProperty, Database, DatabaseRow, DatabaseColumn } from "@/server/protocols/NotionProtocol"
+import { RawDatabase, RawPage, RawProperty, Database, DatabaseRow, DatabaseColumn } from "@server/protocols/NotionProtocol"
 
 class NotionUtil {
 	serializeDatabase (database: RawDatabase): Database {
