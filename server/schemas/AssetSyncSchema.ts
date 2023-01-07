@@ -1,9 +1,9 @@
 import mongoose, { Document, Schema, Model } from "mongoose"
 
-import { AssetSyncEntity } from "@server/entities/AssetSyncEntity"
+import AssetSyncEntity from "@server/entities/AssetSyncEntity"
 
-import { UserSchema } from "@server/schemas/UserSchema"
-import { IntegrationSchema } from "@server/schemas/IntegrationSchema"
+import { UserSchemaDefinition } from "@server/schemas/UserSchema"
+import { IntegrationSchemaDefinition } from "@server/schemas/IntegrationSchema"
 
 const SCHEMA_NAME = "AssetSync"
 
@@ -11,7 +11,7 @@ type AssetSyncDocument = Document & AssetSyncEntity
 
 type AssetSyncModel = Model<AssetSyncDocument>
 
-const AssetSyncSchema = new Schema<AssetSyncDocument, AssetSyncModel>({
+export const AssetSyncSchemaDefinition = new Schema<AssetSyncDocument, AssetSyncModel>({
 	user_id: UserSchema,
 	integration_id: IntegrationSchema,
 	notion_database_id: {
@@ -40,4 +40,4 @@ const AssetSyncSchema = new Schema<AssetSyncDocument, AssetSyncModel>({
 	timestamps: true
 })
 
-export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, AssetSyncSchema)
+export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, AssetSyncSchemaDefinition)

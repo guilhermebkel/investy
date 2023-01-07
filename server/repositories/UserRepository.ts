@@ -1,6 +1,6 @@
 import MongooseRepositoryAdapter from "@server/adapters/MongooseRepositoryAdapter"
 
-import { UserEntity } from "@server/entities/UserEntity"
+import UserEntity from "@server/entities/UserEntity"
 
 import UserSchema from "@server/schemas/UserSchema"
 

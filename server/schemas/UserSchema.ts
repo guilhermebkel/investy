@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Model } from "mongoose"
 
-import { UserEntity } from "@server/entities/UserEntity"
+import UserEntity from "@server/entities/UserEntity"
 
 const SCHEMA_NAME = "User"
 
@@ -8,7 +8,7 @@ type UserDocument = Document & UserEntity
 
 type UserModel = Model<UserDocument>
 
-export const UserSchema = new Schema<UserDocument, UserModel>({
+export const UserSchemaDefinition = new Schema<UserDocument, UserModel>({
 	name: {
 		type: String,
 		required: true
@@ -38,4 +38,4 @@ export const UserSchema = new Schema<UserDocument, UserModel>({
 	timestamps: true
 })
 
-export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, UserSchema)
+export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, UserSchemaDefinition)

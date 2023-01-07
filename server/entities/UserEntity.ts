@@ -1,7 +1,7 @@
-import { AssetSyncEntity } from "@server/entities/AssetSyncEntity"
-import { IntegrationEntity } from "@server/entities/IntegrationEntity"
+import AssetSyncEntity from "@server/entities/AssetSyncEntity"
+import IntegrationEntity from "@server/entities/IntegrationEntity"
 
-export interface UserEntity {
+interface UserEntity {
 	id: string
 	name: string
 	email: string
@@ -12,3 +12,5 @@ export interface UserEntity {
 	integrations?: IntegrationEntity[]
 	asset_syncs?: AssetSyncEntity[]
 }
+
+export default UserEntity

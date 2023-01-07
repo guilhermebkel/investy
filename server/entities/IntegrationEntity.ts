@@ -1,8 +1,8 @@
-import { UserEntity } from "@server/entities/UserEntity"
+import UserEntity from "@server/entities/UserEntity"
 
 export type IntegrationType = "notion"
 
-export interface IntegrationEntity {
+interface IntegrationEntity {
 	id: string
 	user_id: string
 	type: IntegrationType
@@ -11,3 +11,5 @@ export interface IntegrationEntity {
 	updated_at: Date
 	user?: UserEntity
 }
+
+export default IntegrationEntity

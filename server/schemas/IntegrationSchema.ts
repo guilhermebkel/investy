@@ -1,8 +1,8 @@
 import mongoose, { Document, Schema, Model } from "mongoose"
 
-import { IntegrationEntity } from "@server/entities/IntegrationEntity"
+import IntegrationEntity from "@server/entities/IntegrationEntity"
 
-import { UserSchema } from "@server/schemas/UserSchema"
+import { UserSchemaDefinition } from "@server/schemas/UserSchema"
 
 const SCHEMA_NAME = "Integration"
 
@@ -10,8 +10,8 @@ type IntegrationDocument = Document & IntegrationEntity
 
 type IntegrationModel = Model<IntegrationDocument>
 
-export const IntegrationSchema = new Schema<IntegrationDocument, IntegrationModel>({
-	user_id: UserSchema,
+export const IntegrationSchemaDefinition = new Schema<IntegrationDocument, IntegrationModel>({
+	user_id: UserSchemaDefinition,
 	type: {
 		type: String,
 		required: true
@@ -20,10 +20,10 @@ export const IntegrationSchema = new Schema<IntegrationDocument, IntegrationMode
 		type: String,
 		required: true
 	},
-	user: UserSchema
+	user: UserSchemaDefinition
 },
 {
 	timestamps: true
 })
 
-export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, IntegrationSchema)
+export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, IntegrationSchemaDefinition)
