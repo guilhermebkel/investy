@@ -2,11 +2,11 @@ import { ApiHandlerInput } from "@server/contracts/HttpContract"
 
 import NotionLib from "@server/lib/NotionLib"
 
-export type Query = {
+type Query = {
   name: string
 }
 
-class NotionDatabaseController {
+class IntegrationNotionDatabaseController {
   async search ({ request, response }: ApiHandlerInput<Query, {}>): Promise<void> {
     const notion = new NotionLib(process.env.NOTION_TOKEN)
 
@@ -22,4 +22,4 @@ class NotionDatabaseController {
   }
 }
 
-export default new NotionDatabaseController()
+export default new IntegrationNotionDatabaseController()

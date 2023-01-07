@@ -1,4 +1,4 @@
-import NotionDatabaseController from "@/server/controllers/NotionDatabaseController"
+import IntegrationNotionDatabaseController from "@/server/controllers/IntegrationNotionDatabaseController"
 
 import AuthMiddleware from "@/server/middlewares/AuthMiddleware"
 import InfraMiddleware from "@/server/middlewares/InfraMiddleware"
@@ -9,6 +9,6 @@ export default NextHttpAdapter.createApiHandlerRoute({
 	get: [
 		NextHttpAdapter.adaptApiHandler(InfraMiddleware.setup),
 		NextHttpAdapter.adaptApiHandler(AuthMiddleware.requireAuth),
-		NextHttpAdapter.adaptApiHandler(NotionDatabaseController.search)
+		NextHttpAdapter.adaptApiHandler(IntegrationNotionDatabaseController.search)
 	]
 })

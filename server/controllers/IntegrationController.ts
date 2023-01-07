@@ -1,5 +1,3 @@
-import { ObjectId } from "mongoose"
-
 import { ApiHandlerInput } from "@server/contracts/HttpContract"
 
 import IntegrationRepository from "@server/repositories/IntegrationRepository"
