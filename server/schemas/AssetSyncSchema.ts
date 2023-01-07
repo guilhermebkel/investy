@@ -7,11 +7,11 @@ import { IntegrationSchema } from "@server/schemas/IntegrationSchema"
 
 const SCHEMA_NAME = "AssetSync"
 
-export type EntityDocument = Document & AssetSyncEntity
+type AssetSyncDocument = Document & AssetSyncEntity
 
-type EntityModel = Model<EntityDocument>
+type AssetSyncModel = Model<AssetSyncDocument>
 
-const AssetSyncSchema = new Schema<EntityDocument, EntityModel>({
+const AssetSyncSchema = new Schema<AssetSyncDocument, AssetSyncModel>({
 	user_id: UserSchema,
 	integration_id: IntegrationSchema,
 	notion_database_id: {

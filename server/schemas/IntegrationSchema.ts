@@ -6,11 +6,11 @@ import { UserSchema } from "@server/schemas/UserSchema"
 
 const SCHEMA_NAME = "Integration"
 
-export type EntityDocument = Document & IntegrationEntity
+type IntegrationDocument = Document & IntegrationEntity
 
-type EntityModel = Model<EntityDocument>
+type IntegrationModel = Model<IntegrationDocument>
 
-export const IntegrationSchema = new Schema<EntityDocument, EntityModel>({
+export const IntegrationSchema = new Schema<IntegrationDocument, IntegrationModel>({
 	user_id: UserSchema,
 	type: {
 		type: String,

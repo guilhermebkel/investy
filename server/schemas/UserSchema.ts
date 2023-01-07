@@ -4,11 +4,11 @@ import { UserEntity } from "@server/entities/UserEntity"
 
 const SCHEMA_NAME = "User"
 
-export type EntityDocument = Document & UserEntity
+type UserDocument = Document & UserEntity
 
-type EntityModel = Model<EntityDocument>
+type UserModel = Model<UserDocument>
 
-export const UserSchema = new Schema<EntityDocument, EntityModel>({
+export const UserSchema = new Schema<UserDocument, UserModel>({
 	name: {
 		type: String,
 		required: true
