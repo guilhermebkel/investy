@@ -1,6 +1,6 @@
 import { ApiHandlerInput } from "@server/contracts/HttpContract"
 
-import NotionService from "@server/services/NotionService"
+import NotionLib from "@server/lib/NotionLib"
 
 import AssetSyncRepository from "@server/repositories/AssetSyncRepository"
 
@@ -18,13 +18,13 @@ class AssetSyncController {
   async connect ({ request, response }: ApiHandlerInput<{}, Body>): Promise<void> {
     await Infra.setup()
 
-    const notionService = new NotionService(process.env.NOTION_TOKEN)
+    const notion = new NotionLib(process.env.NOTION_TOKEN)
     
     const databaseId = request.body.notionDatabaseId
     // const assetCodePropertyId = request.body.notionAssetCodeDatabasePropertyId
     // const assetPricePropertyId = request.body.notionAssetPriceDatabasePropertyId
 
-    const databaseRows = await notionService.getDatabaseById(databaseId)
+    const databaseRows = await notion.getDatabaseById(databaseId)
 
     return response.ok(databaseRows)
   }

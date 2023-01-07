@@ -1,6 +1,6 @@
 import { ApiHandlerInput } from "@server/contracts/HttpContract"
 
-import NotionService from "@server/services/NotionService"
+import NotionLib from "@server/lib/NotionLib"
 
 export type Query = {
   name: string
@@ -8,7 +8,7 @@ export type Query = {
 
 class NotionDatabaseController {
   async search ({ request, response }: ApiHandlerInput<Query, {}>): Promise<void> {
-    const notionService = new NotionService(process.env.NOTION_TOKEN)
+    const notion = new NotionLib(process.env.NOTION_TOKEN)
 
     const name = request.query.name
 
@@ -16,7 +16,7 @@ class NotionDatabaseController {
       return response.ok([])
     }
 
-    const databases = await notionService.searchDatabases(name)
+    const databases = await notion.searchDatabases(name)
 
     return response.ok(databases)
   }

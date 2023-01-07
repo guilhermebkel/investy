@@ -4,7 +4,7 @@ import { Database, RawDatabase, RawPage, DatabaseRow } from "@server/protocols/N
 
 import NotionUtil from "@server/utils/NotionUtil"
 
-class NotionService {
+class NotionLib {
 	private readonly client: Client
 
 	constructor (token: string) {
@@ -58,4 +58,4 @@ class NotionService {
 	}
 }
 
-export default NotionService
+export default NotionLib
