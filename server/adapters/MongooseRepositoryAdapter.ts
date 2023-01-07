@@ -10,9 +10,9 @@ class MongooseRepositoryAdapter<Entity> implements RepositoryContract<Entity> {
 	}
 
 	async create (data: CreateInput<Entity>): Promise<Entity> {
-		const teste = await this.schema.create(data)
+		const entity = await this.schema.create(data)
 
-		return teste
+		return entity
 	}
 
 	async retrieveOne (where: WhereInput<Entity>): Promise<Entity | null> {
