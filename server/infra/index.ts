@@ -1,4 +1,5 @@
-import Database from "@/server/infra/database"
+import DatabaseModule from "@/server/infra/database"
+import QueueModule from "@/server/infra/queue"
 
 class Infra {
 	private static started = false
@@ -8,7 +9,8 @@ class Infra {
 			return
 		}
 
-		await Database.start()
+		await DatabaseModule.start()
+		await QueueModule.start()
 
 		Infra.started = true
 	}

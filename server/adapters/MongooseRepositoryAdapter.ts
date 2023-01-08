@@ -33,6 +33,10 @@ class MongooseRepositoryAdapter<Entity extends DefaultEntity> implements Reposit
 		return entity
 	}
 
+	async retrieveOneById (id: string): Promise<Entity | null> {
+		return await this.retrieveOne({ id } as any)
+	}
+
 	async retrieveAll (where: WhereInput<Entity>): Promise<Entity[]> {
 		const formattedWhere = this.formatWhere(where)
 
@@ -41,13 +45,17 @@ class MongooseRepositoryAdapter<Entity extends DefaultEntity> implements Reposit
 		return entities
 	}
 
-	async update (where: WhereInput<Entity>, data: UpdateInput<Entity>): Promise<void> {
+	async updateOneById (id: string, data: UpdateInput<Entity>): Promise<void> {
+		return await this.updateMany({ id } as any, data)
+	}
+
+	async updateMany (where: WhereInput<Entity>, data: UpdateInput<Entity>): Promise<void> {
 		const formattedWhere = this.formatWhere(where)
 
 		await this.schema.updateMany(formattedWhere, data)
 	}
 
-	async delete (where: WhereInput<Entity>): Promise<void> {
+	async deleteMany (where: WhereInput<Entity>): Promise<void> {
 		const formattedWhere = this.formatWhere(where)
 
 		await this.schema.deleteMany(formattedWhere)

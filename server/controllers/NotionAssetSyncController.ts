@@ -3,6 +3,7 @@ import { ApiHandlerInput } from "@server/contracts/HttpContract"
 import NotionLib from "@server/lib/NotionLib"
 
 import IntegrationService from "@server/services/IntegrationService"
+import AssetSyncSchedulerService from "@server/services/AssetSyncSchedulerService"
 
 import AssetSyncRepository from "@server/repositories/AssetSyncRepository"
 
@@ -10,14 +11,9 @@ import { AssetSyncExtraData } from "@server/entities/AssetSyncEntity"
 
 type NotionBody = {
 	notion: {
-		assetCode: {
-			databaseId: string
-			propertyId: string
-		}
-		assetPrice: {
-			databaseId: string
-			propertyId: string
-		}
+		databaseId: string
+		assetCodePropertyId: string
+		assetPricePropertyId: string
 	}
 }
 
@@ -29,22 +25,19 @@ class NotionAssetSyncController {
 	async create ({ request, response, context }: ApiHandlerInput<{}, NotionBody, {}>): Promise<void> {
 		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
 
-		await AssetSyncRepository.create({
+		const notionAssetSync = await AssetSyncRepository.create({
 			user_id: context.auth.userId,
 			integration_id: notionIntegration.id,
 			extra_data: {
 				notion: {
-					asset_code: {
-						database_id: request.body.notion.assetCode.databaseId,
-						property_id: request.body.notion.assetCode.propertyId
-					},
-					asset_price: {
-						database_id: request.body.notion.assetPrice.databaseId,
-						property_id: request.body.notion.assetPrice.propertyId
-					}
+					database_id: request.body.notion.databaseId,
+					asset_code_property_id: request.body.notion.assetCodePropertyId,
+					asset_price_property_id: request.body.notion.assetPricePropertyId
 				}
 			}
 		})
+		
+		await AssetSyncSchedulerService.scheduleSync(notionAssetSync.id)
 
 		return response.noContent()
 	}
@@ -67,20 +60,15 @@ class NotionAssetSyncController {
 
 		const updatedExtraData: AssetSyncExtraData = {
 			notion: {
-				asset_code: {
-					database_id: updatedNotionData.assetCode.databaseId ?? currentNotionData.asset_code.database_id,
-					property_id: updatedNotionData.assetCode.propertyId ?? currentNotionData.asset_code.property_id
-				},
-				asset_price: {
-					database_id: updatedNotionData.assetPrice.databaseId ?? currentNotionData.asset_price.database_id,
-					property_id: updatedNotionData.assetPrice.propertyId ?? currentNotionData.asset_price.property_id
-				}
+				database_id: updatedNotionData.databaseId ?? currentNotionData.database_id,
+				asset_code_property_id: updatedNotionData.assetCodePropertyId ?? currentNotionData.asset_code_property_id,
+				asset_price_property_id: updatedNotionData.assetPricePropertyId ?? currentNotionData.asset_price_property_id
 			}
 		}
 
-		await AssetSyncRepository.update({ id: notionAssetSync.id }, {
-			extra_data: updatedExtraData
-		})
+		await AssetSyncRepository.updateOneById(notionAssetSync.id, { extra_data: updatedExtraData })
+
+		await AssetSyncSchedulerService.scheduleSync(notionAssetSync.id)
 
 		return response.noContent()
 	}
@@ -97,21 +85,18 @@ class NotionAssetSyncController {
 
 		const formattedAssetSyncs = await Promise.all(
 			notionAssetSyncs.map(async notionAssetSync => {
-				const [assetCodeDatabase, assetPriceDatabase] = await Promise.all([
-					notion.getDatabase(notionAssetSync.extra_data.notion.asset_code.database_id),
-					notion.getDatabase(notionAssetSync.extra_data.notion.asset_price.database_id)
-				])
+				const database = await notion.getDatabase(notionAssetSync.extra_data.notion.database_id)
 
-				const assetCodeColumn = assetCodeDatabase?.columns.find(({ id }) => id === notionAssetSync.extra_data.notion.asset_code.property_id)
-				const assetPriceColumn = assetPriceDatabase?.columns.find(({ id }) => id === notionAssetSync.extra_data.notion.asset_price.property_id)
+				const assetCodeColumn = database?.columns.find(({ id }) => id === notionAssetSync.extra_data.notion.asset_code_property_id)
+				const assetPriceColumn = database?.columns.find(({ id }) => id === notionAssetSync.extra_data.notion.asset_price_property_id)
 
 				return {
 					id: notionAssetSync.id,
-					database: assetCodeDatabase ? {
-						id: assetCodeDatabase.id,
-						name: assetCodeDatabase.title,
-						cover: assetCodeDatabase.cover,
-						icon: assetCodeDatabase.icon
+					database: database ? {
+						id: database.id,
+						name: database.title,
+						cover: database.cover,
+						icon: database.icon
 					} : {},
 					assetCode: assetCodeColumn ? {
 						id: assetCodeColumn.id,

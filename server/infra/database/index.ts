@@ -4,7 +4,7 @@ import LogService from "@/server/services/LogService"
 
 import DatabaseConfig from "@/server/config/DatabaseConfig"
 
-class Database {
+class DatabaseModule {
 	async start (): Promise<void> {
 		const { host, password, port, user, name } = DatabaseConfig
 
@@ -24,4 +24,4 @@ class Database {
 	}
 }
 
-export default new Database()
+export default new DatabaseModule()

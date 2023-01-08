@@ -13,7 +13,9 @@ export type UpdateInput<Entity extends DefaultEntity> = WhereInput<Entity>
 export interface RepositoryContract<Entity extends DefaultEntity> {
 	create: (data: CreateInput<Entity>) => Promise<Entity>
 	retrieveOne: (where: WhereInput<Entity>) => Promise<Entity | null>
+	retrieveOneById: (id: string) => Promise<Entity | null>
 	retrieveAll: (where: WhereInput<Entity>) => Promise<Entity[]>
-	update: (where: WhereInput<Entity>, data: UpdateInput<Entity>) => Promise<void>
-	delete: (where: WhereInput<Entity>) => Promise<void>
+	updateOneById: (id: string, data: UpdateInput<Entity>) => Promise<void>
+	updateMany: (where: WhereInput<Entity>, data: UpdateInput<Entity>) => Promise<void>
+	deleteMany: (where: WhereInput<Entity>) => Promise<void>
 }

@@ -5,14 +5,9 @@ import { DefaultEntity } from "@server/contracts/RepositoryContract"
 
 export type AssetSyncExtraData = {
 	notion?: {
-		asset_code: {
-			database_id: string
-			property_id: string
-		}
-		asset_price: {
-			database_id: string
-			property_id: string
-		}
+		database_id: string
+		asset_code_property_id: string
+		asset_price_property_id: string
 	}
 }
 
