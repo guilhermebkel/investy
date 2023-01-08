@@ -16,6 +16,8 @@ interface AssetSyncEntity extends DefaultEntity {
 	integration_id: string
 	extra_data: AssetSyncExtraData
 	last_sync_at?: Date
+	last_sync_status?: "success" | "error"
+	last_sync_error?: Record<string, unknown>
 	user?: UserEntity
 	integration?: IntegrationEntity
 }

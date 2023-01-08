@@ -34,6 +34,14 @@ export const AssetSyncSchemaDefinition = new Schema<AssetSyncDocument, AssetSync
 	last_sync_at: {
 		type: Date,
 		required: false
+	},
+	last_sync_status: {
+		type: String,
+		required: false
+	},
+	last_sync_error: {
+		type: Object,
+		required: false
 	}
 }, MongooseUtil.schemaOptions)
 

@@ -1,10 +1,15 @@
-import QueueModule from "@server/infra/queue"
-
 class AssetSyncSchedulerService {
 	async scheduleSync (assetSyncId: string): Promise<void> {
-		await QueueModule.cancel("SyncAssetPrice", assetSyncId)
+		/**
+		 * WARNING:
+		 * - Use lazy import to avoid dependecy cycle, since this queue
+		 * calls itself after running.
+		 * - TODO: Using an Event Driven Architecture would help to avoid
+		 * this dependendy cycle while adding useful features for this app.
+		 */
+		const queueModule = await import("@server/infra/queue")
 
-		await QueueModule.enqueue({
+		await queueModule.default.enqueue({
 			name: "SyncAssetPrice",
 			payload: {
 				assetSyncId

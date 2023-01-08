@@ -46,7 +46,14 @@ class SyncAssetPriceQueue implements QueueHandler {
 			})
 		)
 
-		await AssetSyncRepository.updateOneById(assetSyncId, { last_sync_at: new Date() })
+		await AssetSyncRepository.updateOneById(assetSyncId, {
+			last_sync_at: new Date(),
+			last_sync_status: "success"
+		})
+	}
+
+	async onCompleted (payload: QueuePayload["SyncAssetPrice"]): Promise<void> {
+		const { assetSyncId } = payload
 
 		await AssetSyncSchedulerService.scheduleSync(assetSyncId)
 	}

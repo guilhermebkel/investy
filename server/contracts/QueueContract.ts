@@ -9,6 +9,7 @@ export type QueueName = keyof QueuePayload
 export interface QueueHandler {
 	name: QueueName
 	handle: (data: QueuePayload[QueueName]) => Promise<void>
+	onCompleted?: (data: QueuePayload[QueueName]) => Promise<void>
 }
 
 export interface QueueContract<RawQueueHandler> {
