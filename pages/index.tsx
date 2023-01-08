@@ -1,12 +1,3 @@
-import Link from "next/link"
+import LandingPage from "@/client/pages/LandingPage"
 
-const IndexPage = () => (
-  <>
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">About</Link>
-    </p>
-  </>
-)
-
-export default IndexPage
+export default LandingPage

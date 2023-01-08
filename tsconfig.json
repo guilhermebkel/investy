@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["*"],
-      "@server/*": ["server/*"]
+      "@server/*": ["server/*"],
+      "@client/*": ["client/*"]
     },
     "target": "es5",
     "lib": [
