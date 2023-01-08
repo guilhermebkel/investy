@@ -5,12 +5,12 @@ import IntegrationRepository from "@server/repositories/IntegrationRepository"
 import { IntegrationType } from "@server/entities/IntegrationEntity"
 
 type CreateBody = {
-  type: IntegrationType
+	type: IntegrationType
 	token: string
 }
 
 class IntegrationController {
-  async create ({ request, response, context }: ApiHandlerInput<{}, CreateBody>): Promise<void> {
+	async create ({ request, response, context }: ApiHandlerInput<{}, CreateBody, {}>): Promise<void> {
 		const { type, token } = request.body
 
 		if (!type || !token) {
@@ -20,16 +20,16 @@ class IntegrationController {
 			})
 		}
 
-    const integration = await IntegrationRepository.create({
+		const integration = await IntegrationRepository.create({
 			token,
 			type,
 			user_id: context.auth.userId
 		})
 
-    return response.created({
+		return response.created({
 			id: integration.id
 		})
-  }
+	}
 }
 
 export default new IntegrationController()

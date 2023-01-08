@@ -7,7 +7,7 @@ import AuthConfig from "@server/config/AuthConfig"
 import AuthService from "@server/services/AuthService"
 
 class AuthMiddleware {
-  async requireAuth ({ request, response }: ApiHandlerInput<{}, {}>): Promise<void> {
+	async requireAuth ({ request, response }: ApiHandlerInput<{}, {}, {}>): Promise<void> {
 		const authToken = request.headers.get(AuthConfig.tokenKey)
 
 		if (!authToken) {
@@ -23,7 +23,7 @@ class AuthMiddleware {
 		request.context.set({ auth: authTokenPayload })
 
 		return response.next()
-  }
+	}
 }
 
 export default new AuthMiddleware()

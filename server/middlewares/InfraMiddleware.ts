@@ -8,11 +8,11 @@ import Infra from "@server/infra"
  * since every route runs inside a serverless application.
  */
 class InfraMiddleware {
-  async setup ({ response }: ApiHandlerInput<{}, {}>): Promise<void> {
+	async setup ({ response }: ApiHandlerInput<{}, {}, {}>): Promise<void> {
 		await Infra.setup()
 
-    return response.next()
-  }
+		return response.next()
+	}
 }
 
 export default new InfraMiddleware()

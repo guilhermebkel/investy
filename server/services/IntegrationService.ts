@@ -5,9 +5,9 @@ import IntegrationRepository from "@server/repositories/IntegrationRepository"
 class IntegrationService {
 	async getNotionIntegration (userId: string): Promise<IntegrationEntity | null> {
 		return await IntegrationRepository.retrieveOne({
-      type: "notion",
-      user_id: userId
-    })
+			type: "notion",
+			user_id: userId
+		})
 	}
 }
 

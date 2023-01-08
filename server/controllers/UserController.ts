@@ -5,7 +5,7 @@ import AuthService from "@server/services/AuthService"
 import UserRepository from "@server/repositories/UserRepository"
 
 type SignupBody = {
-  name: string
+	name: string
 	email: string
 	password: string
 }
@@ -16,7 +16,7 @@ type LoginBody = {
 }
 
 class UserController {
-  async signup ({ request, response }: ApiHandlerInput<{}, SignupBody, {}>): Promise<void> {
+	async signup ({ request, response }: ApiHandlerInput<{}, SignupBody, {}>): Promise<void> {
 		const { email, name, password } = request.body
 
 		if (!email || !name || !password) {
@@ -27,7 +27,7 @@ class UserController {
 			})
 		}
 
-    const existingUser = await UserRepository.retrieveOne({ email })
+		const existingUser = await UserRepository.retrieveOne({ email })
 
 		if (existingUser) {
 			return response.badRequest({ email: "UserAlreadyExists" })
@@ -43,13 +43,13 @@ class UserController {
 
 		const authToken = await AuthService.generateAuthToken(user.id)
 
-    return response.created({ authToken })
-  }
+		return response.created({ authToken })
+	}
 
 	async login ({ request, response }: ApiHandlerInput<{}, LoginBody, {}>): Promise<void> {
 		const { email, password } = request.body
 
-    const user = await UserRepository.retrieveOne({ email })
+		const user = await UserRepository.retrieveOne({ email })
 
 		if (!user) {
 			return response.badRequest({ email: "InvalidCredentials" })
@@ -63,8 +63,8 @@ class UserController {
 
 		const authToken = await AuthService.generateAuthToken(user.id)
 
-    return response.ok({ authToken })
-  }
+		return response.ok({ authToken })
+	}
 }
 
 export default new UserController()
