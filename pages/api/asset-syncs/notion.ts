@@ -9,7 +9,7 @@ export default NextHttpAdapter.createApiHandlerRoute({
 	post: [
 		NextHttpAdapter.adaptApiHandler(InfraMiddleware.setup),
 		NextHttpAdapter.adaptApiHandler(AuthMiddleware.requireAuth),
-		NextHttpAdapter.adaptApiHandler(NotionAssetSyncController.connect)
+		NextHttpAdapter.adaptApiHandler(NotionAssetSyncController.create)
 	],
 	get: [
 		NextHttpAdapter.adaptApiHandler(InfraMiddleware.setup),

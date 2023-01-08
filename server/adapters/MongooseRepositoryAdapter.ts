@@ -1,8 +1,14 @@
 import { Model } from "mongoose"
 
-import { RepositoryContract, CreateInput, WhereInput, UpdateInput } from "@server/contracts/RepositoryContract"
+import {
+	RepositoryContract,
+	CreateInput,
+	WhereInput,
+	UpdateInput,
+	DefaultEntity
+} from "@server/contracts/RepositoryContract"
 
-class MongooseRepositoryAdapter<Entity> implements RepositoryContract<Entity> {
+class MongooseRepositoryAdapter<Entity extends DefaultEntity> implements RepositoryContract<Entity> {
 	private readonly schema: Model<Entity>
 
 	constructor (schema: Model<Entity>) {
@@ -16,7 +22,9 @@ class MongooseRepositoryAdapter<Entity> implements RepositoryContract<Entity> {
 	}
 
 	async retrieveOne (where: WhereInput<Entity>): Promise<Entity | null> {
-		const entity = await this.schema.findOne({ where })
+		const formattedWhere = this.formatWhere(where)
+
+		const entity = await this.schema.findOne(formattedWhere)
 
 		if (!entity) {
 			return null
@@ -26,17 +34,32 @@ class MongooseRepositoryAdapter<Entity> implements RepositoryContract<Entity> {
 	}
 
 	async retrieveAll (where: WhereInput<Entity>): Promise<Entity[]> {
-		const entities = await this.schema.find({ where })
+		const formattedWhere = this.formatWhere(where)
+
+		const entities = await this.schema.find(formattedWhere)
 
 		return entities
 	}
 
 	async update (where: WhereInput<Entity>, data: UpdateInput<Entity>): Promise<void> {
-		await this.schema.updateMany(where, data)
+		const formattedWhere = this.formatWhere(where)
+
+		await this.schema.updateMany(formattedWhere, data)
 	}
 
 	async delete (where: WhereInput<Entity>): Promise<void> {
-		await this.schema.deleteMany(where)
+		const formattedWhere = this.formatWhere(where)
+
+		await this.schema.deleteMany(formattedWhere)
+	}
+
+	private formatWhere (where: WhereInput<Entity>): WhereInput<Entity> {
+		const { id, ...rest } = where
+
+		return {
+			...rest,
+			...(id && { _id: id }) as any,
+		}
 	}
 }
 

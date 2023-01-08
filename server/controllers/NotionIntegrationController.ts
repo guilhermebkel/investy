@@ -9,7 +9,7 @@ type SearchDatabaseQuery = {
 }
 
 class NotionIntegrationController {
-  async searchDatabase ({ request, response, context }: ApiHandlerInput<SearchDatabaseQuery, {}>): Promise<void> {
+  async searchDatabase ({ request, response, context }: ApiHandlerInput<SearchDatabaseQuery, {}, {}>): Promise<void> {
     const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
 
     const notion = new NotionLib(notionIntegration.token)

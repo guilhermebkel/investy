@@ -3,8 +3,8 @@ import { AuthTokenPayload } from "@server/protocols/AuthProtocol"
 
 export type DefaultData = Record<string, unknown>
 
-export type ApiHandlerRequest<Query, Body> = {
-	params?: DefaultData
+export type ApiHandlerRequest<Query, Body, Params> = {
+	params?: Params
 	query?: Query
 	body: Body
 	headers: {
@@ -15,11 +15,11 @@ export type ApiHandlerRequest<Query, Body> = {
 	}
 }
 
-export type ApiHandlerResponse<Query, Body> = {
+export type ApiHandlerResponse<Query, Body, Params> = {
 	ok: (data?: unknown) => void
 	serverError: (slug?: string) => void
 	notFound: (message?: string) => void
-	badRequest: (fieldErrors: PartialMap<keyof (Query & Body), string>) => void
+	badRequest: (fieldErrors: PartialMap<keyof (Query & Body & Params), string>) => void
 	created: (data?: unknown) => void
 	noContent: () => void
 	unauthorized: () => void
@@ -30,14 +30,14 @@ export type RequestContext = {
 	auth: AuthTokenPayload
 }
 
-export type ApiHandlerInput<Query, Body> = {
-	request: ApiHandlerRequest<Query, Body>
-	response: ApiHandlerResponse<Query, Body>
+export type ApiHandlerInput<Query, Body, Params> = {
+	request: ApiHandlerRequest<Query, Body, Params>
+	response: ApiHandlerResponse<Query, Body, Params>
 	context: RequestContext
 }
 
-export type ApiHandler<Query = DefaultData, Body = DefaultData> = (input: ApiHandlerInput<Query, Body>) => Promise<void>
+export type ApiHandler<Query = DefaultData, Body = DefaultData, Params = DefaultData> = (input: ApiHandlerInput<Query, Body, Params>) => Promise<void>
 
-export interface HttpContract<RawApiHandler, RawMiddlewareHandler> {
+export interface HttpContract<RawApiHandler> {
 	adaptApiHandler (handler: ApiHandler): RawApiHandler
 }

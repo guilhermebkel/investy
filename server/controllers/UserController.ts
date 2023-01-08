@@ -16,7 +16,7 @@ type LoginBody = {
 }
 
 class UserController {
-  async signup ({ request, response }: ApiHandlerInput<{}, SignupBody>): Promise<void> {
+  async signup ({ request, response }: ApiHandlerInput<{}, SignupBody, {}>): Promise<void> {
 		const { email, name, password } = request.body
 
 		if (!email || !name || !password) {
@@ -46,7 +46,7 @@ class UserController {
     return response.created({ authToken })
   }
 
-	async login ({ request, response }: ApiHandlerInput<{}, LoginBody>): Promise<void> {
+	async login ({ request, response }: ApiHandlerInput<{}, LoginBody, {}>): Promise<void> {
 		const { email, password } = request.body
 
     const user = await UserRepository.retrieveOne({ email })

@@ -1,14 +1,13 @@
 import UserEntity from "@server/entities/UserEntity"
 
+import { DefaultEntity } from "@server/contracts/RepositoryContract"
+
 export type IntegrationType = "notion"
 
-interface IntegrationEntity {
-	id: string
+interface IntegrationEntity extends DefaultEntity {
 	user_id: string
 	type: IntegrationType
 	token: string
-	created_at: Date
-	updated_at: Date
 	user?: UserEntity
 }
 

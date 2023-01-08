@@ -1,10 +1,16 @@
-export type CreateInput<Entity> = Omit<Entity, "id" | "created_at" | "updated_at">
+export type DefaultEntity  = {
+	id: string
+	updated_at: Date
+	created_at: Date
+}
 
-export type WhereInput<Entity> = Partial<Entity>
+export type CreateInput<Entity extends DefaultEntity> = Omit<Entity, "id" | "created_at" | "updated_at">
 
-export type UpdateInput<Entity> = WhereInput<Entity>
+export type WhereInput<Entity extends DefaultEntity> = Partial<Entity>
 
-export interface RepositoryContract<Entity> {
+export type UpdateInput<Entity extends DefaultEntity> = WhereInput<Entity>
+
+export interface RepositoryContract<Entity extends DefaultEntity> {
 	create: (data: CreateInput<Entity>) => Promise<Entity>
 	retrieveOne: (where: WhereInput<Entity>) => Promise<Entity | null>
 	retrieveAll: (where: WhereInput<Entity>) => Promise<Entity[]>
