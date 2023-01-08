@@ -1,17 +1,25 @@
-import mongoose, { Document, Schema, Model } from "mongoose"
+import { Document, Schema, Model } from "mongoose"
 
 import IntegrationEntity from "@server/entities/IntegrationEntity"
 
-import { UserSchemaDefinition } from "@server/schemas/UserSchema"
+import { UserSchemaName } from "@server/schemas/UserSchema"
 
-const SCHEMA_NAME = "Integration"
+import MongooseUtil from "@server/utils/MongooseUtil"
+
+export const IntegrationSchemaName = "Integration"
 
 type IntegrationDocument = Document & IntegrationEntity
 
 type IntegrationModel = Model<IntegrationDocument>
 
 export const IntegrationSchemaDefinition = new Schema<IntegrationDocument, IntegrationModel>({
-	user_id: UserSchemaDefinition,
+	_id: MongooseUtil.schemaIdDefinition,
+	user_id: {
+		type: String,
+		ref: UserSchemaName,
+		required: true,
+		index: true
+	},
 	type: {
 		type: String,
 		required: true
@@ -19,11 +27,9 @@ export const IntegrationSchemaDefinition = new Schema<IntegrationDocument, Integ
 	token: {
 		type: String,
 		required: true
-	},
-	user: UserSchemaDefinition
-},
-{
-	timestamps: true
-})
+	}
+}, MongooseUtil.schemaOptions)
 
-export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, IntegrationSchemaDefinition)
+// IntegrationSchemaDefinition.virtual("user", { ref: UserSchemaName, localField: "user_id", foreignField: "_id", justOne: true })
+
+export default MongooseUtil.compileSchemaIfNeeded(IntegrationSchemaName, IntegrationSchemaDefinition)

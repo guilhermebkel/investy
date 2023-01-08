@@ -2,13 +2,16 @@ import mongoose, { Document, Schema, Model } from "mongoose"
 
 import UserEntity from "@server/entities/UserEntity"
 
-const SCHEMA_NAME = "User"
+import MongooseUtil from "@server/utils/MongooseUtil"
+
+export const UserSchemaName = "User"
 
 type UserDocument = Document & UserEntity
 
 type UserModel = Model<UserDocument>
 
 export const UserSchemaDefinition = new Schema<UserDocument, UserModel>({
+	_id: MongooseUtil.schemaIdDefinition,
 	name: {
 		type: String,
 		required: true
@@ -23,19 +26,12 @@ export const UserSchemaDefinition = new Schema<UserDocument, UserModel>({
 		required: true
 	},
 	picture_url: {
-		type: String
-	},
-	asset_syncs: [{
-		type: Schema.Types.ObjectId,
-		ref: "AssetSync"
-	}],
-	integrations: [{
-		type: Schema.Types.ObjectId,
-		ref: "Integration"
-	}]
-},
-{
-	timestamps: true
-})
+		type: String,
+		required: false
+	}
+}, MongooseUtil.schemaOptions)
 
-export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, UserSchemaDefinition)
+// AssetSyncSchemaDefinition.virtual("asset_syncs", { ref: AssetSyncSchemaName, foreignField: "user_id" })
+// AssetSyncSchemaDefinition.virtual("integrations", { ref: IntegrationSchemaName, foreignField: "user_id" })
+
+export default MongooseUtil.compileSchemaIfNeeded(UserSchemaName, UserSchemaDefinition)

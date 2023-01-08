@@ -25,7 +25,7 @@ class NotionLib {
 		return databases
 	}
 
-	async getDatabaseById (databaseId: string): Promise<Database | null> {
+	async getDatabase (databaseId: string): Promise<Database | null> {
 		try {
 			const database = await this.client.databases.retrieve({ database_id: databaseId })
 	

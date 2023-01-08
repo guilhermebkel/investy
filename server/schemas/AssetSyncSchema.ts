@@ -1,43 +1,43 @@
-import mongoose, { Document, Schema, Model } from "mongoose"
+import { Document, Schema, Model } from "mongoose"
 
 import AssetSyncEntity from "@server/entities/AssetSyncEntity"
 
-import { UserSchemaDefinition } from "@server/schemas/UserSchema"
-import { IntegrationSchemaDefinition } from "@server/schemas/IntegrationSchema"
+import { UserSchemaName } from "@server/schemas/UserSchema"
+import { IntegrationSchemaName } from "@server/schemas/IntegrationSchema"
 
-const SCHEMA_NAME = "AssetSync"
+import MongooseUtil from "@server/utils/MongooseUtil"
+
+export const AssetSyncSchemaName = "AssetSync"
 
 type AssetSyncDocument = Document & AssetSyncEntity
 
 type AssetSyncModel = Model<AssetSyncDocument>
 
 export const AssetSyncSchemaDefinition = new Schema<AssetSyncDocument, AssetSyncModel>({
-	user_id: UserSchemaDefinition,
-	integration_id: IntegrationSchemaDefinition,
-	notion_database_id: {
+	_id: MongooseUtil.schemaIdDefinition,
+	user_id: {
 		type: String,
+		ref: UserSchemaName,
+		required: true,
+		index: true,
+	},
+	integration_id: {
+		type: String,
+		ref: IntegrationSchemaName,
 		required: true,
 		index: true
 	},
-	notion_asset_code_database_property_id: {
-		type: String,
-		required: true,
-		index: true
-	},
-	notion_asset_price_database_property_id: {
-		type: String,
-		required: true,
-		index: true
+	extra_data: {
+		type: Object,
+		required: false
 	},
 	last_sync_at: {
 		type: Date,
 		required: false
-	},
-	user: UserSchemaDefinition,
-	integration: IntegrationSchemaDefinition
-},
-{
-	timestamps: true
-})
+	}
+}, MongooseUtil.schemaOptions)
 
-export default mongoose.models[SCHEMA_NAME] || mongoose.model(SCHEMA_NAME, AssetSyncSchemaDefinition)
+// AssetSyncSchemaDefinition.virtual("user", { ref: UserSchemaName, localField: "user_id", foreignField: "_id", justOne: true })
+// AssetSyncSchemaDefinition.virtual("integration", { ref: IntegrationSchemaName, localField: "integration_id", foreignField: "_id", justOne: true })
+
+export default MongooseUtil.compileSchemaIfNeeded(AssetSyncSchemaName, AssetSyncSchemaDefinition)

@@ -77,7 +77,7 @@ class NextHttpAdapter implements HttpContract<RawApiHandler, RawMiddlewareHandle
 			notFound: (message) => res.status(404).send(message || "Not Found"),
 			badRequest: (fieldErrors) => res.status(400).json({ fieldErrors }),
 			created: (data) => res.status(201).json(data),
-			noContent: () => res.status(200).send(""),
+			noContent: () => res.status(204).send(""),
 			unauthorized: () => res.status(401).json({ error: "Unauthorized" }),
 			next: () => {}
 		}

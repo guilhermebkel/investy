@@ -1,8 +1,6 @@
-import { PartialMap } from "@server/protocols/UtilityProtocol"
-
 export type CreateInput<Entity> = Omit<Entity, "id" | "created_at" | "updated_at">
 
-export type WhereInput<Entity> = PartialMap<keyof Entity, Entity[keyof Entity]>
+export type WhereInput<Entity> = Partial<Entity>
 
 export type UpdateInput<Entity> = WhereInput<Entity>
 
