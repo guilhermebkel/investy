@@ -16,7 +16,7 @@ class QuirrelQueueAdapter implements QueueContract<Queue<{}>> {
 		const queue = Queue<QueuePayload[QueueName]>(route, async (payload) => {
 			LogService.info(`[Queue][${handler.name}] Running...`)
 
-			await handler.handle(payload as any)
+			await handler.handle(payload)
 
 			LogService.info(`[Queue][${handler.name}] Success!`)
 
