@@ -1,7 +1,5 @@
 import { ApiHandlerInput } from "@server/contracts/HttpContract"
 
-import { IntegrationType } from "@server/entities/IntegrationEntity"
-
 import AuthConfig from "@server/config/AuthConfig"
 
 import AuthService from "@server/services/AuthService"
