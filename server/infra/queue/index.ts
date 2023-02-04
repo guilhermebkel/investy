@@ -4,7 +4,7 @@ import { QueueName, QueuePayload, EnqueueInput } from "@server/contracts/QueueCo
 
 import SyncAssetPriceQueue from "@/pages/api/queues/SyncAssetPrice"
 
-import LogService from "@/server/services/LogService"
+import LogService from "@server/services/LogService"
 
 class QueueModule {
 	private readonly queues: Record<QueueName, Queue<any>> = {

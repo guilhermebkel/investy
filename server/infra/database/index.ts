@@ -1,8 +1,8 @@
 import mongoose from "mongoose"
 
-import LogService from "@/server/services/LogService"
+import LogService from "@server/services/LogService"
 
-import DatabaseConfig from "@/server/config/DatabaseConfig"
+import DatabaseConfig from "@server/config/DatabaseConfig"
 
 class DatabaseModule {
 	async start (): Promise<void> {

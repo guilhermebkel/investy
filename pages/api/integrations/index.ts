@@ -1,7 +1,7 @@
-import IntegrationController from "@/server/controllers/IntegrationController"
+import IntegrationController from "@server/controllers/IntegrationController"
 
-import AuthMiddleware from "@/server/middlewares/AuthMiddleware"
-import InfraMiddleware from "@/server/middlewares/InfraMiddleware"
+import AuthMiddleware from "@server/middlewares/AuthMiddleware"
+import InfraMiddleware from "@server/middlewares/InfraMiddleware"
 
 import NextHttpAdapter from "@server/adapters/NextHttpAdapter"
 

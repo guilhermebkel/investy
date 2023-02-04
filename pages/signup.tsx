@@ -1,3 +1,3 @@
-import SignupPage from "@/client/pages/Signup"
+import SignupPage from "@client/pages/Signup"
 
 export default SignupPage

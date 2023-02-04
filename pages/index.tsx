@@ -1,3 +1,3 @@
-import LandingPage from "@/client/pages/LandingPage"
+import LandingPage from "@client/pages/LandingPage"
 
 export default LandingPage

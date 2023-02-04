@@ -1,5 +1,5 @@
-import DatabaseModule from "@/server/infra/database"
-import QueueModule from "@/server/infra/queue"
+import DatabaseModule from "@server/infra/database"
+import QueueModule from "@server/infra/queue"
 
 class Infra {
 	private static started = false

@@ -1,6 +1,6 @@
-import UserController from "@/server/controllers/UserController"
+import UserController from "@server/controllers/UserController"
 
-import InfraMiddleware from "@/server/middlewares/InfraMiddleware"
+import InfraMiddleware from "@server/middlewares/InfraMiddleware"
 
 import NextHttpAdapter from "@server/adapters/NextHttpAdapter"
 
