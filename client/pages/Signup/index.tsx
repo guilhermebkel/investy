@@ -2,6 +2,7 @@ import { FormEventHandler, useState } from "react"
 import Image from "next/image"
 
 import PageContainer from "@client/components/PageContainer"
+import Button from "@client/components/Button"
 
 import LogoSvg from "@client/assets/logo.svg"
 
@@ -106,12 +107,13 @@ const Signup = () => {
 
 					<div className="h-4" />
 
-					<button
-						className="w-full bg-green-900 rounded-lg min-h-[40px] font-bold text-[#FFFFFF]"
+					<Button
+						fullWidth
+						variant="primary"
 						type="submit"
 					>
 						Sign up
-					</button>
+					</Button>
 				</form>
 			</div>
 		</PageContainer>
