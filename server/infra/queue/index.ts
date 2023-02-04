@@ -1,6 +1,6 @@
 import { Queue } from "quirrel/next"
 
-import { QueueName, QueuePayload, EnqueueInput } from "@server/contracts/QueueContract"
+import { QueueName, EnqueueInput } from "@server/contracts/QueueContract"
 
 import SyncAssetPriceQueue from "@next/api/queues/SyncAssetPrice"
 
