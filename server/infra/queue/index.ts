@@ -2,7 +2,7 @@ import { Queue } from "quirrel/next"
 
 import { QueueName, QueuePayload, EnqueueInput } from "@server/contracts/QueueContract"
 
-import SyncAssetPriceQueue from "@/pages/api/queues/SyncAssetPrice"
+import SyncAssetPriceQueue from "@next/api/queues/SyncAssetPrice"
 
 import LogService from "@server/services/LogService"
 

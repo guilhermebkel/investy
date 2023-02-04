@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@next/*": ["pages/*"],
       "@server/*": ["server/*"],
       "@client/*": ["client/*"]
     },
