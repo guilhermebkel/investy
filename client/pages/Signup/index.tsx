@@ -3,7 +3,6 @@ import Image from "next/image"
 
 import PageContainer from "@client/components/PageContainer"
 import Button from "@client/components/Button"
-import Divider from "@client/components/Divider"
 
 import LogoSvg from "@client/assets/logo.svg"
 
@@ -32,7 +31,7 @@ const Signup = () => {
 			<div className="container flex flex-col justify-center items-center h-full">
 				<Image src={LogoSvg} alt="" className="w-40" />
 
-				<Divider orientation="horizontal" size={8} />
+				<div className="h-8" />
 
 				<h1 className="text-3xl text-gray-900 font-bold text-center">
 					Create a new account
@@ -42,7 +41,7 @@ const Signup = () => {
 					Or <a>sign in with an existing account</a>
 				</span>
 
-				<Divider orientation="horizontal" size={8} />
+				<div className="h-8" />
 
 				<form
 					className="bg-[#FFFFFF] max-w-md w-full rounded-lg shadow-sm p-5"
@@ -64,7 +63,7 @@ const Signup = () => {
 						/>
 					</div>
 
-					<Divider orientation="horizontal" size={4} />
+					<div className="h-4" />
 
 					<div>
 						<label
@@ -82,7 +81,7 @@ const Signup = () => {
 						/>
 					</div>
 
-					<Divider orientation="horizontal" size={4} />
+					<div className="h-4" />
 
 					<div>
 						<label
@@ -100,13 +99,13 @@ const Signup = () => {
 						/>
 					</div>
 
-					<Divider orientation="horizontal" size={4} />
+					<div className="h-4" />
 
 					<div className="flex justify-end">
 						<a className="text-xs">Forgot your password?</a>
 					</div>
 
-					<Divider orientation="horizontal" size={4} />
+					<div className="h-4" />
 
 					<Button
 						fullWidth
