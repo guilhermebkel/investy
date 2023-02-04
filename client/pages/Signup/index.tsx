@@ -32,18 +32,18 @@ const Signup = () => {
 
 				<div className="h-8" />
 
-				<h1 className="text-3xl text-gray-900 font-bold">
+				<h1 className="text-3xl text-gray-900 font-bold text-center">
 					Create a new account
 				</h1>
 
-				<span className="text-gray-900 text-base">
+				<span className="text-gray-900 text-base text-center">
 					Or <a>sign in with an existing account</a>
 				</span>
 
 				<div className="h-8" />
 
 				<form
-					className="bg-[#FFFFFF] w-96 rounded-lg shadow-sm p-5"
+					className="bg-[#FFFFFF] max-w-md w-full rounded-lg shadow-sm p-5"
 					onSubmit={handleSubmit}
 				>
 					<div>
