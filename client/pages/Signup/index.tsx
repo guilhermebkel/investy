@@ -1,11 +1,16 @@
 import { FormEventHandler, useState } from "react"
 import Image from "next/image"
 
+import { api } from "@client/services/api"
+import { setAuthToken } from "@client/services/auth"
+
 import PageContainer from "@client/components/PageContainer"
 import Button from "@client/components/Button"
 import Divider from "@client/components/Divider"
 import TextInput from "@client/components/TextInput"
 import InputLabel from "@client/components/InputLabel"
+
+import useValidation from "@client/hooks/useValidation"
 
 import LogoSvg from "@client/assets/logo.svg"
 
@@ -18,22 +23,31 @@ type Data = {
 const Signup = () => {
 	const [data, setData] = useState({} as Data)
 	const [loading, setLoading] = useState(false)
+	const validation = useValidation()
 
 	const handleChange = <Field extends keyof Data>(field: Field, value: Data[Field]) => {
 		setData(lastState => ({
 			...lastState,
 			[field]: value
 		}))
+
+		validation.clearFieldError(field)
 	}
 
-	const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault()
 
 		setLoading(true)
 
-		setTimeout(() => {
-			setLoading(false)
-		}, 1000)
+		try {
+			const response = await api.post<{ authToken: string }>("/users/signup", data)
+
+			setAuthToken(response.data.authToken)
+		} catch (error) {
+			validation.digestRequestError(error)
+		}
+
+		setLoading(false)
 	}
 
 	return (
@@ -54,7 +68,7 @@ const Signup = () => {
 				<Divider orientation="horizontal" size="md" />
 
 				<form
-					className="bg-[#FFFFFF] max-w-md w-full rounded-lg shadow-sm p-5"
+					className="bg-white max-w-md w-full rounded-lg shadow-sm p-5"
 					onSubmit={handleSubmit}
 				>
 					<div>
@@ -84,6 +98,7 @@ const Signup = () => {
 							name="email"
 							value={data.email}
 							onValueChange={value => handleChange("email", value)}
+							errorMessage={validation.messages.email}
 						/>
 					</div>
 
