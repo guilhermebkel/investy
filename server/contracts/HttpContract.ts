@@ -30,7 +30,7 @@ export type RequestContext = {
 	auth: AuthTokenPayload
 }
 
-export type ApiHandlerInput<Query, Body, Params> = {
+export type ApiHandlerInput<Query = DefaultData, Body = DefaultData, Params = DefaultData> = {
 	request: ApiHandlerRequest<Query, Body, Params>
 	response: ApiHandlerResponse<Query, Body, Params>
 	context: RequestContext

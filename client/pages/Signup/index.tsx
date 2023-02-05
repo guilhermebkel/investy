@@ -82,6 +82,7 @@ const Signup = () => {
 							name="name"
 							value={data.name}
 							onValueChange={value => handleChange("name", value)}
+							errorMessage={validation.messages.name}
 						/>
 					</div>
 
@@ -116,6 +117,7 @@ const Signup = () => {
 							value={data.password}
 							onValueChange={value => handleChange("password", value)}
 							type="password"
+							errorMessage={validation.messages.password}
 						/>
 					</div>
 

@@ -1,11 +1,9 @@
 import { useState } from "react"
 import { AxiosError } from "axios"
 
-type FieldErrors = Record<string, string>
+import { validationConfig } from "@client/config/validation"
 
-const FIELD_ERROR_MESSAGES: Record<string, string> = {
-	UserAlreadyExists: "There is an existing user using this email."
-}
+type FieldErrors = Record<string, string>
 
 const useValidation = () => {
 	const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
@@ -14,7 +12,7 @@ const useValidation = () => {
 		const messages: Record<string, string> = {}
 
 		Object.entries(fieldErrors).forEach(([field, error]) => {
-			messages[field] = FIELD_ERROR_MESSAGES[error]
+			messages[field] = validationConfig.fieldErrorMessages[error]
 		})
 
 		return messages
