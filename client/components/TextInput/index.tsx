@@ -1,5 +1,5 @@
-import { mergeClassNames } from "@client/utils/style"
 import { InputHTMLAttributes, HTMLInputTypeAttribute } from "react"
+import { mergeClassNames, conditionalClassNames } from "@client/utils/style"
 
 type TextInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
 	fullWidth?: boolean
@@ -22,16 +22,8 @@ const TextInput = (props: TextInputProps) => {
 	return (
 		<input
 			className={mergeClassNames([
-				"appearance-none",
-				"border",
-				"rounded",
-				fullWidth && "w-full",
-				"py-2",
-				"px-3",
-				"text-gray-900",
-				"leading-tight",
-				"focus:outline-none",
-				"focus:shadow-outline",
+				"appearance-none border rounded py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline",
+				conditionalClassNames(fullWidth, ["w-full"]),
 				className
 			])}
 			id={name}
