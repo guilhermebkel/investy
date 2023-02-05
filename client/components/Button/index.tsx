@@ -22,16 +22,18 @@ const Button: FC<ButtonProps> = (props) => {
 		primary: "bg-green-900 hover:bg-[#12bc6a]"
 	}
 
+	const needToDisable = disabled || loading
+
 	return (
 		<button
 			className={mergeClassNames([
 				"inline-flex items-center justify-center transition duration-150 ease-in-out rounded-lg min-h-[40px] font-bold text-[#FFFFFF]",
-				backgroundColorClassName[variant],
+				conditionalClassNames(!needToDisable, [backgroundColorClassName[variant]]),
 				conditionalClassNames(fullWidth, ["w-full"]),
-				conditionalClassNames(loading, ["cursor-not-allowed", "bg-gray-400"]),
+				conditionalClassNames(needToDisable, ["cursor-not-allowed", "bg-gray-400"]),
 				className
 			])}
-			disabled={disabled || loading}
+			disabled={needToDisable}
 			{...rest}
 		>
 			{children}

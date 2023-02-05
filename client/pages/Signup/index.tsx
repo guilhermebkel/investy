@@ -17,6 +17,7 @@ type Data = {
 
 const Signup = () => {
 	const [data, setData] = useState({} as Data)
+	const [loading, setLoading] = useState(false)
 
 	const handleChange = <Field extends keyof Data>(field: Field, value: Data[Field]) => {
 		setData(lastState => ({
@@ -27,6 +28,12 @@ const Signup = () => {
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
 		event.preventDefault()
+
+		setLoading(true)
+
+		setTimeout(() => {
+			setLoading(false)
+		}, 1000)
 	}
 
 	return (
@@ -109,6 +116,7 @@ const Signup = () => {
 						fullWidth
 						variant="primary"
 						type="submit"
+						loading={loading}
 					>
 						Sign up
 					</Button>
