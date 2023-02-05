@@ -4,6 +4,8 @@ import Image from "next/image"
 import PageContainer from "@client/components/PageContainer"
 import Button from "@client/components/Button"
 import Divider from "@client/components/Divider"
+import TextInput from "@client/components/TextInput"
+import InputLabel from "@client/components/InputLabel"
 
 import LogoSvg from "@client/assets/logo.svg"
 
@@ -49,54 +51,49 @@ const Signup = () => {
 					onSubmit={handleSubmit}
 				>
 					<div>
-						<label
-							className="block text-gray-900 text-sm font-medium mb-2"
-							htmlFor="name"
+						<InputLabel
+							inputName="name"
 						>
 							Name
-						</label>
-						<input
-							className="appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-							id="name"
-							type="text"
+						</InputLabel>
+						<TextInput
+							fullWidth
+							name="name"
 							value={data.name}
-							onChange={({ target }) => handleChange("name", target.value)}
+							onValueChange={value => handleChange("name", value)}
 						/>
 					</div>
 
 					<Divider orientation="horizontal" size="sm" />
 
 					<div>
-						<label
-							className="block text-gray-900 text-sm font-medium mb-2"
-							htmlFor="email"
+						<InputLabel
+							inputName="email"
 						>
 							Email
-						</label>
-						<input
-							className="appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-							id="email"
-							type="text"
+						</InputLabel>
+						<TextInput
+							fullWidth
+							name="email"
 							value={data.email}
-							onChange={({ target }) => handleChange("email", target.value)}
+							onValueChange={value => handleChange("email", value)}
 						/>
 					</div>
 
 					<Divider orientation="horizontal" size="sm" />
 
 					<div>
-						<label
-							className="block text-gray-900 text-sm font-medium mb-2"
-							htmlFor="password"
+						<InputLabel
+							inputName="password"
 						>
 							Password
-						</label>
-						<input
-							className="appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-							id="password"
-							type="password"
+						</InputLabel>
+						<TextInput
+							fullWidth
+							name="password"
 							value={data.password}
-							onChange={({ target }) => handleChange("password", target.value)}
+							onValueChange={value => handleChange("password", value)}
+							type="password"
 						/>
 					</div>
 

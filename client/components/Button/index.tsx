@@ -11,6 +11,7 @@ const Button: FC<ButtonProps> = (props) => {
 		variant,
 		children,
 		fullWidth,
+		className,
 		...rest
 	} = props
 
@@ -20,16 +21,16 @@ const Button: FC<ButtonProps> = (props) => {
 
 	return (
 		<button
-			{...rest}
 			className={mergeClassNames([
 				"rounded-lg",
 				"min-h-[40px]",
 				"font-bold",
 				"text-[#FFFFFF]",
 				backgroundColorClassName[variant],
-				fullWidth && "w-full"
+				fullWidth && "w-full",
+				className
 			])}
-			type="submit"
+			{...rest}
 		>
 			{children}
 		</button>
