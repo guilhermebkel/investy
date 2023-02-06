@@ -12,6 +12,10 @@ class NotionIntegrationController {
 	async searchDatabase ({ request, response, context }: ApiHandlerInput<SearchDatabaseQuery, {}, {}>): Promise<void> {
 		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
 
+		if (!notionIntegration) {
+			return response.notFound("NotionIntegrationNotFound")
+		}
+
 		const notion = new NotionLib(notionIntegration.token)
 
 		const name = request.query.name

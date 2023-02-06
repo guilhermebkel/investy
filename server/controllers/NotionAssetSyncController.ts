@@ -27,6 +27,10 @@ class NotionAssetSyncController {
 
 		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
 
+		if (!notionIntegration) {
+			return response.notFound("NotionIntegrationNotFound")
+		}
+
 		const notionAssetSync = await AssetSyncRepository.create({
 			user_id: context.auth.userId,
 			integration_id: notionIntegration.id,
@@ -54,6 +58,10 @@ class NotionAssetSyncController {
 		const { databaseId, assetCodePropertyId, assetPricePropertyId } = validation.data
 
 		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
+
+		if (!notionIntegration) {
+			return response.notFound("NotionIntegrationNotFound")
+		}
 
 		const notionAssetSync = await AssetSyncRepository.retrieveOne({
 			id: request.params.id,
@@ -84,6 +92,10 @@ class NotionAssetSyncController {
 
 	async retrieveAll ({ response, context }: ApiHandlerInput): Promise<void> {
 		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
+
+		if (!notionIntegration) {
+			return response.notFound("NotionIntegrationNotFound")
+		}
 
 		const notionAssetSyncs = await AssetSyncRepository.retrieveAll({
 			user_id: context.auth.userId,
