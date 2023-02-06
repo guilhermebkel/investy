@@ -2,12 +2,12 @@ import { ApiHandlerInput } from "@server/contracts/HttpContract"
 
 import AuthService from "@server/services/AuthService"
 
-import UserValidation from "@server/validations/UserValidation"
+import UserValidation, { SignupBody, LoginBody } from "@server/validations/UserValidation"
 
 import UserRepository from "@server/repositories/UserRepository"
 
 class UserController {
-	async signup ({ request, response }: ApiHandlerInput): Promise<void> {
+	async signup ({ request, response }: ApiHandlerInput<{}, SignupBody, {}>): Promise<void> {
 		const validation = await UserValidation.validateSignupData(request.body)
 
 		if (!validation.valid) {
@@ -29,8 +29,8 @@ class UserController {
 		return response.created({ authToken })
 	}
 
-	async login ({ request, response }: ApiHandlerInput): Promise<void> {
-		const validation = await UserValidation.validateSignupData(request.body)
+	async login ({ request, response }: ApiHandlerInput<{}, LoginBody, {}>): Promise<void> {
+		const validation = await UserValidation.validateLoginData(request.body)
 
 		if (!validation.valid) {
 			return response.badRequest(validation.fieldErrors)

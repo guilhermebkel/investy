@@ -9,13 +9,7 @@ import AssetSyncRepository from "@server/repositories/AssetSyncRepository"
 
 import { AssetSyncExtraData } from "@server/entities/AssetSyncEntity"
 
-type NotionBody = {
-	notion: {
-		databaseId: string
-		assetCodePropertyId: string
-		assetPricePropertyId: string
-	}
-}
+import NotionAssetSyncValidation, { NotionBody } from "@server/validations/NotionAssetSyncValidation"
 
 type UpdateParams = {
 	id: string
@@ -23,6 +17,14 @@ type UpdateParams = {
 
 class NotionAssetSyncController {
 	async create ({ request, response, context }: ApiHandlerInput<{}, NotionBody, {}>): Promise<void> {
+		const validation = await NotionAssetSyncValidation.validateNotionData(request.body)
+
+		if (!validation.valid) {
+			return response.badRequest(validation.fieldErrors)
+		}
+
+		const { databaseId, assetCodePropertyId, assetPricePropertyId } = validation.data
+
 		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
 
 		const notionAssetSync = await AssetSyncRepository.create({
@@ -30,9 +32,9 @@ class NotionAssetSyncController {
 			integration_id: notionIntegration.id,
 			extra_data: {
 				notion: {
-					database_id: request.body.notion.databaseId,
-					asset_code_property_id: request.body.notion.assetCodePropertyId,
-					asset_price_property_id: request.body.notion.assetPricePropertyId
+					database_id: databaseId,
+					asset_code_property_id: assetCodePropertyId,
+					asset_price_property_id: assetPricePropertyId
 				}
 			}
 		})
@@ -43,6 +45,14 @@ class NotionAssetSyncController {
 	}
 
 	async update ({ request, response, context }: ApiHandlerInput<{}, NotionBody, UpdateParams>): Promise<void> {
+		const validation = await NotionAssetSyncValidation.validateNotionData(request.body)
+
+		if (!validation.valid) {
+			return response.badRequest(validation.fieldErrors)
+		}
+
+		const { databaseId, assetCodePropertyId, assetPricePropertyId } = validation.data
+
 		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
 
 		const notionAssetSync = await AssetSyncRepository.retrieveOne({
@@ -55,14 +65,13 @@ class NotionAssetSyncController {
 			return response.notFound()
 		}
 
-		const updatedNotionData = request.body.notion
 		const currentNotionData = notionAssetSync.extra_data.notion
 
 		const updatedExtraData: AssetSyncExtraData = {
 			notion: {
-				database_id: updatedNotionData.databaseId ?? currentNotionData.database_id,
-				asset_code_property_id: updatedNotionData.assetCodePropertyId ?? currentNotionData.asset_code_property_id,
-				asset_price_property_id: updatedNotionData.assetPricePropertyId ?? currentNotionData.asset_price_property_id
+				database_id: databaseId ?? currentNotionData.database_id,
+				asset_code_property_id: assetCodePropertyId ?? currentNotionData.asset_code_property_id,
+				asset_price_property_id: assetPricePropertyId ?? currentNotionData.asset_price_property_id
 			}
 		}
 
@@ -73,7 +82,7 @@ class NotionAssetSyncController {
 		return response.noContent()
 	}
 
-	async retrieveAll ({ response, context }: ApiHandlerInput<{}, {}, {}>): Promise<void> {
+	async retrieveAll ({ response, context }: ApiHandlerInput): Promise<void> {
 		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
 
 		const notionAssetSyncs = await AssetSyncRepository.retrieveAll({

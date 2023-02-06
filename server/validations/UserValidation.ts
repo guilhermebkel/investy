@@ -4,19 +4,19 @@ import ValidationUtil from "@server/utils/ValidationUtil"
 
 import UserRepository from "@server/repositories/UserRepository"
 
-type SignupBody = {
+export type SignupBody = {
 	name: string
 	email: string
 	password: string
 }
 
-type LoginBody = {
+export type LoginBody = {
 	email: string
 	password: string
 }
 
 class UserValidation {
-	async validateSignupData (data: Record<string, unknown>): Promise<ValidationResult<SignupBody>> {
+	async validateSignupData (data: SignupBody): Promise<ValidationResult<SignupBody>> {
 		return await ValidationUtil.validate(data as SignupBody, {
 			email: [
 				ValidationUtil.defaultValidations.wasSupplied,
@@ -34,7 +34,7 @@ class UserValidation {
 		})
 	}
 
-	async validateLoginData (data: Record<string, unknown>): Promise<ValidationResult<LoginBody>> {
+	async validateLoginData (data: LoginBody): Promise<ValidationResult<LoginBody>> {
 		return await ValidationUtil.validate(data as LoginBody, {
 			email: [
 				ValidationUtil.defaultValidations.wasSupplied
