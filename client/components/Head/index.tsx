@@ -35,13 +35,14 @@ const Head = (props: HeadProps) => {
 	const { page, share, app } = props
 
 	const defaultShareTitle = page.title
+	const defaultIconHref = IconSvg.src
 
 	const PrimaryMetaTags = (
 		<>
 			<title>{page?.title}</title>
 			<meta name="title" content={page.title} />
 			<meta name="description" content={page?.description} />
-			<link rel="icon" href={IconSvg.src}></link>
+			<link rel="icon" href={defaultIconHref}></link>
 		</>
 	)
 
