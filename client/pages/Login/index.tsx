@@ -16,12 +16,11 @@ import useValidation from "@client/hooks/useValidation"
 import LogoSvg from "@client/assets/logo.svg"
 
 type Data = {
-	name: string
 	email: string
 	password: string
 }
 
-const Signup = () => {
+const Login = () => {
 	const [data, setData] = useState({} as Data)
 	const [loading, setLoading] = useState(false)
 	const validation = useValidation()
@@ -41,7 +40,7 @@ const Signup = () => {
 		setLoading(true)
 
 		try {
-			const response = await api.post<{ authToken: string }>("/users/signup", data)
+			const response = await api.post<{ authToken: string }>("/users/login", data)
 
 			setAuthToken(response.data.authToken)
 		} catch (error) {
@@ -59,11 +58,11 @@ const Signup = () => {
 				<Divider orientation="horizontal" size="md" />
 
 				<h1 className="text-3xl text-gray-900 font-bold text-center">
-					Create a new account
+					Sign in into your account
 				</h1>
 
 				<span className="text-gray-900 text-base text-center">
-					Or <Link href="/login">sign in with an existing account</Link>
+					Or <Link href="/signup">create a new account</Link>
 				</span>
 
 				<Divider orientation="horizontal" size="md" />
@@ -72,23 +71,6 @@ const Signup = () => {
 					className="bg-white max-w-md w-full rounded-lg shadow-sm p-5"
 					onSubmit={handleSubmit}
 				>
-					<div>
-						<InputLabel
-							inputName="name"
-						>
-							Name
-						</InputLabel>
-						<TextInput
-							fullWidth
-							name="name"
-							value={data.name}
-							onValueChange={value => handleChange("name", value)}
-							errorMessage={validation.messages.name}
-						/>
-					</div>
-
-					<Divider orientation="horizontal" size="sm" />
-
 					<div>
 						<InputLabel
 							inputName="email"
@@ -136,7 +118,7 @@ const Signup = () => {
 						type="submit"
 						loading={loading}
 					>
-						Sign up
+						Sign in
 					</Button>
 				</form>
 			</div>
@@ -144,4 +126,4 @@ const Signup = () => {
 	)
 }
 
-export default Signup
+export default Login
