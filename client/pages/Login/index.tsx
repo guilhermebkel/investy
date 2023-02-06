@@ -10,6 +10,7 @@ import Button from "@client/components/Button"
 import Divider from "@client/components/Divider"
 import TextInput from "@client/components/TextInput"
 import InputLabel from "@client/components/InputLabel"
+import Head from "@client/components/Head"
 
 import useValidation from "@client/hooks/useValidation"
 
@@ -52,6 +53,12 @@ const Login = () => {
 
 	return (
 		<PageContainer>
+			<Head
+				page={{
+					title: "Investy | Login"
+				}}
+			/>
+
 			<div className="container flex flex-col justify-center items-center h-full">
 				<Image src={LogoSvg} alt="" className="w-40" />
 
