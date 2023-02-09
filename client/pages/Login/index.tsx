@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { api } from "@client/services/api"
-import { setAuthToken } from "@client/services/auth"
+import { loginAndRedirect } from "@client/services/auth"
 
 import PageContainer from "@client/components/PageContainer"
 import Button from "@client/components/Button"
@@ -43,7 +43,7 @@ const Login = () => {
 		try {
 			const response = await api.post<{ authToken: string }>("/users/login", data)
 
-			setAuthToken(response.data.authToken)
+			loginAndRedirect(response.data.authToken)
 		} catch (error) {
 			validation.digestRequestError(error)
 		}

@@ -13,3 +13,9 @@ export const getAuthToken = () => {
 export const isAuthenticated = () => {
 	return Boolean(getAuthToken())
 }
+
+export const loginAndRedirect = (authToken: string) => {
+	setAuthToken(authToken)
+
+	window.location.replace("/")
+}

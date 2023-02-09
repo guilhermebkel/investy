@@ -1,7 +1,7 @@
-const LandingPage = () => (
+const AssetSyncs = () => (
 	<>
 		<h1>Hello 👋</h1>
 	</>
 )
 
-export default LandingPage
+export default AssetSyncs
