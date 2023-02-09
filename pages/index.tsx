@@ -1,3 +1,3 @@
-import LandingPage from "@client/pages/LandingPage"
+const Main = () => null
 
-export default LandingPage
+export default Main

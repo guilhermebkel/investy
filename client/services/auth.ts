@@ -9,3 +9,7 @@ export const getAuthToken = () => {
 
 	return authToken ?? null
 }
+
+export const isAuthenticated = () => {
+	return Boolean(getAuthToken())
+}
