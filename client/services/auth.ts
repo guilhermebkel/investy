@@ -4,7 +4,7 @@ export const setAuthToken = (authToken: string) => {
 	localStorage.setItem(AUTH_TOKEN_LOCAL_STORAGE_KEY, authToken)
 }
 
-export const getAuthToken = () => {
+export const getAuthToken = (): string | null => {
 	const authToken = localStorage.getItem(AUTH_TOKEN_LOCAL_STORAGE_KEY)
 
 	return authToken ?? null
