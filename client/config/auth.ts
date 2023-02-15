@@ -1,3 +1,3 @@
 export const authConfig = {
-	authTokenKey: "x-notion-integration-auth-token"
+	authTokenKey: "x-investy-auth-token"
 }
