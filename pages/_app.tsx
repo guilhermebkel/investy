@@ -1,15 +1,5 @@
 import "@client/styles/globals.css"
 
-import { AppProps } from "next/app"
-import { NextPage } from "next"
+import Public from "@client/public"
 
-import Routes from "@client/routes"
-
-const App: NextPage<AppProps> = ({ Component, pageProps }) => (
-	<>
-		<Routes />
-		<Component {...pageProps} />
-	</>
-)
-
-export default App
+export default Public

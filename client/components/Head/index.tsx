@@ -1,6 +1,6 @@
 import PageHead from "next/head"
 
-import IconSvg from "@client/assets/icon.svg"
+import AppIconSvg from "@client/assets/app_icon.svg"
 
 type HeadProps = {
 	page: {
@@ -35,7 +35,7 @@ const Head = (props: HeadProps) => {
 	const { page, share, app } = props
 
 	const defaultShareTitle = page.title
-	const defaultIconHref = IconSvg.src
+	const defaultIconHref = AppIconSvg.src
 
 	const PrimaryMetaTags = (
 		<>

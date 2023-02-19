@@ -14,7 +14,7 @@ import Head from "@client/components/Head"
 
 import useValidation from "@client/hooks/useValidation"
 
-import LogoSvg from "@client/assets/logo.svg"
+import AppLogoSvg from "@client/assets/app_logo.svg"
 
 type Data = {
 	email: string
@@ -60,7 +60,7 @@ const Login = () => {
 			/>
 
 			<div className="container flex flex-col justify-center items-center h-full">
-				<Image src={LogoSvg} alt="" className="w-40" />
+				<Image src={AppLogoSvg} alt="" className="w-40" />
 
 				<Divider orientation="horizontal" size="md" />
 
