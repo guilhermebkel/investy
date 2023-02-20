@@ -113,6 +113,9 @@ class NotionAssetSyncController {
 
 				return {
 					id: notionAssetSync.id,
+					lastSyncAt: notionAssetSync.last_sync_at,
+					lastSyncStatus: notionAssetSync.last_sync_status,
+					lastSyncError: notionAssetSync.last_sync_error,
 					database: database ? {
 						id: database.id,
 						name: database.title,

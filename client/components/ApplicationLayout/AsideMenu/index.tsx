@@ -20,7 +20,7 @@ const AsideMenu: FC = (props) => {
 
 			<aside
 				id="aside-menu"
-				className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+				className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 border-r border-gray-50"
 			>
 				<div
 					className="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800"

@@ -7,6 +7,10 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 	loading?: boolean
 }
 
+const backgroundColorClassName: Record<ButtonProps["variant"], string> = {
+	primary: "bg-green-900 hover:bg-[#12bc6a]"
+}
+
 const Button: FC<ButtonProps> = (props) => {
 	const {
 		variant,
@@ -17,10 +21,6 @@ const Button: FC<ButtonProps> = (props) => {
 		disabled,
 		...rest
 	} = props
-
-	const backgroundColorClassName: Record<ButtonProps["variant"], string> = {
-		primary: "bg-green-900 hover:bg-[#12bc6a]"
-	}
 
 	const needToDisable = disabled || loading
 

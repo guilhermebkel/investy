@@ -1,6 +1,7 @@
-import { FC, Children, cloneElement, ReactElement } from "react"
+import { FC, Children, ReactElement } from "react"
 
 import { isLastItem } from "@client/utils/array"
+import { cloneElementSafely } from "@client/utils/node"
 
 const TableBody: FC = (props) => {
 	const { children } = props
@@ -10,8 +11,8 @@ const TableBody: FC = (props) => {
 	return (
 		<tbody>
 			{Children.map(children, (child, index) => (
-				cloneElement(child as ReactElement, {
-					className: isLastItem(index, childrenCount) ? "" : "border-b"
+				cloneElementSafely(child as ReactElement, {
+					className: isLastItem(index, childrenCount) ? "" : "border-b border-gray-50"
 				})
 			))}
 		</tbody>

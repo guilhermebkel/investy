@@ -16,16 +16,32 @@ class QuirrelQueueAdapter implements QueueContract<Queue<{}>> {
 		const queue = Queue<QueuePayload[QueueName]>(route, async (payload) => {
 			LogService.info(`[Queue][${handler.name}] Running...`)
 
-			await handler.handle(payload)
-
-			LogService.info(`[Queue][${handler.name}] Success!`)
-
-			setImmediate(() => {
-				handler?.onCompleted?.(payload)?.catch(LogService.error)
-			})
+			try {
+				await handler.handle(payload)
+				await this.onCompleted(handler, payload)
+			} catch (error) {
+				await this.onError(handler, payload, error)
+			}
 		})
 
 		return queue
+	}
+
+	private async onError (handler: QueueHandler, payload: QueuePayload[QueueName], error: Error): Promise<void> {
+		LogService.info(`[Queue][${handler.name}] ERROR!`)
+		LogService.error(error)
+
+		await handler?.onError(payload, error)?.catch(LogService.error)
+		
+		Promise.reject(error)
+	}
+
+	private async onCompleted (handler: QueueHandler, payload: QueuePayload[QueueName]): Promise<void> {
+		LogService.info(`[Queue][${handler.name}] Success!`)
+
+		setImmediate(() => {
+			handler?.onCompleted?.(payload)?.catch(LogService.error)
+		})
 	}
 }
 

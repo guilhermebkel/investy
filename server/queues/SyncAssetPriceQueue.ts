@@ -9,6 +9,7 @@ import NotionLib from "@server/lib/NotionLib"
 import StatusInvestLib from "@server/lib/StatusInvestLib"
 
 import NumberUtil from "@server/utils/NumberUtil"
+import ErrorSerializationUtil from "@server/utils/ErrorSerializationUtil"
 
 class SyncAssetPriceQueue implements QueueHandler {
 	name: QueueName = "SyncAssetPrice"
@@ -45,15 +46,27 @@ class SyncAssetPriceQueue implements QueueHandler {
 				await notion.updateDatabaseRow(notionData.asset_price_property_id, row.id, formattedAssetPrice)
 			})
 		)
+	}
+
+	async onCompleted (payload: QueuePayload["SyncAssetPrice"]): Promise<void> {
+		const { assetSyncId } = payload
 
 		await AssetSyncRepository.updateOneById(assetSyncId, {
 			last_sync_at: new Date(),
 			last_sync_status: "success"
 		})
+
+		await AssetSyncSchedulerService.scheduleSync(assetSyncId)
 	}
 
-	async onCompleted (payload: QueuePayload["SyncAssetPrice"]): Promise<void> {
+	async onError (payload: QueuePayload["SyncAssetPrice"], error: Error): Promise<void> {
 		const { assetSyncId } = payload
+
+		await AssetSyncRepository.updateOneById(assetSyncId, {
+			last_sync_at: new Date(),
+			last_sync_status: "error",
+			last_sync_error: ErrorSerializationUtil.serialize(error)
+		})
 
 		await AssetSyncSchedulerService.scheduleSync(assetSyncId)
 	}

@@ -9,7 +9,7 @@ const TableColumn: FC<ThHTMLAttributes<HTMLTableCellElement>> = (props) => {
 		<th
 			{...rest}
 			className={mergeClassNames([
-				"px-6 py-3",
+				"px-6 py-3 font-normal",
 				className
 			])}
 		>

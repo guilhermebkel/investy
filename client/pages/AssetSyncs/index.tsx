@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { ReactElement, useState } from "react"
 
 import ApplicationLayout from "@client/components/ApplicationLayout"
 
 import Head from "@client/components/Head"
 import Table from "@client/components/Table"
+import Chip from "@client/components/Chip"
 
 import { api } from "@client/services/api"
 
@@ -13,6 +14,9 @@ import useDidMount from "@client/hooks/useDidMount"
 
 type NotionAssetSync = {
 	id: string
+	lastSyncAt: string
+	lastSyncStatus: "success" | "error"
+	lastSyncError?: Record<string, unknown>
 	database?: {
 		id: string
 		name: string
@@ -40,6 +44,38 @@ const AssetSyncs = () => {
 		setNotionAssetSyncs(response.data)
 	}
 
+	const renderLastSyncStatus = (notionAssetSync: NotionAssetSync) => {
+		const statusChipMap: Record<NotionAssetSync["lastSyncStatus"] | "default", ReactElement> = {
+			success: (
+				<Chip
+					variant="success"
+				>
+					Success
+				</Chip>
+			),
+			error: (
+				<Chip
+					variant="error"
+				>
+					Error
+				</Chip>
+			),
+			default: (
+				<Chip
+					className="bg-[#F3F4F6] text-[#1F2937]"
+				>
+					Unknown
+				</Chip>
+			)
+		}
+
+		return (
+			<>
+				{statusChipMap[notionAssetSync.lastSyncStatus] || statusChipMap.default}
+			</>
+		)
+	}
+
 	useDidMount(() => {
 		loadData()
 	})
@@ -54,16 +90,23 @@ const AssetSyncs = () => {
 
 			<Table.Container>
 				<Table.Head>
-					<Table.Column scope="col" >
+					<Table.Column>
 						ID
 					</Table.Column>
-					<Table.Column scope="col" >
+
+					<Table.Column>
+						Last Sync
+					</Table.Column>
+
+					<Table.Column>
 						Database
 					</Table.Column>
-					<Table.Column scope="col" >
+
+					<Table.Column>
 						Asset Code
 					</Table.Column>
-					<Table.Column scope="col" >
+
+					<Table.Column>
 						Asset Price
 					</Table.Column>
 				</Table.Head>
@@ -75,6 +118,10 @@ const AssetSyncs = () => {
 						>
 							<Table.Column>
 								{notionAssetSync.id}
+							</Table.Column>
+
+							<Table.Column>
+								{renderLastSyncStatus(notionAssetSync)}
 							</Table.Column>
 
 							<Table.Column>

@@ -50,7 +50,7 @@ const Breadcrumb = () => {
 
 	return (
 		<nav
-			className="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50"
+			className="flex px-5 py-3 text-gray-700 border border-gray-50 rounded-lg bg-white"
 		>
 			<ol
 				className="inline-flex items-center space-x-1 md:space-x-3"

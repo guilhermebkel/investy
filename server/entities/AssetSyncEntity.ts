@@ -3,6 +3,8 @@ import IntegrationEntity from "@server/entities/IntegrationEntity"
 
 import { DefaultEntity } from "@server/contracts/RepositoryContract"
 
+import { SerializedError } from "@server/protocols/ErrorSerializationProtocol"
+
 export type AssetSyncExtraData = {
 	notion?: {
 		database_id: string
@@ -17,7 +19,7 @@ interface AssetSyncEntity extends DefaultEntity {
 	extra_data: AssetSyncExtraData
 	last_sync_at?: Date
 	last_sync_status?: "success" | "error"
-	last_sync_error?: Record<string, unknown>
+	last_sync_error?: SerializedError
 	user?: UserEntity
 	integration?: IntegrationEntity
 }
