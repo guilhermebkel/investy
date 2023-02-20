@@ -11,3 +11,5 @@ export const conditionalClassNames = (active: boolean, classNames: string[]) => 
 }
 
 export const defaultTransitionClassName = "transition duration-150 ease-in-out"
+
+export const defaultShadowClassName = "shadow-sm"
