@@ -9,3 +9,5 @@ export const conditionalClassNames = (active: boolean, classNames: string[]) => 
 		return ""
 	}
 }
+
+export const defaultTransitionClassName = "transition duration-150 ease-in-out"

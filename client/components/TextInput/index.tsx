@@ -25,7 +25,7 @@ const TextInput = (props: TextInputProps) => {
 		<>
 			<input
 				className={mergeClassNames([
-					"appearance-none border rounded py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline",
+					"appearance-none border rounded py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:border-green-900",
 					conditionalClassNames(fullWidth, ["w-full"]),
 					conditionalClassNames(Boolean(errorMessage), ["border-red-500"]),
 					className

@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, FC } from "react"
-import { mergeClassNames, conditionalClassNames } from "@client/utils/style"
+import { mergeClassNames, conditionalClassNames, defaultTransitionClassName } from "@client/utils/style"
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 	variant: "primary"
@@ -27,7 +27,8 @@ const Button: FC<ButtonProps> = (props) => {
 	return (
 		<button
 			className={mergeClassNames([
-				"inline-flex items-center justify-center transition duration-150 ease-in-out rounded-lg min-h-[40px] font-bold text-white",
+				"inline-flex items-center justify-center rounded-lg min-h-[40px] font-bold text-white",
+				defaultTransitionClassName,
 				conditionalClassNames(!needToDisable, [backgroundColorClassName[variant]]),
 				conditionalClassNames(fullWidth, ["w-full"]),
 				conditionalClassNames(needToDisable, ["cursor-not-allowed", "bg-gray-400"]),
