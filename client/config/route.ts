@@ -3,7 +3,7 @@ export type RouteInfo = {
 	title: string
 }
 
-type PageName = "root" | "login" | "signup" | "assetSyncs"
+type PageName = "root" | "login" | "signup" | "assetSyncs" | "integrations"
 
 export const routeConfig: Record<PageName, RouteInfo> = {
 	root: {
@@ -21,5 +21,9 @@ export const routeConfig: Record<PageName, RouteInfo> = {
 	assetSyncs: {
 		path: "/asset-syncs",
 		title: "Asset Syncs"
+	},
+	integrations: {
+		path: "/integrations",
+		title: "Integrations"
 	}
 }

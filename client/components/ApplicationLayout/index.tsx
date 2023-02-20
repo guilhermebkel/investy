@@ -3,6 +3,8 @@ import { FC } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
+import { routeConfig } from "@client/config/route"
+
 import AsideMenu from "@client/components/ApplicationLayout/AsideMenu"
 import MenuItem from "@client/components/ApplicationLayout/MenuItem"
 import Breadcrumb from "@client/components/ApplicationLayout/Breadcrumb"
@@ -23,7 +25,7 @@ const ApplicationLayout: FC = (props) => {
 				<Divider orientation="horizontal" size="sm" />
 
 				<Link
-					href="/"
+					href={routeConfig.root.path}
 					className="flex items-start justify-items-start"
 				>
 					<Image
@@ -36,20 +38,20 @@ const ApplicationLayout: FC = (props) => {
 				<Divider orientation="horizontal" size="md" />
 
 				<MenuItem
-					href="/asset-syncs"
+					href={routeConfig.assetSyncs.path}
 					icon={<Image src={AssetSyncIconSvg} alt="" />}
 				>
-					AssetSyncs
+					{routeConfig.assetSyncs.title}
 				</MenuItem>
 
 				<Divider orientation="horizontal" size="xs" />
 
 				<MenuItem
 					disabled
-					href="/integrations"
+					href={routeConfig.integrations.path}
 					icon={<Image src={IntegrationIconSvg} alt="" />}
 				>
-					Integrations
+					{routeConfig.integrations.title}
 				</MenuItem>
 			</AsideMenu>
 
