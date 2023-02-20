@@ -8,10 +8,10 @@ import MenuItem from "@client/components/ApplicationLayout/MenuItem"
 
 import Divider from "@client/components/Divider"
 
-import AppLogoSvg from "@client/assets/app_logo.svg"
+import AppLogoSvg from "@client/assets/app/app_logo.svg"
 
-import AssetSyncIconSvg from "@client/assets/asset_sync_icon.svg"
-import IntegrationIconSvg from "@client/assets/integration_icon.svg"
+import AssetSyncIconSvg from "@client/assets/icons/asset_sync_icon.svg"
+import IntegrationIconSvg from "@client/assets/icons/integration_icon.svg"
 
 const ApplicationLayout: FC = (props) => {
 	const { children } = props
@@ -25,7 +25,11 @@ const ApplicationLayout: FC = (props) => {
 					href="/"
 					className="flex items-start justify-items-start"
 				>
-					<Image src={AppLogoSvg} className="h-6 sm:h-7" alt="" />
+					<Image
+						src={AppLogoSvg}
+						className="h-8 -ml-12"
+						alt=""
+					/>
 				</Link>
 
 				<Divider orientation="horizontal" size="md" />
@@ -40,6 +44,7 @@ const ApplicationLayout: FC = (props) => {
 				<Divider orientation="horizontal" size="xs" />
 
 				<MenuItem
+					disabled
 					href="/integrations"
 					icon={<Image src={IntegrationIconSvg} alt="" />}
 				>

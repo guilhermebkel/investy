@@ -1,6 +1,6 @@
 import PageHead from "next/head"
 
-import AppIconSvg from "@client/assets/app_icon.svg"
+import AppIconSvg from "@client/assets/app/app_icon.svg"
 
 type HeadProps = {
 	page: {

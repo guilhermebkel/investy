@@ -14,7 +14,7 @@ import Head from "@client/components/Head"
 
 import useValidation from "@client/hooks/useValidation"
 
-import AppLogoSvg from "@client/assets/app_logo.svg"
+import AppLogoSvg from "@client/assets/app/app_logo.svg"
 
 type Data = {
 	email: string

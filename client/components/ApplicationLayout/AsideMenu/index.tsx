@@ -1,7 +1,7 @@
 import { FC } from "react"
 import Image from "next/image"
 
-import MenuIconSvg from "@client/assets/menu_icon.svg"
+import MenuIconSvg from "@client/assets/icons/menu_icon.svg"
 
 const AsideMenu: FC = (props) => {
 	const { children } = props
