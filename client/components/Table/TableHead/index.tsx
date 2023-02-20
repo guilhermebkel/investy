@@ -7,13 +7,13 @@ const TableHead: FC = (props) => {
 
 	return (
 		<thead
-			className="text-xs text-gray-700 uppercase bg-gray-50"
+			className="text-xs uppercase bg-gray-50"
 		>
 			<tr>
 				{Children.map(children, (child) => (
 					cloneElementSafely(child as ReactElement, {
 						scope: "col",
-						className: "font-bold"
+						className: "font-black"
 					})
 				))}
 			</tr>
