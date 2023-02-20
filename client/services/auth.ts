@@ -1,3 +1,5 @@
+import { routeConfig } from "@client/config/route"
+
 const AUTH_TOKEN_LOCAL_STORAGE_KEY = "auth-token"
 
 export const setAuthToken = (authToken: string) => {
@@ -17,5 +19,5 @@ export const isAuthenticated = () => {
 export const loginAndRedirect = (authToken: string) => {
 	setAuthToken(authToken)
 
-	window.location.replace("/")
+	window.location.replace(routeConfig.root.path)
 }

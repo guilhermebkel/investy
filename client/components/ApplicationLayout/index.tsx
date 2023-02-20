@@ -5,6 +5,7 @@ import Link from "next/link"
 
 import AsideMenu from "@client/components/ApplicationLayout/AsideMenu"
 import MenuItem from "@client/components/ApplicationLayout/MenuItem"
+import Breadcrumb from "@client/components/ApplicationLayout/Breadcrumb"
 
 import Divider from "@client/components/Divider"
 
@@ -52,8 +53,12 @@ const ApplicationLayout: FC = (props) => {
 				</MenuItem>
 			</AsideMenu>
 
-			<div className="p-4 sm:ml-64">
-				<div className="p-4 rounded-lg">
+			<div className="p-2 sm:ml-64">
+				<div className="p-2 rounded-lg">
+					<Breadcrumb />
+
+					<Divider orientation="horizontal" size="sm" />
+
 					{children}
 				</div>
 			</div>

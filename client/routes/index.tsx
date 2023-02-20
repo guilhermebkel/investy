@@ -4,17 +4,22 @@ import useDidMount from "@client/hooks/useDidMount"
 
 import { isAuthenticated } from "@client/services/auth"
 
+import { routeConfig } from "@client/config/route"
+
 const Routes = () => {
 	const router = useRouter()
 
 	const handleRouteChange = () => {
 		const hasInvalidAuthentication = !isAuthenticated()
-		const isRootPage = router.pathname === "/"
+		const isRootPage = router.pathname === routeConfig.root.path
+
+		console.log(hasInvalidAuthentication, isRootPage)
 
 		if (hasInvalidAuthentication) {
-			router.push("/login")
+			router.push(routeConfig.login.path)
 		} else if (isRootPage) {
-			router.push("/asset-syncs")
+			console.log("ENTROU AQUI")
+			router.push(routeConfig.assetSyncs.path)
 		}
 	}
 

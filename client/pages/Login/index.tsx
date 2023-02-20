@@ -2,6 +2,8 @@ import { FormEventHandler, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
+import { routeConfig } from "@client/config/route"
+
 import { api } from "@client/services/api"
 import { loginAndRedirect } from "@client/services/auth"
 
@@ -55,7 +57,7 @@ const Login = () => {
 		<PageContainer>
 			<Head
 				page={{
-					title: "Investy | Login"
+					title: `Investy | ${routeConfig.login.title}`
 				}}
 			/>
 
@@ -69,7 +71,7 @@ const Login = () => {
 				</h1>
 
 				<span className="text-gray-900 text-base text-center">
-					Or <Link href="/signup">create a new account</Link>
+					Or <Link href={routeConfig.signup.path}>create a new account</Link>
 				</span>
 
 				<Divider orientation="horizontal" size="md" />
