@@ -48,11 +48,19 @@ class SyncAssetPriceQueue implements QueueHandler {
 		)
 	}
 
-	async onCompleted (payload: QueuePayload["SyncAssetPrice"]): Promise<void> {
+	async onActive (payload: QueuePayload["SyncAssetPrice"]): Promise<void> {
 		const { assetSyncId } = payload
 
 		await AssetSyncRepository.updateOneById(assetSyncId, {
 			last_sync_at: new Date(),
+			last_sync_status: "processing"
+		})
+	}
+
+	async onCompleted (payload: QueuePayload["SyncAssetPrice"]): Promise<void> {
+		const { assetSyncId } = payload
+
+		await AssetSyncRepository.updateOneById(assetSyncId, {
 			last_sync_status: "success"
 		})
 
@@ -63,7 +71,6 @@ class SyncAssetPriceQueue implements QueueHandler {
 		const { assetSyncId } = payload
 
 		await AssetSyncRepository.updateOneById(assetSyncId, {
-			last_sync_at: new Date(),
 			last_sync_status: "error",
 			last_sync_error: ErrorSerializationUtil.serialize(error)
 		})

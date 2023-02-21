@@ -10,6 +10,7 @@ export interface QueueHandler {
 	name: QueueName
 	handle: (data: QueuePayload[QueueName]) => Promise<void>
 	onCompleted?: (data: QueuePayload[QueueName]) => Promise<void>
+	onActive?: (data: QueuePayload[QueueName]) => Promise<void>
 	onError?: (data: QueuePayload[QueueName], error: Error) => Promise<void>
 }
 

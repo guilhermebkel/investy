@@ -14,7 +14,7 @@ class QueueModule {
 	async start (): Promise<void> {
 		const queuesCount = Object.keys(this.queues).length
 
-		LogService.info(`[Core] All queues are configured... (${queuesCount} queues)`)
+		LogService.info(`[Core] All queues are configured... (http://localhost:9181 - ${queuesCount} queues)`)
 	}
 
 	async enqueue<Name extends QueueName>(input: EnqueueInput<Name>): Promise<void> {

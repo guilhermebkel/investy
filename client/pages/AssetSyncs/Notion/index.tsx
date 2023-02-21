@@ -22,7 +22,7 @@ import { formatHumanDate } from "@client/utils/date"
 type NotionAssetSync = {
 	id: string
 	lastSyncAt: string
-	lastSyncStatus: "success" | "error"
+	lastSyncStatus: "success" | "error" | "processing"
 	lastSyncError?: Record<string, unknown>
 	notion?: {
 		database?: {
@@ -64,6 +64,13 @@ const NotionAssetSyncs = () => {
 					variant="success"
 				>
 					Success
+				</Chip>
+			),
+			processing: (
+				<Chip
+					variant="warning"
+				>
+					Processing
 				</Chip>
 			),
 			error: (
