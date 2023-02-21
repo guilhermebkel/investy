@@ -30,7 +30,7 @@ const ApplicationLayout: FC = (props) => {
 				>
 					<Image
 						src={AppLogoSvg}
-						className="h-8 -ml-12"
+						className="h-8 -ml-11"
 						alt=""
 					/>
 				</Link>
