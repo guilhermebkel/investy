@@ -36,9 +36,9 @@ class QuirrelQueueAdapter implements QueueContract<Queue<{}>> {
 		LogService.info(`[Queue][${handler.name}] ERROR!`)
 		LogService.error(error)
 
-		await handler?.onError(payload, error)?.catch(LogService.error)
-		
-		Promise.reject(error)
+		setImmediate(() => {
+			handler?.onError(payload, error)?.catch(LogService.error)
+		})	
 	}
 
 	private async onCompleted (handler: QueueHandler, payload: QueuePayload[QueueName]): Promise<void> {
