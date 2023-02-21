@@ -1,12 +1,13 @@
 import { useMemo } from "react"
-import Link from "next/link"
 
-import { routeConfig, RouteInfo } from "@client/config/route"
+import Link from "@client/components/Link"
+
+import { RouteInfo } from "@client/config/route"
 
 import { mergeClassNames, defaultTransitionClassName } from "@client/utils/style"
+import { getRoutesByCurrentPathname } from "@client/utils/route"
 
 import useWindowObject from "@client/hooks/useWindowObject"
-import { getRoutesByCurrentPathname } from "@client/utils/route"
 
 type EnrichedRouteInfo = RouteInfo & {
 	isHomePage: boolean

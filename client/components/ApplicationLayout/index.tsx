@@ -1,6 +1,5 @@
 import { FC } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import {
 	RefreshCw as AssetSyncIcon,
 	Puzzle as IntegrationIcon
@@ -13,6 +12,7 @@ import MenuItem from "@client/components/ApplicationLayout/MenuItem"
 import Breadcrumb from "@client/components/ApplicationLayout/Breadcrumb"
 
 import Divider from "@client/components/Divider"
+import Link from "@client/components/Link"
 
 import AppLogoSvg from "@client/assets/app/app_logo.svg"
 

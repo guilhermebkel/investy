@@ -9,6 +9,7 @@ import Chip from "@client/components/Chip"
 import IconButton from "@client/components/IconButton"
 import Dropdown from "@client/components/Dropdown"
 import Loading from "@client/components/Loading"
+import Link from "@client/components/Link"
 
 import { api } from "@client/services/api"
 
@@ -136,13 +137,13 @@ const NotionAssetSyncs = () => {
 								key={notionAssetSync.id}
 							>
 								<Table.Column>
-									<a
+									<Link
 										href={notionAssetSync.notion?.database?.url}
 										target="_blank"
 										rel="noreferrer"
 									>
 										{notionAssetSync.notion?.database?.name}
-									</a>
+									</Link>
 								</Table.Column>
 								
 								<Table.Column>

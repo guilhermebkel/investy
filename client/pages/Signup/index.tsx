@@ -1,6 +1,5 @@
 import { FormEventHandler, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 
 import { routeConfig } from "@client/config/route"
 
@@ -13,6 +12,7 @@ import Divider from "@client/components/Divider"
 import TextInput from "@client/components/TextInput"
 import InputLabel from "@client/components/InputLabel"
 import Head from "@client/components/Head"
+import Link from "@client/components/Link"
 
 import useValidation from "@client/hooks/useValidation"
 
@@ -131,13 +131,7 @@ const Signup = () => {
 						/>
 					</div>
 
-					<Divider orientation="horizontal" size="sm" />
-
-					<div className="flex justify-end">
-						<a className="text-xs">Forgot your password?</a>
-					</div>
-
-					<Divider orientation="horizontal" size="sm" />
+					<Divider orientation="horizontal" size="md" />
 
 					<Button
 						fullWidth

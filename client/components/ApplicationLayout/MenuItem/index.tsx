@@ -1,7 +1,8 @@
 import { FC } from "react"
-import Link from "next/link"
 
 import useWindowObject from "@client/hooks/useWindowObject"
+
+import Link from "@client/components/Link"
 
 import { conditionalClassNames, mergeClassNames, defaultTransitionClassName } from "@client/utils/style"
 import { getRoutesByCurrentPathname } from "@client/utils/route"
