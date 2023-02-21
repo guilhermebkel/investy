@@ -103,7 +103,7 @@ const NotionAssetSyncs = () => {
 		<ApplicationLayout>
 			<Head
 				page={{
-					title: `Investy | Asset Syncs: ${routeConfig.notionAssetSyncs.title}`,
+					title: `Investy | ${routeConfig.notionAssetSyncs.title}`,
 				}}
 			/>
 
