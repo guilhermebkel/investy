@@ -1,3 +1,3 @@
-import NotionAssetSyncs from "@client/pages/AssetSyncs/Notion"
+import Routes from "@client/routes"
 
-export default NotionAssetSyncs
+export default Routes.notionAssetSyncs

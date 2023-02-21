@@ -1,46 +1,22 @@
-import { useRouter } from "next/router"
+import { FC } from "react"
 
-import useDidMount from "@client/hooks/useDidMount"
+import { PageName, routeConfig } from "@client/config/route"
 
-import { isAuthenticated } from "@client/services/auth"
+import LoginPage from "@client/pages/Login"
+import SignupPage from "@client/pages/Signup"
+import NotionAssetSyncsPage from "@client/pages/AssetSyncs/Notion"
 
-import { routeConfig } from "@client/config/route"
+import Redirect from "@client/components/Redirect"
 
-const Routes = () => {
-	const router = useRouter()
+const wrapRouteElement = (routeElement: JSX.Element) => () => routeElement
 
-	const handleRouteChange = () => {
-		const hasInvalidAuthentication = !isAuthenticated()
-		const isRootPage = router.pathname === routeConfig.root.path
-		const isAssetSyncsPage = router.pathname === routeConfig.assetSyncs.path
-
-		if (hasInvalidAuthentication) {
-			router.push(routeConfig.login.path)
-		} else if (isRootPage) {
-			router.push(routeConfig.assetSyncs.path)
-		} else if (isAssetSyncsPage) {
-			router.push(routeConfig.notionAssetSyncs.path)
-		}
-	}
-
-	const addHistoryChangeListener = () => {
-		window.history.pushState = new Proxy(window.history.pushState, {
-			apply: (target, thisArg, argArray) => {
-				handleRouteChange()
-
-				return target.apply(thisArg, argArray)
-			}
-		})
-
-		window.addEventListener("popstate", () => handleRouteChange())
-	}
-
-	useDidMount(() => {
-		handleRouteChange()
-		addHistoryChangeListener()
-	})
-
-	return null
+const Routes: Record<PageName, FC> = {
+	root: wrapRouteElement(<Redirect to={routeConfig.notionAssetSyncs.path} />),
+	assetSyncs: wrapRouteElement(<Redirect to={routeConfig.notionAssetSyncs.path} />),
+	integrations: wrapRouteElement(<Redirect to={routeConfig.notionAssetSyncs.path} />),
+	login: wrapRouteElement(<LoginPage />),
+	signup: wrapRouteElement(<SignupPage />),
+	notionAssetSyncs: wrapRouteElement(<NotionAssetSyncsPage />)
 }
 
 export default Routes

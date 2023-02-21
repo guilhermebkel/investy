@@ -11,7 +11,7 @@ export const getRouteInfo = (where: Pick<RouteInfo, "path">): RouteInfo | null =
 export const getRoutesByCurrentPathname = (currentPathname: string): RouteInfo[] => {
 	const pathParams: string[] = currentPathname?.split("/") || []
 
-	const parsedParams = pathParams.map((_, index) => {
+	const routes = pathParams.map((_, index) => {
 		const calculatedPath = pathParams.slice(0, index + 1).join("/") || "/"
 
 		const routeInfo: RouteInfo = {
@@ -23,5 +23,5 @@ export const getRoutesByCurrentPathname = (currentPathname: string): RouteInfo[]
 		return routeInfo
 	})
 
-	return parsedParams
+	return routes
 }

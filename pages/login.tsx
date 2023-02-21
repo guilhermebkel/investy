@@ -1,3 +1,3 @@
-import LoginPage from "@client/pages/Login"
+import Routes from "@client/routes"
 
-export default LoginPage
+export default Routes.login

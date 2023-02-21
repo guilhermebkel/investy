@@ -7,6 +7,7 @@ import Table from "@client/components/Table"
 import Chip from "@client/components/Chip"
 import IconButton from "@client/components/IconButton"
 import SvgIcon from "@client/components/SvgIcon"
+import Dropdown from "@client/components/Dropdown"
 
 import OptionsIconSvg from "@client/assets/icons/options_icon.svg"
 
@@ -99,7 +100,7 @@ const NotionAssetSyncs = () => {
 		<ApplicationLayout>
 			<Head
 				page={{
-					title: `Investy | Asset Syncs: ${routeConfig.assetSyncs.title}`,
+					title: `Investy | Asset Syncs: ${routeConfig.notionAssetSyncs.title}`,
 				}}
 			/>
 
@@ -154,9 +155,11 @@ const NotionAssetSyncs = () => {
 							<Table.Column
 								className="text-right"
 							>
-								<IconButton>
-									<SvgIcon icon={OptionsIconSvg} />
-								</IconButton>
+								<Dropdown>
+									<IconButton>
+										<SvgIcon icon={OptionsIconSvg} />
+									</IconButton>
+								</Dropdown>
 							</Table.Column>
 						</Table.Row>
 					))}

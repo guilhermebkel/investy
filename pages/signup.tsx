@@ -1,3 +1,3 @@
-import SignupPage from "@client/pages/Signup"
+import Routes from "@client/routes"
 
-export default SignupPage
+export default Routes.signup

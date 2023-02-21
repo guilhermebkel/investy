@@ -1,3 +1,3 @@
-const AssetSyncs = () => null
+import Routes from "@client/routes"
 
-export default AssetSyncs
+export default Routes.assetSyncs

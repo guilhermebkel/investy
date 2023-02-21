@@ -1,3 +1,3 @@
-const Main = () => null
+import Routes from "@client/routes"
 
-export default Main
+export default Routes.root

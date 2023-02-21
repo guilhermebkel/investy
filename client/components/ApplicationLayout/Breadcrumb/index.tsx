@@ -77,7 +77,7 @@ const Breadcrumb = () => {
 										</span>
 									) : (
 										<Link
-											href="#"
+											href={routeInfo.path}
 											className={mergeClassNames([
 												"inline-flex items-center text-sm font-medium text-gray-700 hover:text-green-900",
 												defaultTransitionClassName

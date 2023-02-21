@@ -3,7 +3,7 @@ export type RouteInfo = {
 	title: string
 }
 
-type PageName = "root" | "login" | "signup" | "assetSyncs" | "notionAssetSyncs" | "integrations"
+export type PageName = "root" | "login" | "signup" | "assetSyncs" | "notionAssetSyncs" | "integrations"
 
 export const routeConfig: Record<PageName, RouteInfo> = {
 	root: {
