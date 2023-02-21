@@ -1,5 +1,5 @@
 import "@client/styles/globals.css"
 
-import Public from "@client/public"
+import App from "@client/app"
 
-export default Public
+export default App

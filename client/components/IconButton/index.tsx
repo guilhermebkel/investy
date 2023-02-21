@@ -16,7 +16,7 @@ const IconButton: FC<IconButtonProps> = (props) => {
 	return (
 		<button
 			className={mergeClassNames([
-				"hover:bg-gray-50 hover:text-white focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center",
+				"hover:bg-gray-50 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center",
 				defaultTransitionClassName,
 				conditionalClassNames(needToDisable, ["cursor-not-allowed", "bg-gray-50"]),
 				className

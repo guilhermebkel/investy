@@ -1,7 +1,10 @@
 import { FC } from "react"
-
 import Image from "next/image"
 import Link from "next/link"
+import {
+	RefreshCw as AssetSyncIcon,
+	Puzzle as IntegrationIcon
+} from "lucide-react"
 
 import { routeConfig } from "@client/config/route"
 
@@ -10,12 +13,8 @@ import MenuItem from "@client/components/ApplicationLayout/MenuItem"
 import Breadcrumb from "@client/components/ApplicationLayout/Breadcrumb"
 
 import Divider from "@client/components/Divider"
-import SvgIcon from "@client/components/SvgIcon"
 
 import AppLogoSvg from "@client/assets/app/app_logo.svg"
-
-import AssetSyncIconSvg from "@client/assets/icons/asset_sync_icon.svg"
-import IntegrationIconSvg from "@client/assets/icons/integration_icon.svg"
 
 const ApplicationLayout: FC = (props) => {
 	const { children } = props
@@ -40,7 +39,7 @@ const ApplicationLayout: FC = (props) => {
 
 				<MenuItem
 					href={routeConfig.assetSyncs.path}
-					icon={<SvgIcon icon={AssetSyncIconSvg} />}
+					icon={<AssetSyncIcon />}
 				>
 					{routeConfig.assetSyncs.title}
 				</MenuItem>
@@ -50,7 +49,7 @@ const ApplicationLayout: FC = (props) => {
 				<MenuItem
 					disabled
 					href={routeConfig.integrations.path}
-					icon={<SvgIcon icon={IntegrationIconSvg} />}
+					icon={<IntegrationIcon />}
 				>
 					{routeConfig.integrations.title}
 				</MenuItem>

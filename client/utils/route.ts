@@ -1,5 +1,9 @@
 import { routeConfig, RouteInfo } from "@client/config/route"
 
+import useDidMount from "@client/hooks/useDidMount"
+
+import { isAuthenticated, logoutAndRedirect } from "@client/services/auth"
+
 export const getRouteInfo = (where: Pick<RouteInfo, "path">): RouteInfo | null => {
 	const routeInfoList = Object.values(routeConfig)
 
@@ -24,4 +28,18 @@ export const getRoutesByCurrentPathname = (currentPathname: string): RouteInfo[]
 	})
 
 	return routes
+}
+
+export const wrapPublicRouteElement = (routeElement: JSX.Element) => () => routeElement
+
+export const wrapPrivateRouteElement = (routeElement: JSX.Element) => () => {
+	useDidMount(() => {
+		const hasInvalidAuthentication = !isAuthenticated()
+
+		if (hasInvalidAuthentication) {
+			logoutAndRedirect()
+		}
+	})
+
+	return routeElement
 }

@@ -1,8 +1,5 @@
 import { FC } from "react"
-
-import SvgIcon from "@client/components/SvgIcon"
-
-import MenuIconSvg from "@client/assets/icons/menu_icon.svg"
+import { Menu as MenuIcon } from "lucide-react"
 
 const AsideMenu: FC = (props) => {
 	const { children } = props
@@ -16,7 +13,7 @@ const AsideMenu: FC = (props) => {
 				type="button"
 				className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
 			>
-				<SvgIcon icon={MenuIconSvg} />
+				<MenuIcon />
 			</button>
 
 			<aside

@@ -1,4 +1,5 @@
 import { ReactElement, useState } from "react"
+import { MoreVertical as OptionsIcon } from "lucide-react"
 
 import ApplicationLayout from "@client/components/ApplicationLayout"
 
@@ -6,10 +7,7 @@ import Head from "@client/components/Head"
 import Table from "@client/components/Table"
 import Chip from "@client/components/Chip"
 import IconButton from "@client/components/IconButton"
-import SvgIcon from "@client/components/SvgIcon"
 import Dropdown from "@client/components/Dropdown"
-
-import OptionsIconSvg from "@client/assets/icons/options_icon.svg"
 
 import { api } from "@client/services/api"
 
@@ -157,7 +155,7 @@ const NotionAssetSyncs = () => {
 							>
 								<Dropdown>
 									<IconButton>
-										<SvgIcon icon={OptionsIconSvg} />
+										<OptionsIcon />
 									</IconButton>
 								</Dropdown>
 							</Table.Column>

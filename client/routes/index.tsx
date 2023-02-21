@@ -8,15 +8,15 @@ import NotionAssetSyncsPage from "@client/pages/AssetSyncs/Notion"
 
 import Redirect from "@client/components/Redirect"
 
-const wrapRouteElement = (routeElement: JSX.Element) => () => routeElement
+import { wrapPrivateRouteElement, wrapPublicRouteElement } from "@client/utils/route"
 
 const Routes: Record<PageName, FC> = {
-	root: wrapRouteElement(<Redirect to={routeConfig.notionAssetSyncs.path} />),
-	assetSyncs: wrapRouteElement(<Redirect to={routeConfig.notionAssetSyncs.path} />),
-	integrations: wrapRouteElement(<Redirect to={routeConfig.notionAssetSyncs.path} />),
-	login: wrapRouteElement(<LoginPage />),
-	signup: wrapRouteElement(<SignupPage />),
-	notionAssetSyncs: wrapRouteElement(<NotionAssetSyncsPage />)
+	root: wrapPrivateRouteElement(<Redirect to={routeConfig.notionAssetSyncs.path} />),
+	assetSyncs: wrapPrivateRouteElement(<Redirect to={routeConfig.notionAssetSyncs.path} />),
+	integrations: wrapPrivateRouteElement(<Redirect to={routeConfig.notionAssetSyncs.path} />),
+	login: wrapPublicRouteElement(<LoginPage />),
+	signup: wrapPublicRouteElement(<SignupPage />),
+	notionAssetSyncs: wrapPrivateRouteElement(<NotionAssetSyncsPage />)
 }
 
 export default Routes

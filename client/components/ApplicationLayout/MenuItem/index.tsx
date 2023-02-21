@@ -30,10 +30,10 @@ const MenuItem: FC<MenuItemProps> = (props) => {
 			<Link
 				href={disabled ? "" : href}
 				className={mergeClassNames([
-					"flex items-center p-2 text-base font-normal text-gray-900 rounded-lg",
+					"flex items-center p-2 text-base font-normal rounded-lg",
 					defaultTransitionClassName,
-					conditionalClassNames(isSelected, ["bg-green-900", "hover:bg-green-800"]),
-					conditionalClassNames(!isSelected, ["hover:bg-gray-50"]),
+					conditionalClassNames(isSelected, ["bg-green-900", "hover:bg-[#12bc6a]", "text-white"]),
+					conditionalClassNames(!isSelected, ["hover:bg-gray-50", "text-gray-900"]),
 					conditionalClassNames(disabled, ["cursor-not-allowed", "text-gray-600"]),
 				])}
 			>
