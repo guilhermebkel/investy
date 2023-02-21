@@ -1,5 +1,6 @@
 import { FC } from "react"
-import Image from "next/image"
+
+import SvgIcon from "@client/components/SvgIcon"
 
 import MenuIconSvg from "@client/assets/icons/menu_icon.svg"
 
@@ -15,7 +16,7 @@ const AsideMenu: FC = (props) => {
 				type="button"
 				className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
 			>
-				<Image src={MenuIconSvg} alt="" />
+				<SvgIcon icon={MenuIconSvg} />
 			</button>
 
 			<aside

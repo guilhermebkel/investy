@@ -5,6 +5,10 @@ import ApplicationLayout from "@client/components/ApplicationLayout"
 import Head from "@client/components/Head"
 import Table from "@client/components/Table"
 import Chip from "@client/components/Chip"
+import IconButton from "@client/components/IconButton"
+import SvgIcon from "@client/components/SvgIcon"
+
+import OptionsIconSvg from "@client/assets/icons/options_icon.svg"
 
 import { api } from "@client/services/api"
 
@@ -102,14 +106,6 @@ const NotionAssetSyncs = () => {
 			<Table.Container>
 				<Table.Head>
 					<Table.Column>
-						ID
-					</Table.Column>
-
-					<Table.Column>
-						Last Sync
-					</Table.Column>
-
-					<Table.Column>
 						Database
 					</Table.Column>
 
@@ -120,6 +116,12 @@ const NotionAssetSyncs = () => {
 					<Table.Column>
 						Asset Price
 					</Table.Column>
+
+					<Table.Column>
+						Last Sync
+					</Table.Column>
+
+					<Table.Column />
 				</Table.Head>
 
 				<Table.Body>
@@ -127,14 +129,6 @@ const NotionAssetSyncs = () => {
 						<Table.Row
 							key={notionAssetSync.id}
 						>
-							<Table.Column>
-								{notionAssetSync.id}
-							</Table.Column>
-
-							<Table.Column>
-								{renderLastSyncInfo(notionAssetSync)}
-							</Table.Column>
-
 							<Table.Column>
 								<a
 									href={notionAssetSync.notion?.database?.url}
@@ -151,6 +145,18 @@ const NotionAssetSyncs = () => {
 
 							<Table.Column>
 								{notionAssetSync.notion?.assetPrice?.name}
+							</Table.Column>
+
+							<Table.Column>
+								{renderLastSyncInfo(notionAssetSync)}
+							</Table.Column>
+
+							<Table.Column
+								className="text-right"
+							>
+								<IconButton>
+									<SvgIcon icon={OptionsIconSvg} />
+								</IconButton>
 							</Table.Column>
 						</Table.Row>
 					))}
