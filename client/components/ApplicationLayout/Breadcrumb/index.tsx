@@ -6,6 +6,7 @@ import { routeConfig, RouteInfo } from "@client/config/route"
 import { mergeClassNames, defaultTransitionClassName } from "@client/utils/style"
 
 import useWindowObject from "@client/hooks/useWindowObject"
+import { getRoutesByCurrentPathname } from "@client/utils/route"
 
 type EnrichedRouteInfo = RouteInfo & {
 	isHomePage: boolean
@@ -17,35 +18,21 @@ const Breadcrumb = () => {
 
 	const currentPathname = windowObject?.location?.pathname || ""
 
-	const getRouteInfo = (where: Pick<RouteInfo, "path">): RouteInfo | null => {
-		const routeInfoList = Object.values(routeConfig)
-
-		const selectedRouteInfo = routeInfoList.find(routeInfo => routeInfo.path === where.path)
-
-		return selectedRouteInfo || null
-	}
-
 	const currentPathParsed: EnrichedRouteInfo[] = useMemo(() => {
-		const pathParams: string[] = currentPathname?.split("/") || []
+		const routes = getRoutesByCurrentPathname(currentPathname)
 
-		const parsedParams = pathParams.map((_, index) => {
-			const calculatedPath = pathParams.slice(0, index + 1).join("/") || "/"
+		const enrichedRoutes: EnrichedRouteInfo[] = routes.map(route => {
+			const isCurrentPage = route.path === currentPathname
+			const isHomePage = route.path === "/"
 
-			const isCurrentPage = calculatedPath === currentPathname
-			const isHomePage = calculatedPath === "/"
-
-			const routeInfo: EnrichedRouteInfo = {
-				path: calculatedPath,
-				title: "??",
+			return {
+				...route,
 				isCurrentPage,
-				isHomePage,
-				...getRouteInfo({ path: calculatedPath }) 
+				isHomePage
 			}
-
-			return routeInfo
 		})
 
-		return parsedParams
+		return enrichedRoutes
 	}, [currentPathname])
 
 	return (

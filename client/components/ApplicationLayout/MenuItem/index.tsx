@@ -4,6 +4,7 @@ import Link from "next/link"
 import useWindowObject from "@client/hooks/useWindowObject"
 
 import { conditionalClassNames, mergeClassNames, defaultTransitionClassName } from "@client/utils/style"
+import { getRoutesByCurrentPathname } from "@client/utils/route"
 
 type MenuItemProps = {
 	href: string
@@ -21,7 +22,8 @@ const MenuItem: FC<MenuItemProps> = (props) => {
 
 	const windowObject = useWindowObject()
 
-	const isSelected = windowObject?.location.pathname === href
+	const routes = getRoutesByCurrentPathname(windowObject?.location?.pathname)
+	const isSelected = routes.some(route => route.path === href)
 
 	return (
 		<li>

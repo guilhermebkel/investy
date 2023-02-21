@@ -12,14 +12,14 @@ const Routes = () => {
 	const handleRouteChange = () => {
 		const hasInvalidAuthentication = !isAuthenticated()
 		const isRootPage = router.pathname === routeConfig.root.path
-
-		console.log(hasInvalidAuthentication, isRootPage)
+		const isAssetSyncsPage = router.pathname === routeConfig.assetSyncs.path
 
 		if (hasInvalidAuthentication) {
 			router.push(routeConfig.login.path)
 		} else if (isRootPage) {
-			console.log("ENTROU AQUI")
 			router.push(routeConfig.assetSyncs.path)
+		} else if (isAssetSyncsPage) {
+			router.push(routeConfig.notionAssetSyncs.path)
 		}
 	}
 

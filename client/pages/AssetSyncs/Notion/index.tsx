@@ -12,30 +12,35 @@ import { routeConfig } from "@client/config/route"
 
 import useDidMount from "@client/hooks/useDidMount"
 
+import { formatHumanDate } from "@client/utils/date"
+
 type NotionAssetSync = {
 	id: string
 	lastSyncAt: string
 	lastSyncStatus: "success" | "error"
 	lastSyncError?: Record<string, unknown>
-	database?: {
-		id: string
-		name: string
-		cover: string
-		icon: string
-	}
-	assetCode?: {
-		id: string
-		name: string
-		type: string
-	}
-	assetPrice?: {
-		id: string
-		name: string
-		type: string
+	notion?: {
+		database?: {
+			id: string
+			url: string
+			name: string
+			cover: string
+			icon: string
+		}
+		assetCode?: {
+			id: string
+			name: string
+			type: string
+		}
+		assetPrice?: {
+			id: string
+			name: string
+			type: string
+		}
 	}
 }
 
-const AssetSyncs = () => {
+const NotionAssetSyncs = () => {
 	const [notionAssetSyncs, setNotionAssetSyncs] = useState<NotionAssetSync[]>([])
 
 	const loadData = async () => {
@@ -44,7 +49,7 @@ const AssetSyncs = () => {
 		setNotionAssetSyncs(response.data)
 	}
 
-	const renderLastSyncStatus = (notionAssetSync: NotionAssetSync) => {
+	const renderLastSyncInfo = (notionAssetSync: NotionAssetSync) => {
 		const statusChipMap: Record<NotionAssetSync["lastSyncStatus"] | "default", ReactElement> = {
 			success: (
 				<Chip
@@ -72,6 +77,12 @@ const AssetSyncs = () => {
 		return (
 			<>
 				{statusChipMap[notionAssetSync.lastSyncStatus] || statusChipMap.default}
+
+				<Chip
+					className="bg-[#F3F4F6] text-[#646464] font-normal"
+				>
+					{formatHumanDate(notionAssetSync.lastSyncAt)}
+				</Chip>
 			</>
 		)
 	}
@@ -84,7 +95,7 @@ const AssetSyncs = () => {
 		<ApplicationLayout>
 			<Head
 				page={{
-					title: `Investy | ${routeConfig.assetSyncs.title}`,
+					title: `Investy | Asset Syncs: ${routeConfig.assetSyncs.title}`,
 				}}
 			/>
 
@@ -121,19 +132,25 @@ const AssetSyncs = () => {
 							</Table.Column>
 
 							<Table.Column>
-								{renderLastSyncStatus(notionAssetSync)}
+								{renderLastSyncInfo(notionAssetSync)}
 							</Table.Column>
 
 							<Table.Column>
-								{notionAssetSync.database?.name}
+								<a
+									href={notionAssetSync.notion?.database?.url}
+									target="_blank"
+									rel="noreferrer"
+								>
+									{notionAssetSync.notion?.database?.name}
+								</a>
 							</Table.Column>
 							
 							<Table.Column>
-								{notionAssetSync.assetCode?.name}
+								{notionAssetSync.notion?.assetCode?.name}
 							</Table.Column>
 
 							<Table.Column>
-								{notionAssetSync.assetPrice?.name}
+								{notionAssetSync.notion?.assetPrice?.name}
 							</Table.Column>
 						</Table.Row>
 					))}
@@ -143,4 +160,4 @@ const AssetSyncs = () => {
 	)
 }
 
-export default AssetSyncs
+export default NotionAssetSyncs

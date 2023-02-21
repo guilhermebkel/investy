@@ -116,22 +116,25 @@ class NotionAssetSyncController {
 					lastSyncAt: notionAssetSync.last_sync_at,
 					lastSyncStatus: notionAssetSync.last_sync_status,
 					lastSyncError: notionAssetSync.last_sync_error,
-					database: database ? {
-						id: database.id,
-						name: database.title,
-						cover: database.cover,
-						icon: database.icon
-					} : {},
-					assetCode: assetCodeColumn ? {
-						id: assetCodeColumn.id,
-						name: assetCodeColumn.name,
-						type: assetCodeColumn.type
-					} : {},
-					assetPrice: assetPriceColumn ? {
-						id: assetPriceColumn.id,
-						name: assetPriceColumn.name,
-						type: assetPriceColumn.type
-					} : {}
+					notion: {
+						database: database ? {
+							id: database.id,
+							url: database.url,
+							name: database.title,
+							cover: database.cover,
+							icon: database.icon
+						} : {},
+						assetCode: assetCodeColumn ? {
+							id: assetCodeColumn.id,
+							name: assetCodeColumn.name,
+							type: assetCodeColumn.type
+						} : {},
+						assetPrice: assetPriceColumn ? {
+							id: assetPriceColumn.id,
+							name: assetPriceColumn.name,
+							type: assetPriceColumn.type
+						} : {}
+					}
 				}
 			})
 		)
