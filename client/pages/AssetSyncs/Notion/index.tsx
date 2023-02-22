@@ -11,6 +11,8 @@ import Dropdown from "@client/components/Dropdown"
 import Loading from "@client/components/Loading"
 import Link from "@client/components/Link"
 
+import ManageNotionAssetSyncModal from "@client/pages/AssetSyncs/Notion/components/ManageNotionAssetSyncModal"
+
 import { api } from "@client/services/api"
 
 import { routeConfig } from "@client/config/route"
@@ -19,31 +21,7 @@ import useDidMount from "@client/hooks/useDidMount"
 
 import { formatHumanDate } from "@client/utils/date"
 
-type NotionAssetSync = {
-	id: string
-	lastSyncAt: string
-	lastSyncStatus: "success" | "error" | "processing"
-	lastSyncError?: Record<string, unknown>
-	notion?: {
-		database?: {
-			id: string
-			url: string
-			name: string
-			cover: string
-			icon: string
-		}
-		assetCode?: {
-			id: string
-			name: string
-			type: string
-		}
-		assetPrice?: {
-			id: string
-			name: string
-			type: string
-		}
-	}
-}
+import { NotionAssetSync } from "@client/protocols/asset-sync"
 
 const NotionAssetSyncs = () => {
 	const [notionAssetSyncs, setNotionAssetSyncs] = useState<NotionAssetSync[]>([])
@@ -102,8 +80,8 @@ const NotionAssetSyncs = () => {
 		)
 	}
 
-	const handleSync = async (id: string) => {
-		await api.post(`/asset-syncs/${id}/notion`)
+	const handleSync = async (notionAssetSync: NotionAssetSync) => {
+		await api.post(`/asset-syncs/${notionAssetSync.id}/notion`)
 	}
 
 	useDidMount(() => {
@@ -173,14 +151,21 @@ const NotionAssetSyncs = () => {
 									className="text-right"
 								>
 									<Dropdown>
-										<Dropdown.Item>
-											Edit
-										</Dropdown.Item>
+										<ManageNotionAssetSyncModal
+											title="Edit"
+											notionData={notionAssetSync?.notion}
+										>
+											<Dropdown.Item>
+													Edit
+											</Dropdown.Item>
+										</ManageNotionAssetSyncModal>
+
 										<Dropdown.Item>
 											Delete
 										</Dropdown.Item>
+
 										<Dropdown.Item
-											onClick={() => handleSync(notionAssetSync.id)}
+											onClick={() => handleSync(notionAssetSync)}
 										>
 											Sync
 										</Dropdown.Item>

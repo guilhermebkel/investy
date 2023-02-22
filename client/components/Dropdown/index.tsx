@@ -2,7 +2,7 @@ import { Children, FC, ReactElement, useMemo } from "react"
 import { initDropdowns } from "flowbite"
 
 import { cloneElementSafely } from "@client/utils/node"
-import { attachSubComponents, hasDisplayName } from "@client/utils/component"
+import { attachSubComponents, containsComponentWithDisplayName } from "@client/utils/component"
 
 import Portal from "@client/components/Portal"
 
@@ -22,8 +22,8 @@ const Dropdown: FC = (props) => {
 	})
 
 	const parsedElements = useMemo(() => {
-		const triggerElement = Children.toArray(children).find(child => hasDisplayName(child, DropdownTrigger.displayName))
-		const itemElements = Children.toArray(children).filter(child => hasDisplayName(child, DropdownItem.displayName))
+		const triggerElement = Children.toArray(children).find(child => containsComponentWithDisplayName(child, DropdownTrigger.displayName))
+		const itemElements = Children.toArray(children).filter(child => containsComponentWithDisplayName(child, DropdownItem.displayName))
 
 		return {
 			trigger: triggerElement,
@@ -44,7 +44,7 @@ const Dropdown: FC = (props) => {
 			>
 				<div
 					id={id}
-					className="fixed z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+					className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
 				>
 					<ul
 						className="py-2 text-sm text-gray-700"
@@ -58,6 +58,6 @@ const Dropdown: FC = (props) => {
 }
 
 export default attachSubComponents(Dropdown, {
-	Item: DropdownItem,
-	Trigger: DropdownTrigger
+	Trigger: DropdownTrigger,
+	Item: DropdownItem
 })
