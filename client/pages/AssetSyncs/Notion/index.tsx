@@ -117,7 +117,7 @@ const NotionAssetSyncs = () => {
 			<Loading
 				loading={loading}
 			>
-				<Table.Container>
+				<Table>
 					<Table.Head>
 						<Table.Column>
 							Database
@@ -177,7 +177,7 @@ const NotionAssetSyncs = () => {
 							</Table.Row>
 						))}
 					</Table.Body>
-				</Table.Container>
+				</Table>
 			</Loading>
 		</ApplicationLayout>
 	)
