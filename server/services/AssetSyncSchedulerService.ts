@@ -1,5 +1,5 @@
 class AssetSyncSchedulerService {
-	async scheduleNotionAssetSync (assetSyncId: string): Promise<void> {
+	async scheduleNotionAssetSync (assetSyncId: string, force: boolean = false): Promise<void> {
 		/**
 		 * WARNING:
 		 * - Use lazy import to avoid dependecy cycle, since this queue
@@ -16,7 +16,9 @@ class AssetSyncSchedulerService {
 			},
 			options: {
 				id: assetSyncId,
-				scheduleTimeInMilliseconds: 1000 * 60 * (10) // 10 minutes
+				...(!force && {
+					scheduleTimeInMilliseconds: 1000 * 60 * (10) // 10 minutes
+				})
 			}
 		})
 	}

@@ -23,6 +23,7 @@ export type ApiHandlerResponse<Query, Body, Params> = {
 	created: (data?: unknown) => void
 	noContent: () => void
 	unauthorized: () => void
+	forbidden: () => void
 	next: () => void
 }
 

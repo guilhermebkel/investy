@@ -11,6 +11,8 @@ import StatusInvestLib from "@server/lib/StatusInvestLib"
 import NumberUtil from "@server/utils/NumberUtil"
 import ErrorSerializationUtil from "@server/utils/ErrorSerializationUtil"
 
+import QueueProcessException from "@server/exceptions/QueueException"
+
 class SyncNotionAssetPriceQueue implements QueueHandler {
 	name: QueueName = "SyncNotionAssetPrice"
 
@@ -20,7 +22,7 @@ class SyncNotionAssetPriceQueue implements QueueHandler {
 		const assetSync = await AssetSyncRepository.retrieveOneById(assetSyncId)
 
 		if (!assetSync) {
-			return
+			throw new QueueProcessException("AssetSyncNotFound")
 		}
 
 		const integration = await IntegrationRepository.retrieveOne({
@@ -29,7 +31,7 @@ class SyncNotionAssetPriceQueue implements QueueHandler {
 		})
 
 		if (!integration) {
-			return
+			throw new QueueProcessException("NotionIntegrationNotFound")
 		}
 
 		const notionData = assetSync.extra_data.notion

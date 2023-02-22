@@ -10,7 +10,9 @@ type SearchDatabaseQuery = {
 
 class NotionIntegrationController {
 	async searchDatabase ({ request, response, context }: ApiHandlerInput<SearchDatabaseQuery, {}, {}>): Promise<void> {
-		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
+		const userId = context.auth.userId
+
+		const notionIntegration = await IntegrationService.getNotionIntegration(userId)
 
 		if (!notionIntegration) {
 			return response.notFound("NotionIntegrationNotFound")

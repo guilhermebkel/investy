@@ -10,13 +10,16 @@ import AssetSyncRepository from "@server/repositories/AssetSyncRepository"
 import { AssetSyncExtraData } from "@server/entities/AssetSyncEntity"
 
 import NotionAssetSyncValidation, { NotionBody } from "@server/validations/NotionAssetSyncValidation"
+import AssetSyncValidation from "@server/validations/AssetSyncValidation"
 
-type UpdateParams = {
+type ResourceParams = {
 	id: string
 }
 
 class NotionAssetSyncController {
 	async create ({ request, response, context }: ApiHandlerInput<{}, NotionBody, {}>): Promise<void> {
+		const userId = context.auth.userId
+	
 		const validation = await NotionAssetSyncValidation.validateNotionData(request.body)
 
 		if (!validation.valid) {
@@ -25,14 +28,14 @@ class NotionAssetSyncController {
 
 		const { databaseId, assetCodePropertyId, assetPricePropertyId } = validation.data
 
-		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
+		const notionIntegration = await IntegrationService.getNotionIntegration(userId)
 
 		if (!notionIntegration) {
 			return response.notFound("NotionIntegrationNotFound")
 		}
 
 		const notionAssetSync = await AssetSyncRepository.create({
-			user_id: context.auth.userId,
+			user_id: userId,
 			integration_id: notionIntegration.id,
 			extra_data: {
 				notion: {
@@ -48,7 +51,16 @@ class NotionAssetSyncController {
 		return response.noContent()
 	}
 
-	async update ({ request, response, context }: ApiHandlerInput<{}, NotionBody, UpdateParams>): Promise<void> {
+	async update ({ request, response, context }: ApiHandlerInput<{}, NotionBody, ResourceParams>): Promise<void> {
+		const assetSyncId = request.params.id
+		const userId = context.auth.userId
+
+		const assetSyncBelongsToUser = await AssetSyncValidation.belongsToUser(assetSyncId, userId)
+
+		if (!assetSyncBelongsToUser) {
+			return response.forbidden()
+		}
+
 		const validation = await NotionAssetSyncValidation.validateNotionData(request.body)
 
 		if (!validation.valid) {
@@ -57,17 +69,7 @@ class NotionAssetSyncController {
 
 		const { databaseId, assetCodePropertyId, assetPricePropertyId } = validation.data
 
-		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
-
-		if (!notionIntegration) {
-			return response.notFound("NotionIntegrationNotFound")
-		}
-
-		const notionAssetSync = await AssetSyncRepository.retrieveOne({
-			id: request.params.id,
-			user_id: context.auth.userId,
-			integration_id: notionIntegration.id
-		})
+		const notionAssetSync = await AssetSyncRepository.retrieveOneById(assetSyncId)
 		
 		if (!notionAssetSync) {
 			return response.notFound()
@@ -83,22 +85,24 @@ class NotionAssetSyncController {
 			}
 		}
 
-		await AssetSyncRepository.updateOneById(notionAssetSync.id, { extra_data: updatedExtraData })
+		await AssetSyncRepository.updateOneById(assetSyncId, { extra_data: updatedExtraData })
 
-		await AssetSyncSchedulerService.scheduleNotionAssetSync(notionAssetSync.id)
+		await AssetSyncSchedulerService.scheduleNotionAssetSync(assetSyncId)
 
 		return response.noContent()
 	}
 
 	async retrieveAll ({ response, context }: ApiHandlerInput): Promise<void> {
-		const notionIntegration = await IntegrationService.getNotionIntegration(context.auth.userId)
+		const userId = context.auth.userId
+
+		const notionIntegration = await IntegrationService.getNotionIntegration(userId)
 
 		if (!notionIntegration) {
 			return response.notFound("NotionIntegrationNotFound")
 		}
 
 		const notionAssetSyncs = await AssetSyncRepository.retrieveAll({
-			user_id: context.auth.userId,
+			user_id: userId,
 			integration_id: notionIntegration.id
 		})
 
@@ -140,6 +144,21 @@ class NotionAssetSyncController {
 		)
 
 		return response.ok(formattedAssetSyncs)
+	}
+
+	async forceSync ({ request, response, context }: ApiHandlerInput<{}, {}, ResourceParams>): Promise<void> {
+		const assetSyncId = request.params.id
+		const userId = context.auth.userId
+
+		const assetSyncBelongsToUser = await AssetSyncValidation.belongsToUser(assetSyncId, userId)
+
+		if (!assetSyncBelongsToUser) {
+			return response.forbidden()
+		}
+
+		await AssetSyncSchedulerService.scheduleNotionAssetSync(assetSyncId, true)
+
+		return response.noContent()
 	}
 }
 

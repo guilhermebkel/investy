@@ -102,6 +102,10 @@ const NotionAssetSyncs = () => {
 		)
 	}
 
+	const handleSync = async (id: string) => {
+		await api.post(`/asset-syncs/${id}/notion`)
+	}
+
 	useDidMount(() => {
 		loadData()
 	})
@@ -174,6 +178,11 @@ const NotionAssetSyncs = () => {
 										</Dropdown.Item>
 										<Dropdown.Item>
 											Delete
+										</Dropdown.Item>
+										<Dropdown.Item
+											onClick={() => handleSync(notionAssetSync.id)}
+										>
+											Sync
 										</Dropdown.Item>
 
 										<Dropdown.Trigger>

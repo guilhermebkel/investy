@@ -78,6 +78,7 @@ class NextHttpAdapter implements HttpContract<RawApiHandler> {
 			created: (data) => res.status(201).json(data),
 			noContent: () => res.status(204).send(""),
 			unauthorized: () => res.status(401).json({ error: "Unauthorized" }),
+			forbidden: () => res.status(403).json({ error: "Access Denied" }),
 			next: () => {}
 		}
 	}

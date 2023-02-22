@@ -6,6 +6,8 @@ import IntegrationValidation, { CreateBody } from "@server/validations/Integrati
 
 class IntegrationController {
 	async create ({ request, response, context }: ApiHandlerInput<{}, CreateBody, {}>): Promise<void> {
+		const userId = context.auth.userId
+
 		const validation = await IntegrationValidation.validateCreateData(request.body)
 
 		if (!validation.valid) {
@@ -17,7 +19,7 @@ class IntegrationController {
 		const integration = await IntegrationRepository.create({
 			token,
 			type,
-			user_id: context.auth.userId
+			user_id: userId
 		})
 
 		return response.created({
