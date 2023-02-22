@@ -1,4 +1,4 @@
-import { FC, Children, useMemo, ReactElement, useState } from "react"
+import { FC, Children, useMemo, ReactElement, useState, FormEventHandler } from "react"
 import { initModals } from "flowbite"
 import { X as CloseIcon } from "lucide-react"
 
@@ -50,6 +50,12 @@ const Modal: FC<ModalProps> = (props) => {
 		onClose?.()
 	}
 
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+		event.preventDefault()
+
+		await handleConfirm()
+	}
+
 	const parsedElements = useMemo(() => {
 		const triggerElement = Children.toArray(children).find(child => containsComponentWithDisplayName(child, ModalTrigger.displayName))
 		const contentElement = Children.toArray(children).filter(child => containsComponentWithDisplayName(child, ModalContent.displayName))
@@ -81,8 +87,9 @@ const Modal: FC<ModalProps> = (props) => {
 						defaultTransitionClassName
 					])}
 				>
-					<div
+					<form
 						className="relative w-full h-full max-w-2xl md:h-auto"
+						onSubmit={handleSubmit}
 					>
 						<div
 							className="relative bg-white rounded-lg shadow"
@@ -106,7 +113,7 @@ const Modal: FC<ModalProps> = (props) => {
 							</div>
 
 							<div
-								className="p-6 space-y-6"
+								className="p-6"
 							>
 								{parsedElements.content}
 							</div>
@@ -119,6 +126,7 @@ const Modal: FC<ModalProps> = (props) => {
 									data-modal-hide={id}
 									variant="primary"
 									onClick={handleConfirm}
+									type="submit"
 								>
 									Confirm
 								</Button>
@@ -132,7 +140,7 @@ const Modal: FC<ModalProps> = (props) => {
 								</Button>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</Portal>
 		</>

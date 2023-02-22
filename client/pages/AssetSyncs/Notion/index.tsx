@@ -154,6 +154,11 @@ const NotionAssetSyncs = () => {
 										<ManageNotionAssetSyncModal
 											title="Edit"
 											notionData={notionAssetSync?.notion}
+											data={{
+												databaseId: notionAssetSync?.notion?.database?.id,
+												assetCodePropertyId: notionAssetSync?.notion?.assetCode?.id,
+												assetPricePropertyId: notionAssetSync?.notion?.assetPrice?.id
+											}}
 										>
 											<Dropdown.Item>
 													Edit
