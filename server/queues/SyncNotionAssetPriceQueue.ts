@@ -11,7 +11,7 @@ import StatusInvestLib from "@server/lib/StatusInvestLib"
 import NumberUtil from "@server/utils/NumberUtil"
 import ErrorSerializationUtil from "@server/utils/ErrorSerializationUtil"
 
-import QueueProcessException from "@server/exceptions/QueueException"
+import QueueProcessException from "@server/exceptions/QueueProcessException"
 
 class SyncNotionAssetPriceQueue implements QueueHandler {
 	name: QueueName = "SyncNotionAssetPrice"
