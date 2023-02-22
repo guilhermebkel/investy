@@ -1,5 +1,5 @@
 export type QueuePayload = {
-	SyncAssetPrice: {
+	SyncNotionAssetPrice: {
 		assetSyncId: string
 	}
 }

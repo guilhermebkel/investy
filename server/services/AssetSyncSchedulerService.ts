@@ -1,5 +1,5 @@
 class AssetSyncSchedulerService {
-	async scheduleSync (assetSyncId: string): Promise<void> {
+	async scheduleNotionAssetSync (assetSyncId: string): Promise<void> {
 		/**
 		 * WARNING:
 		 * - Use lazy import to avoid dependecy cycle, since this queue
@@ -10,7 +10,7 @@ class AssetSyncSchedulerService {
 		const queueModule = await import("@server/infra/queue")
 
 		await queueModule.default.enqueue({
-			name: "SyncAssetPrice",
+			name: "SyncNotionAssetPrice",
 			payload: {
 				assetSyncId
 			},

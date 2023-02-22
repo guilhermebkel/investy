@@ -11,10 +11,10 @@ import StatusInvestLib from "@server/lib/StatusInvestLib"
 import NumberUtil from "@server/utils/NumberUtil"
 import ErrorSerializationUtil from "@server/utils/ErrorSerializationUtil"
 
-class SyncAssetPriceQueue implements QueueHandler {
-	name: QueueName = "SyncAssetPrice"
+class SyncNotionAssetPriceQueue implements QueueHandler {
+	name: QueueName = "SyncNotionAssetPrice"
 
-	async handle (payload: QueuePayload["SyncAssetPrice"]): Promise<void> {
+	async handle (payload: QueuePayload["SyncNotionAssetPrice"]): Promise<void> {
 		const { assetSyncId } = payload
 
 		const assetSync = await AssetSyncRepository.retrieveOneById(assetSyncId)
@@ -23,7 +23,10 @@ class SyncAssetPriceQueue implements QueueHandler {
 			return
 		}
 
-		const integration = await IntegrationRepository.retrieveOneById(assetSync.integration_id)
+		const integration = await IntegrationRepository.retrieveOne({
+			id: assetSync.integration_id,
+			type: "notion"
+		})
 
 		if (!integration) {
 			return
@@ -48,7 +51,7 @@ class SyncAssetPriceQueue implements QueueHandler {
 		)
 	}
 
-	async onActive (payload: QueuePayload["SyncAssetPrice"]): Promise<void> {
+	async onActive (payload: QueuePayload["SyncNotionAssetPrice"]): Promise<void> {
 		const { assetSyncId } = payload
 
 		await AssetSyncRepository.updateOneById(assetSyncId, {
@@ -57,17 +60,17 @@ class SyncAssetPriceQueue implements QueueHandler {
 		})
 	}
 
-	async onCompleted (payload: QueuePayload["SyncAssetPrice"]): Promise<void> {
+	async onCompleted (payload: QueuePayload["SyncNotionAssetPrice"]): Promise<void> {
 		const { assetSyncId } = payload
 
 		await AssetSyncRepository.updateOneById(assetSyncId, {
 			last_sync_status: "success"
 		})
 
-		await AssetSyncSchedulerService.scheduleSync(assetSyncId)
+		await AssetSyncSchedulerService.scheduleNotionAssetSync(assetSyncId)
 	}
 
-	async onError (payload: QueuePayload["SyncAssetPrice"], error: Error): Promise<void> {
+	async onError (payload: QueuePayload["SyncNotionAssetPrice"], error: Error): Promise<void> {
 		const { assetSyncId } = payload
 
 		await AssetSyncRepository.updateOneById(assetSyncId, {
@@ -75,8 +78,8 @@ class SyncAssetPriceQueue implements QueueHandler {
 			last_sync_error: ErrorSerializationUtil.serialize(error)
 		})
 
-		await AssetSyncSchedulerService.scheduleSync(assetSyncId)
+		await AssetSyncSchedulerService.scheduleNotionAssetSync(assetSyncId)
 	}
 }
 
-export default new SyncAssetPriceQueue()
+export default new SyncNotionAssetPriceQueue()

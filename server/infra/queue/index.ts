@@ -2,13 +2,13 @@ import { Queue } from "quirrel/next"
 
 import { QueueName, EnqueueInput } from "@server/contracts/QueueContract"
 
-import SyncAssetPriceQueue from "@next/api/queues/SyncAssetPrice"
+import SyncNotionAssetPriceQueue from "@next/api/queues/SyncNotionAssetPrice"
 
 import LogService from "@server/services/LogService"
 
 class QueueModule {
 	private readonly queues: Record<QueueName, Queue<any>> = {
-		SyncAssetPrice: SyncAssetPriceQueue
+		SyncNotionAssetPrice: SyncNotionAssetPriceQueue
 	}
 
 	async start (): Promise<void> {

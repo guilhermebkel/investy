@@ -43,7 +43,7 @@ class NotionAssetSyncController {
 			}
 		})
 		
-		await AssetSyncSchedulerService.scheduleSync(notionAssetSync.id)
+		await AssetSyncSchedulerService.scheduleNotionAssetSync(notionAssetSync.id)
 
 		return response.noContent()
 	}
@@ -85,7 +85,7 @@ class NotionAssetSyncController {
 
 		await AssetSyncRepository.updateOneById(notionAssetSync.id, { extra_data: updatedExtraData })
 
-		await AssetSyncSchedulerService.scheduleSync(notionAssetSync.id)
+		await AssetSyncSchedulerService.scheduleNotionAssetSync(notionAssetSync.id)
 
 		return response.noContent()
 	}
