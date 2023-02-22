@@ -2,7 +2,7 @@ import { ReactElement, cloneElement } from "react"
 
 import { mergeClassNames } from "@client/utils/style"
 
-type DefaultElementProps = Record<string, unknown> & {
+export type DefaultElementProps = Record<string, unknown> & {
 	className?: string
 }
 

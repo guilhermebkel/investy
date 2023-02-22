@@ -1,6 +1,6 @@
 import { FC } from "react"
 
-import { withComposedFC } from "@client/utils/component"
+import { attachSubComponents } from "@client/utils/component"
 
 import TableBody from "@client/components/Table/TableBody"
 import TableColumn from "@client/components/Table/TableColumn"
@@ -19,7 +19,7 @@ const Table: FC = (props) => {
 	)
 }
 
-export default withComposedFC(Table, {
+export default attachSubComponents(Table, {
 	Body: TableBody,
 	Column: TableColumn,
 	Head: TableHead,

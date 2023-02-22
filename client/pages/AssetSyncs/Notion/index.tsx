@@ -169,9 +169,18 @@ const NotionAssetSyncs = () => {
 									className="text-right"
 								>
 									<Dropdown>
-										<IconButton>
-											<OptionsIcon />
-										</IconButton>
+										<Dropdown.Item>
+											Edit
+										</Dropdown.Item>
+										<Dropdown.Item>
+											Delete
+										</Dropdown.Item>
+
+										<Dropdown.Trigger>
+											<IconButton>
+												<OptionsIcon />
+											</IconButton>
+										</Dropdown.Trigger>
 									</Dropdown>
 								</Table.Column>
 							</Table.Row>

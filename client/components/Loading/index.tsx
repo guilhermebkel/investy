@@ -1,4 +1,4 @@
-import { FC, Children } from "react"
+import { FC } from "react"
 
 type LoadingProps = {
 	loading: boolean
@@ -34,7 +34,7 @@ const Loading: FC<LoadingProps> = (props) => {
 	
 	return (
 		<>
-			{Children.map(children, child => child)}
+			{children}
 		</>
 	)
 }

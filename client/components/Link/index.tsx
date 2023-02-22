@@ -14,7 +14,7 @@ const Link: FC<LinkProps> = (props) => {
 		<NextLink
 			{...rest}
 			className={mergeClassNames([
-				className || "text-[#02C366] hover:underline",
+				className,
 				defaultTransitionClassName
 			])}
 		>
