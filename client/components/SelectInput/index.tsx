@@ -3,7 +3,9 @@ import { FC, SelectHTMLAttributes } from "react"
 import { mergeClassNames, conditionalClassNames } from "@client/utils/style"
 import { attachSubComponents } from "@client/utils/component"
 
-import SelectInputOption from "@client/components/SelectInput/SelectInputOption/indexx"
+import SelectInputOption from "@client/components/SelectInput/SelectInputOption"
+
+const EMPTY_OPTION_VALUE = ""
 
 type SelectInputProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "type"> & {
 	fullWidth?: boolean
@@ -11,6 +13,7 @@ type SelectInputProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "type"> & 
 	value?: string
 	onValueChange?: (value: string) => void
 	errorMessage?: string
+	placeholder?: string
 }
 
 const SelectInput: FC<SelectInputProps> = (props) => {
@@ -22,6 +25,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 		errorMessage,
 		className,
 		children,
+		placeholder,
 		...rest
 	} = props
 
@@ -32,6 +36,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 					"appearance-none border border-gray-200 rounded py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-green-900 focus:border-green-900",
 					conditionalClassNames(fullWidth, ["w-full"]),
 					conditionalClassNames(Boolean(errorMessage), ["border-red-500"]),
+					conditionalClassNames(value === EMPTY_OPTION_VALUE, ["text-gray-300"]),
 					className
 				])}
 				id={name}
@@ -39,6 +44,15 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 				onChange={({ target }) => onValueChange(target.value)}
 				{...rest}
 			>
+				{placeholder && (
+					<SelectInputOption
+						disabled
+						value={EMPTY_OPTION_VALUE}
+					>
+						{placeholder}
+					</SelectInputOption>
+				)}
+
 				{children}
 			</select>
 

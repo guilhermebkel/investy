@@ -11,7 +11,7 @@ import Dropdown from "@client/components/Dropdown"
 import Loading from "@client/components/Loading"
 import Link from "@client/components/Link"
 
-import ManageNotionAssetSyncModal from "@client/pages/AssetSyncs/Notion/components/ManageNotionAssetSyncModal"
+import EditAssetSyncModal from "@client/pages/AssetSyncs/Notion/components/EditAssetSyncModal"
 
 import { api } from "@client/services/api"
 
@@ -151,7 +151,7 @@ const NotionAssetSyncs = () => {
 									className="text-right"
 								>
 									<Dropdown>
-										<ManageNotionAssetSyncModal
+										<EditAssetSyncModal
 											title="Edit"
 											notionData={notionAssetSync?.notion}
 											data={{
@@ -163,7 +163,7 @@ const NotionAssetSyncs = () => {
 											<Dropdown.Item>
 													Edit
 											</Dropdown.Item>
-										</ManageNotionAssetSyncModal>
+										</EditAssetSyncModal>
 
 										<Dropdown.Item>
 											Delete
