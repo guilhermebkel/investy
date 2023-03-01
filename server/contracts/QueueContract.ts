@@ -30,6 +30,16 @@ export interface QueueContract<RawQueueHandler> {
 }
 
 export abstract class BaseQueue {
+	protected async process (handler: QueueHandler, payload: QueuePayload[QueueName]): Promise<void> {
+		try {
+			await this.onActive(handler, payload)
+			await handler.handle(payload)
+			await this.onCompleted(handler, payload)
+		} catch (error) {
+			await this.onError(handler, payload, error)
+		}
+	}
+
 	protected async onActive (handler: QueueHandler, payload: QueuePayload[QueueName]): Promise<void> {
 		LogService.info(`[Queue][${handler.name}] Running...`)
 

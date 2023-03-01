@@ -12,15 +12,7 @@ class QuirrelQueueAdapter extends BaseQueue implements QueueContract<Queue<{}>> 
 	adaptQueueHandler (handler: QueueHandler): Queue<{}> {
 		const route = `api/queues/${handler.name}`
 
-		const queue = Queue<QueuePayload[QueueName]>(route, async (payload) => {
-			try {
-				await this.onActive(handler, payload)
-				await handler.handle(payload)
-				await this.onCompleted(handler, payload)
-			} catch (error) {
-				await this.onError(handler, payload, error)
-			}
-		})
+		const queue = Queue<QueuePayload[QueueName]>(route, async (payload) => await this.process(handler, payload))
 
 		return queue
 	}
