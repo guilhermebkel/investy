@@ -8,8 +8,8 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const backgroundColorClassName: Record<ButtonProps["variant"], string> = {
-	primary: "bg-green-900 border border-green-900 hover:bg-[#12bc6a] hover:border-[#12bc6a]",
-	secondary: "border border-2 border-gray-100 text-gray-500 hover:bg-gray-100"
+	primary: "bg-green-900 border border-green-900 hover:bg-[#12bc6a] hover:border-[#12bc6a] text-white",
+	secondary: "border border-2 border-gray-100 text-gray-300 hover:bg-gray-100 hover:text-white"
 }
 
 const Button: FC<ButtonProps> = (props) => {
@@ -28,7 +28,7 @@ const Button: FC<ButtonProps> = (props) => {
 	return (
 		<button
 			className={mergeClassNames([
-				"py-1 px-3 inline-flex items-center justify-center rounded-lg min-h-[40px] font-bold text-white",
+				"py-1 px-3 inline-flex items-center justify-center rounded-lg min-h-[40px] font-bold",
 				defaultTransitionClassName,
 				conditionalClassNames(!needToDisable, [backgroundColorClassName[variant]]),
 				conditionalClassNames(fullWidth, ["w-full"]),
