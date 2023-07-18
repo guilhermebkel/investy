@@ -1,11 +1,16 @@
 import { FC, SelectHTMLAttributes } from "react"
 
 import { mergeClassNames, conditionalClassNames } from "@client/utils/style"
-import { attachSubComponents } from "@client/utils/component"
+
+import useSubComponents, { attachSubComponents, buildSubComponents } from "@client/hooks/useSubComponents"
 
 import SelectInputOption from "@client/components/SelectInput/SelectInputOption"
 
 const EMPTY_OPTION_VALUE = ""
+
+const SubComponents = buildSubComponents({
+	Option: SelectInputOption
+})
 
 type SelectInputProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "type"> & {
 	fullWidth?: boolean
@@ -28,6 +33,8 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 		placeholder,
 		...rest
 	} = props
+
+	const subComponents = useSubComponents(children, SubComponents)
 
 	return (
 		<>
@@ -53,7 +60,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 					</SelectInputOption>
 				)}
 
-				{children}
+				{subComponents.Option}
 			</select>
 
 			{errorMessage && (
@@ -67,6 +74,4 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 	)
 }
 
-export default attachSubComponents(SelectInput, {
-	Option: SelectInputOption
-})
+export default attachSubComponents(SelectInput, SubComponents)

@@ -1,9 +1,10 @@
-import { FC, Children, useMemo, ReactElement, useState, FormEventHandler } from "react"
+import { FC, ReactElement, useState, FormEventHandler } from "react"
 import { initModals } from "flowbite"
 import { X as CloseIcon } from "lucide-react"
 
 import useConstantId from "@client/hooks/useConstantId"
 import useDidMount from "@client/hooks/useDidMount"
+import useSubComponents, { attachSubComponents, buildSubComponents } from "@client/hooks/useSubComponents"
 
 import ModalContent from "@client/components/Modal/ModalContent"
 import ModalTrigger from "@client/components/Modal/ModalTrigger"
@@ -12,7 +13,6 @@ import Portal from "@client/components/Portal"
 import Button from "@client/components/Button"
 import IconButton from "@client/components/IconButton"
 
-import { containsComponentWithDisplayName, attachSubComponents } from "@client/utils/component"
 import { cloneElementSafely } from "@client/utils/node"
 import { defaultTransitionClassName, mergeClassNames } from "@client/utils/style"
 
@@ -21,6 +21,11 @@ type ModalProps = {
 	onClose?: () => void
 	onConfirm?: () => Promise<void> | void
 }
+
+const SubComponents = buildSubComponents({
+	Trigger: ModalTrigger,
+	Content: ModalContent
+})
 
 const Modal: FC<ModalProps> = (props) => {
 	const {
@@ -56,20 +61,12 @@ const Modal: FC<ModalProps> = (props) => {
 		await handleConfirm()
 	}
 
-	const parsedElements = useMemo(() => {
-		const triggerElement = Children.toArray(children).find(child => containsComponentWithDisplayName(child, ModalTrigger.displayName))
-		const contentElement = Children.toArray(children).filter(child => containsComponentWithDisplayName(child, ModalContent.displayName))
-
-		return {
-			trigger: triggerElement,
-			content: contentElement
-		}
-	}, [children])
+	const subComponents = useSubComponents(children, SubComponents)
 
 	return (
 		<>
-			{parsedElements.trigger && (
-				cloneElementSafely(parsedElements.trigger as ReactElement, {
+			{subComponents.Trigger[0] && (
+				cloneElementSafely(subComponents.Trigger[0] as ReactElement, {
 					["data-modal-target"]: id,
 					["data-modal-toggle"]: id
 				})
@@ -115,7 +112,7 @@ const Modal: FC<ModalProps> = (props) => {
 							<div
 								className="p-6"
 							>
-								{parsedElements.content}
+								{subComponents.Content}
 							</div>
 
 							<div
@@ -147,7 +144,4 @@ const Modal: FC<ModalProps> = (props) => {
 	)	
 }
 
-export default attachSubComponents(Modal, {
-	Trigger: ModalTrigger,
-	Content: ModalContent
-})
+export default attachSubComponents(Modal, SubComponents)

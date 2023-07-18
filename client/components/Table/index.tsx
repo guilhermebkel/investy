@@ -1,11 +1,18 @@
 import { FC } from "react"
 
-import { attachSubComponents } from "@client/utils/component"
+import { attachSubComponents, buildSubComponents } from "@client/hooks/useSubComponents"
 
 import TableBody from "@client/components/Table/TableBody"
 import TableColumn from "@client/components/Table/TableColumn"
 import TableHead from "@client/components/Table/TableHead"
 import TableRow from "@client/components/Table/TableRow"
+
+const SubComponents = buildSubComponents({
+	Body: TableBody,
+	Column: TableColumn,
+	Head: TableHead,
+	Row: TableRow
+})
 
 const Table: FC = (props) => {
 	const { children } = props
@@ -19,9 +26,4 @@ const Table: FC = (props) => {
 	)
 }
 
-export default attachSubComponents(Table, {
-	Body: TableBody,
-	Column: TableColumn,
-	Head: TableHead,
-	Row: TableRow
-})
+export default attachSubComponents(Table, SubComponents)
