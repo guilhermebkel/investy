@@ -1,9 +1,12 @@
+import { Database } from "@client/protocols/notion"
+
 import { ApiHandlerInput } from "@server/contracts/HttpContract"
 
 import NotionLib from "@server/lib/NotionLib"
 
 import IntegrationService from "@server/services/IntegrationService"
 import AssetSyncSchedulerService from "@server/services/AssetSyncSchedulerService"
+import InMemoryCacheService from "@server/services/InMemoryCacheService"
 
 import AssetSyncRepository from "@server/repositories/AssetSyncRepository"
 
@@ -15,6 +18,8 @@ import AssetSyncValidation from "@server/validations/AssetSyncValidation"
 type ResourceParams = {
 	id: string
 }
+
+const notionDatabaseCache = new InMemoryCacheService<Database>({ defaultExpirationInSeconds: 60 })
 
 class NotionAssetSyncController {
 	async create ({ request, response, context }: ApiHandlerInput<{}, NotionBody, {}>): Promise<void> {
@@ -110,7 +115,9 @@ class NotionAssetSyncController {
 
 		const formattedAssetSyncs = await Promise.all(
 			notionAssetSyncs.map(async notionAssetSync => {
-				const database = await notion.getDatabase(notionAssetSync.extra_data.notion.database_id)
+				const database = await notionDatabaseCache.cachefy(notionAssetSync.id, async () => (
+					await notion.getDatabase(notionAssetSync.extra_data.notion.database_id)
+				))
 
 				const assetCodeColumn = database?.columns.find(({ id }) => id === notionAssetSync.extra_data.notion.asset_code_property_id)
 				const assetPriceColumn = database?.columns.find(({ id }) => id === notionAssetSync.extra_data.notion.asset_price_property_id)
