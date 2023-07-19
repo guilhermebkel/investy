@@ -1,4 +1,4 @@
-import { FC, ReactElement, useRef } from "react"
+import { FC, ReactElement } from "react"
 import { initDropdowns } from "flowbite"
 
 import { cloneElementSafely } from "@client/utils/node"

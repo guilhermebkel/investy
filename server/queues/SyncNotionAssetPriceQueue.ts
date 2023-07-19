@@ -40,6 +40,12 @@ class SyncNotionAssetPriceQueue implements QueueHandler {
 
 		const databaseRows = await notion.getDatabaseRows(notionData.database_id)
 
+		const assetPriceColumnType = databaseRows[0]?.columns?.find(({ id }) => id === notionData.asset_price_property_id)?.type
+
+		if (assetPriceColumnType !== "number") {
+			throw new QueueProcessException("InvalidAssetPriceColumnType")
+		}
+
 		await Promise.all(
 			databaseRows.map(async row => {
 				const assetCodeColumn = row.columns.find(({ id }) => id === notionData.asset_code_property_id)

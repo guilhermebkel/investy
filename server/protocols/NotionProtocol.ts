@@ -30,7 +30,7 @@ export type RawProperty = {
 export type DatabaseColumn = {
 	id: string
 	name: string
-	type: string
+	type: "number"
 }
 
 export type Database = {
