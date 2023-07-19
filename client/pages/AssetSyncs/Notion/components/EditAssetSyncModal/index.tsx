@@ -30,7 +30,6 @@ const EditAssetSyncModal: FC<EditAssetSyncModalProps> = (props) => {
 	const {
 		notionData,
 		data,
-		title,
 		children,
 		onSave
 	} = props

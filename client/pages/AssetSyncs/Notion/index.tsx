@@ -10,6 +10,7 @@ import IconButton from "@client/components/IconButton"
 import Dropdown from "@client/components/Dropdown"
 import Loading from "@client/components/Loading"
 import Link from "@client/components/Link"
+import PopConfirm from "@client/components/PopConfirm"
 
 import EditAssetSyncModal from "@client/pages/AssetSyncs/Notion/components/EditAssetSyncModal"
 
@@ -165,16 +166,23 @@ const NotionAssetSyncs = () => {
 											</Dropdown.Item>
 										</EditAssetSyncModal>
 
-										<Dropdown.Item>
-											Delete
-										</Dropdown.Item>
-
-										<Dropdown.Item
-											onClick={() => handleSync(notionAssetSync)}
+										<PopConfirm
+											description="This action cannot be undone."
 										>
-											Sync
-										</Dropdown.Item>
+											<Dropdown.Item>
+												Delete
+											</Dropdown.Item>
+										</PopConfirm>
 
+										<PopConfirm
+											description="After asset synchronization starts, you cannot stop it."
+											onConfirm={async () => await handleSync(notionAssetSync)}
+										>
+											<Dropdown.Item>
+												Sync
+											</Dropdown.Item>
+										</PopConfirm>
+										
 										<Dropdown.Trigger>
 											<IconButton>
 												<OptionsIcon />

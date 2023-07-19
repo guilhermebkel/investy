@@ -36,6 +36,7 @@ const Modal: FC<ModalProps> = (props) => {
 	} = props
 
 	const id = useConstantId()
+	const cancelButtonId = useConstantId()
 
 	const [loadingConfirm, setLoadingConfirm] = useState(false)
 
@@ -49,6 +50,9 @@ const Modal: FC<ModalProps> = (props) => {
 		await onConfirm?.()
 
 		setLoadingConfirm(false)
+
+		const cancelButtonElement = document.getElementById(cancelButtonId)
+		cancelButtonElement?.click()
 	}
 
 	const handleClose = () => {
@@ -68,7 +72,7 @@ const Modal: FC<ModalProps> = (props) => {
 			{subComponents.Trigger[0] && (
 				cloneElementSafely(subComponents.Trigger[0] as ReactElement, {
 					["data-modal-target"]: id,
-					["data-modal-toggle"]: id
+					["data-modal-show"]: id
 				})
 			)}
 
@@ -120,7 +124,6 @@ const Modal: FC<ModalProps> = (props) => {
 							>
 								<Button
 									loading={loadingConfirm}
-									data-modal-hide={id}
 									variant="primary"
 									onClick={handleConfirm}
 									type="submit"
@@ -129,9 +132,11 @@ const Modal: FC<ModalProps> = (props) => {
 								</Button>
 
 								<Button
+									id={cancelButtonId}
 									data-modal-hide={id}
 									variant="secondary"
 									onClick={handleClose}
+									type="button"
 								>
 									Cancel
 								</Button>

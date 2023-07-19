@@ -1,11 +1,8 @@
-import { ReactElement, cloneElement, ReactNode, Children } from "react"
+import React, { ReactElement, cloneElement } from "react"
 
 import { mergeClassNames } from "@client/utils/style"
-import { hasDisplayName } from "@client/utils/component"
 
-export type DefaultElementProps = Record<string, unknown> & {
-	className?: string
-}
+export type DefaultElementProps = Record<string, unknown> & React.HTMLAttributes<ReactElement>
 
 export const cloneElementSafely = (child: ReactElement, props?: DefaultElementProps) => {
 	const { className, ...rest } = (props || {}) as DefaultElementProps
